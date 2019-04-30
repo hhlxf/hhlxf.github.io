@@ -15,17 +15,20 @@
 
 
 
-<meta name="description" content="逆向工程爱好者">
+<meta name="description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
+<meta name="keywords" content="算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test_my_site">
-<meta property="og:url" content="http://yoursite.com/2019/03/28/test-my-site/index.html">
+<meta property="og:title" content="Base N">
+<meta property="og:url" content="http://yoursite.com/2019/04/06/Base-N/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="逆向工程爱好者">
+<meta property="og:description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-28T11:13:01.492Z">
+<meta property="og:image" content="http://pp62r3p7u.bkt.clouddn.com/img/20190406103413.png">
+<meta property="og:updated_time" content="2019-04-24T03:44:49.869Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="test_my_site">
-<meta name="twitter:description" content="逆向工程爱好者">
+<meta name="twitter:title" content="Base N">
+<meta name="twitter:description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
+<meta name="twitter:image" content="http://pp62r3p7u.bkt.clouddn.com/img/20190406103413.png">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -57,7 +60,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>test_my_site | Just a binary noob~~</title>
+<title>Base N | Just a binary noob~~</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -182,7 +185,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
                     </div>
                 </section>
                 
@@ -257,11 +260,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-test-my-site" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Base-N" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/03/28/test-my-site/" class="article-date">
-      <time datetime="2019-03-28T11:13:01.000Z" itemprop="datePublished">2019-03-28</time>
+      <a href="/2019/04/06/Base-N/" class="article-date">
+      <time datetime="2019-04-06T02:29:58.000Z" itemprop="datePublished">2019-04-06</time>
 </a>
 
 
@@ -276,7 +279,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      test_my_site
+      Base N
     </h1>
   
 
@@ -286,6 +289,10 @@
         
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -293,7 +300,17 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        
+        <h1 id="Base-N算法的实现"><a href="#Base-N算法的实现" class="headerlink" title="Base N算法的实现"></a>Base N算法的实现</h1><p>最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法<br><a id="more"></a></p>
+<h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><p>base64将每三个字节编码为4个字符，每6个bit决定一个字符，因此需要将输入的长度补全为3的倍数，下面这张图能很好的解释</p>
+<p><img src="http://pp62r3p7u.bkt.clouddn.com/img/20190406103413.png" alt></p>
+<h3 id="c-实现"><a href="#c-实现" class="headerlink" title="c++实现"></a>c++实现</h3><p>char* table=”ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/“;</p>
+<h4 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">base64_encode</span><span class="params">(<span class="keyword">char</span>* st,<span class="keyword">char</span>* s1)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="built_in">strlen</span>(st);</span><br><span class="line">	<span class="keyword">char</span>* s = (<span class="keyword">char</span>*)<span class="built_in">malloc</span>(len+<span class="number">3</span>);</span><br><span class="line">	<span class="built_in">strncpy</span>( s , st , len );</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">strlen</span>(st)%<span class="number">3</span>!=<span class="number">0</span> )</span><br><span class="line">	<span class="keyword">for</span> ( <span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>-<span class="built_in">strlen</span>(st)%<span class="number">3</span>;i++ )&#123;</span><br><span class="line">		s[len]='\x00';</span><br><span class="line">		len++;</span><br><span class="line">	&#125;<span class="comment">//补全为3的倍数</span></span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (j!=len)&#123;</span><br><span class="line">		s1[i] = table[ st[j]&gt;&gt;<span class="number">2</span> ];</span><br><span class="line">		s1[i+<span class="number">1</span>] = table[ (st[j]&amp;<span class="number">3</span>)&lt;&lt;<span class="number">4</span> | (st[j+<span class="number">1</span>]&gt;&gt;<span class="number">4</span>) ];</span><br><span class="line">		s1[i+<span class="number">2</span>] = table[ (st[j+<span class="number">1</span>]&amp;<span class="number">0xf</span>)&lt;&lt;<span class="number">2</span> | (st[j+<span class="number">2</span>]&gt;&gt;<span class="number">6</span>) ];</span><br><span class="line">		s1[i+<span class="number">3</span>] = table[ (st[j+<span class="number">2</span>]&amp;<span class="number">0x3f</span>) ];</span><br><span class="line">		i+=<span class="number">4</span>;</span><br><span class="line">		j+=<span class="number">3</span>;<span class="comment">//采用移位与或运算截取每6个bit</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">strlen</span>(st)%<span class="number">3</span>!=<span class="number">0</span> )&#123;</span><br><span class="line">		<span class="keyword">int</span> t = <span class="built_in">strlen</span>(st)%<span class="number">3</span>;</span><br><span class="line">		<span class="keyword">for</span> (j=<span class="number">1</span>;j&lt;=<span class="number">3</span>-t;j++)&#123;</span><br><span class="line">			s1[i-j]=<span class="string">'='</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="comment">//一个显然的规律，补一个0x00则需要再末尾添加1个=，补两个0x00则需要再末尾添加2个=</span></span><br><span class="line">	<span class="comment">//因此当需要补N个=时，直接从后往前覆盖掉N位</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">free</span>(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="解码"><a href="#解码" class="headerlink" title="解码"></a>解码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">index</span><span class="params">(<span class="keyword">char</span> s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (s==<span class="string">'='</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">64</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span> (s==table[i]) <span class="keyword">return</span> i;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">base64_decode</span><span class="params">(<span class="keyword">char</span> *st,<span class="keyword">char</span>* s1 )</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="built_in">strlen</span>(st);</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">if</span> (len%<span class="number">4</span>!=<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"error\n"</span>);<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;len;i+=<span class="number">4</span>)&#123;</span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">int</span> t = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> ( j=<span class="number">0</span>;j&lt;<span class="number">4</span>;j++)</span><br><span class="line">		t=(t&lt;&lt;<span class="number">6</span>) | index(st[i+j]); <span class="comment">//将每6个bit组合成24bit也就是3个字节</span></span><br><span class="line">        <span class="keyword">for</span> ( j=<span class="number">0</span>;j&lt;<span class="number">3</span>;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span> ((t&amp;<span class="number">0xff0000</span>)&gt;&gt;<span class="number">16</span>==<span class="number">0</span>) <span class="keyword">break</span>;<span class="comment">//每次取最高一字节</span></span><br><span class="line">        	s1[i/<span class="number">4</span>*<span class="number">3</span>+j] = (t&amp;<span class="number">0xff0000</span>)&gt;&gt;<span class="number">16</span>;</span><br><span class="line">        	t=t&lt;&lt;<span class="number">8</span>;</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="逆向识别"><a href="#逆向识别" class="headerlink" title="逆向识别"></a>逆向识别</h2><ul>
+<li>识别base家族的关键还是在于table表的识别，其次就是对这个算法的熟悉程度，比如说补齐成指定长度的操作，还有就是长度的收缩(解码)和扩展(编码)</li>
+<li>解码的识别相对要麻烦一些，有很多实现方式，例如在解码过程中可以预先把每个字符在表中的位置存下来，就不需要调用index函数，也可以像编码那样，采用移位与或运算截取其中的片段，而不需要组合成24bit</li>
+</ul>
+
       
     </div>
     
@@ -301,13 +318,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/03/28/test-my-site/">test_my_site</a></p>
+        <p><span>本文标题:</span><a href="/2019/04/06/Base-N/">Base N</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
-        <p><span>发布时间:</span>2019-03-28, 19:13:01</p>
-        <p><span>最后更新:</span>2019-03-28, 19:13:01</p>
+        <p><span>发布时间:</span>2019-04-06, 10:29:58</p>
+        <p><span>最后更新:</span>2019-04-24, 11:44:49</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/03/28/test-my-site/" title="test_my_site">http://yoursite.com/2019/03/28/test-my-site/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/03/28/test-my-site/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/06/Base-N/" title="Base N">http://yoursite.com/2019/04/06/Base-N/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/04/06/Base-N/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -320,15 +337,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/03/28/CRC算法初探/">
-                    CRC算法初探
+                <a href="/2019/04/22/多表置换密码破解/">
+                    多表置换密码破解
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/03/28/hello-world/">
-                    Hello World
+                <a href="/2019/03/28/CRC算法初探/">
+                    CRC算法初探
                 </a>
             </div>
         
@@ -340,7 +357,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Base-N算法的实现"><span class="toc-number">1.</span> <span class="toc-text">Base N算法的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Base64"><span class="toc-number">1.1.</span> <span class="toc-text">Base64</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#c-实现"><span class="toc-number">1.1.1.</span> <span class="toc-text">c++实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#编码"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解码"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">解码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逆向识别"><span class="toc-number">1.2.</span> <span class="toc-text">逆向识别</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -376,7 +393,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"test_my_site　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"Base N　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -396,7 +413,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/03/28/CRC算法初探/" title="上一篇: CRC算法初探">
+            <a href="/2019/04/22/多表置换密码破解/" title="上一篇: 多表置换密码破解">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -404,13 +421,13 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/03/28/hello-world/" title="下一篇: Hello World">
+            <a href="/2019/03/28/CRC算法初探/" title="下一篇: CRC算法初探">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/CRC算法初探/">CRC算法初探</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/test-my-site/">test_my_site</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/hello-world/">Hello World</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/Base-N/">Base N</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/CRC算法初探/">CRC算法初探</a></li></ul>
 
 
 

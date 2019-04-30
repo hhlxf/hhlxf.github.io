@@ -15,21 +15,20 @@
 
 
 
-<meta name="description" content="CRC32算法crc校验过程 生成一个多项式记作G(x). 设待发送的数据帧为B(x),那么假设G(x)长度为k，则在B(x)后添加k-1个0,即B(x)&amp;lt;&amp;lt;(k-1),生成新串H(x) 计算H(x)%G(x)记作C,将C放入H(x)的最后k-1位生成N(x)，则N(x)一定整除G(x)，这是因为(H(x)-C)%G(x)==0,而 减去一个数等于加上它的补码，C为正数，因此C的补码=">
+<meta name="description" content="凯撒密码在破解多表代换密码之前，让我们先来了解一下什么是简单的单表代换加密，凯撒密码就是一个简单的应用原文: abcd 移动3位密文: cdef由于字母频度分析的出现，使得凯撒密码的破解变得很容易，这个将在后面说明，这也是多表代换加密破解的基础 维吉尼亚密码这是一种改良版的凯撒密码">
 <meta name="keywords" content="算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CRC算法初探">
-<meta property="og:url" content="http://yoursite.com/2019/03/28/CRC算法初探/index.html">
+<meta property="og:title" content="多表置换密码破解">
+<meta property="og:url" content="http://yoursite.com/2019/04/22/多表置换密码破解/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="CRC32算法crc校验过程 生成一个多项式记作G(x). 设待发送的数据帧为B(x),那么假设G(x)长度为k，则在B(x)后添加k-1个0,即B(x)&amp;lt;&amp;lt;(k-1),生成新串H(x) 计算H(x)%G(x)记作C,将C放入H(x)的最后k-1位生成N(x)，则N(x)一定整除G(x)，这是因为(H(x)-C)%G(x)==0,而 减去一个数等于加上它的补码，C为正数，因此C的补码=">
+<meta property="og:description" content="凯撒密码在破解多表代换密码之前，让我们先来了解一下什么是简单的单表代换加密，凯撒密码就是一个简单的应用原文: abcd 移动3位密文: cdef由于字母频度分析的出现，使得凯撒密码的破解变得很容易，这个将在后面说明，这也是多表代换加密破解的基础 维吉尼亚密码这是一种改良版的凯撒密码">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://i.loli.net/2018/08/16/5b751c8007704.jpg">
-<meta property="og:image" content="https://i.loli.net/2018/08/16/5b7580db445d3.jpg">
-<meta property="og:updated_time" content="2019-03-30T04:12:13.939Z">
+<meta property="og:image" content="http://pp62r3p7u.bkt.clouddn.com/img/20190423003922.png">
+<meta property="og:updated_time" content="2019-04-24T03:44:35.238Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CRC算法初探">
-<meta name="twitter:description" content="CRC32算法crc校验过程 生成一个多项式记作G(x). 设待发送的数据帧为B(x),那么假设G(x)长度为k，则在B(x)后添加k-1个0,即B(x)&amp;lt;&amp;lt;(k-1),生成新串H(x) 计算H(x)%G(x)记作C,将C放入H(x)的最后k-1位生成N(x)，则N(x)一定整除G(x)，这是因为(H(x)-C)%G(x)==0,而 减去一个数等于加上它的补码，C为正数，因此C的补码=">
-<meta name="twitter:image" content="https://i.loli.net/2018/08/16/5b751c8007704.jpg">
+<meta name="twitter:title" content="多表置换密码破解">
+<meta name="twitter:description" content="凯撒密码在破解多表代换密码之前，让我们先来了解一下什么是简单的单表代换加密，凯撒密码就是一个简单的应用原文: abcd 移动3位密文: cdef由于字母频度分析的出现，使得凯撒密码的破解变得很容易，这个将在后面说明，这也是多表代换加密破解的基础 维吉尼亚密码这是一种改良版的凯撒密码">
+<meta name="twitter:image" content="http://pp62r3p7u.bkt.clouddn.com/img/20190423003922.png">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -61,7 +60,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>CRC算法初探 | Just a binary noob~~</title>
+<title>多表置换密码破解 | Just a binary noob~~</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -261,11 +260,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-CRC算法初探" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-多表置换密码破解" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/03/28/CRC算法初探/" class="article-date">
-      <time datetime="2019-03-28T11:59:36.000Z" itemprop="datePublished">2019-03-28</time>
+      <a href="/2019/04/22/多表置换密码破解/" class="article-date">
+      <time datetime="2019-04-22T15:53:18.000Z" itemprop="datePublished">2019-04-22</time>
 </a>
 
 
@@ -280,7 +279,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      CRC算法初探
+      多表置换密码破解
     </h1>
   
 
@@ -301,15 +300,23 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="CRC32算法"><a href="#CRC32算法" class="headerlink" title="CRC32算法"></a>CRC32算法</h1><h2 id="crc校验过程"><a href="#crc校验过程" class="headerlink" title="crc校验过程"></a>crc校验过程</h2><ul>
-<li>生成一个多项式记作G(x).</li>
-<li>设待发送的数据帧为B(x),那么假设G(x)长度为k，则在B(x)后添加k-1个0,即B(x)&lt;&lt;(k-1),生成新串H(x)</li>
-<li>计算H(x)%G(x)记作C,将C放入H(x)的最后k-1位生成N(x)，则N(x)一定整除G(x)，这是因为(H(x)-C)%G(x)==0,而 减去一个数等于加上它的补码，C为正数，因此C的补码==C，所以有(H(x)+C)%G(x)==0，因此N(x)%G(x)==0</li>
-<li>接收端只需要检验N(x)%G(x)==0与否即可知道数据是否出错<a id="more"></a>
-<h3 id="生成多项式G-x"><a href="#生成多项式G-x" class="headerlink" title="生成多项式G(x)"></a>生成多项式G(x)</h3>CRC的标准多项式为<br><img src="https://i.loli.net/2018/08/16/5b751c8007704.jpg" alt><br>这里的多项式实际上就是一个二进制的bit流，可以组合成一个数值，例如<br>CRC-1: 11<br>CRC-5: 101011<br>在逆向中比较常见的有CRC16，CRC32，之前在0ctf中还看到了CRC64，当然这些都差不多，只是生成多项式G(x)不同<br>CRC16的16进制表示为 <code>0x1 1021</code><br>CRC32的16进制表示为 <code>0x1 04C11DB7</code>（或<code>0x1 EDB8 8320</code>,两种CRC32）,这些常数可以帮我们识别CRC算法</li>
+        <h2 id="凯撒密码"><a href="#凯撒密码" class="headerlink" title="凯撒密码"></a>凯撒密码</h2><p>在破解多表代换密码之前，让我们先来了解一下什么是简单的单表代换加密，凯撒密码就是一个简单的应用<br>原文: abcd 移动3位<br>密文: cdef<br>由于字母频度分析的出现，使得凯撒密码的破解变得很容易，这个将在后面说明，这也是多表代换加密破解的基础</p>
+<h2 id="维吉尼亚密码"><a href="#维吉尼亚密码" class="headerlink" title="维吉尼亚密码"></a>维吉尼亚密码</h2><p>这是一种改良版的凯撒密码<br><a id="more"></a><br><img src="http://pp62r3p7u.bkt.clouddn.com/img/20190423003922.png" alt></p>
+<h3 id="加密方式为："><a href="#加密方式为：" class="headerlink" title="加密方式为："></a>加密方式为：</h3><ul>
+<li>第一行为明文字母</li>
+<li>第一列为密钥字母</li>
+<li>明文作为列坐标，密钥作为行坐标</li>
+<li>选择其交叉部分作为密文字母<h3 id="解密方式为："><a href="#解密方式为：" class="headerlink" title="解密方式为："></a>解密方式为：</h3></li>
+<li>找到密钥对应的行坐标</li>
+<li>找到该行中密文的位置</li>
+<li>该位置的列号即为明文<h2 id="破解方式"><a href="#破解方式" class="headerlink" title="破解方式"></a>破解方式</h2><h3 id="破解密钥长度"><a href="#破解密钥长度" class="headerlink" title="破解密钥长度"></a>破解密钥长度</h3></li>
+<li>重合指数：在一篇英文文章中任意选取两个不同的字母，其相同的概率称为重合指数，有数学研究表明，对于足够长有意义的英文文章而言，其重合指数约为0.06。且如果这篇文章的所有字母移动相同的位数（凯撒加密）其重合指数不发生改变<br>假设当前加密的密钥长度为m，那么对于原文的加密而言，周期为m，假设我们将原文分为m组，分别为<br>0,0+m,0+2m,….<br>1,1+m,1+2m,…..<br>m-1,m-1+m.m-1+2m…<br>那么对于每一组而言，移动的位数是固定的，即可以把每一组看作是一次凯撒加密，那么每一组的重合指数皆为0.06左右，因此我们可以枚举密钥的长度，并进行分组，计算其重合指数，如果结果为0.06左右，则说明我们得到了密钥长度，而错误的密钥长度，会导致该分组并不可以看成是原文的凯撒加密，因此重合指数会和原文不一致<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getLength</span><span class="params">(Ciphertext)</span>:</span></span><br><span class="line">	keylen = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">		CoincidenceIndex=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> range(keylen):</span><br><span class="line">			<span class="comment">#间隔keylen进行分组</span></span><br><span class="line">			curCiphertext = Ciphertext[i::keylen];</span><br><span class="line">			<span class="comment">#计算重合指数</span></span><br><span class="line">			<span class="keyword">for</span> i <span class="keyword">in</span> set(curCiphertext):</span><br><span class="line">				CoincidenceIndex+=<span class="number">1.0</span>*curCiphertext.count(i)*(curCiphertext.count(i)<span class="number">-1</span>);</span><br><span class="line">			</span><br><span class="line">			CoincidenceIndex/=len(curCiphertext)*(len(curCiphertext)<span class="number">-1</span>);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span>  CoincidenceIndex&gt;<span class="number">0.06</span>:</span><br><span class="line">				<span class="comment"># print keylen,CoincidenceIndex;</span></span><br><span class="line">				<span class="keyword">return</span> keylen;</span><br><span class="line">		keylen+=<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<h3 id="计算H-x-G-x"><a href="#计算H-x-G-x" class="headerlink" title="计算H(x)%G(x)"></a>计算H(x)%G(x)</h3><p>相当于计算H(x)/G(x)的余数，由于规定此除法中不产生进位也没有借位，因此a-b就相当于a^b，即把减的运算转换为按位异或<br><img src="https://i.loli.net/2018/08/16/5b7580db445d3.jpg" alt></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>):</span><br><span class="line">    <span class="keyword">print</span> i</span><br></pre></td></tr></table></figure>
+<h3 id="破解具体的密钥"><a href="#破解具体的密钥" class="headerlink" title="破解具体的密钥"></a>破解具体的密钥</h3><ul>
+<li>拟重合指数（字母频度分析）：根据作者的理解，其意思是文章中各个字母出现的频率与一般统计的字母出现的频率相符的程度，设p[i]为第i个字母的一般统计频率，f[i]为第i个字母在原文中出现的频率，拟重合指数的计算方法为 sum+=p[i]*f[i] for i in range(26)<br>对于第i个分组而言，其加密密钥为key[i]，我们可以枚举key[i]的值，然后反推出该分组的明文，并计算其拟重合指数，若其值&gt;0.06，则说明我们找到了key[i]<br>代码如下<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getKey</span><span class="params">(ciphertext,keylength)</span>:</span></span><br><span class="line">	key = [];</span><br><span class="line">	p = [<span class="number">0.08167</span>, <span class="number">0.01492</span>, <span class="number">0.02782</span>, <span class="number">0.04253</span>, <span class="number">0.12702</span>, <span class="number">0.02228</span>, <span class="number">0.02015</span>, <span class="number">0.06094</span>, <span class="number">0.06966</span>, <span class="number">0.00153</span>, <span class="number">0.00772</span>, <span class="number">0.04025</span>,</span><br><span class="line">         <span class="number">0.02406</span>, <span class="number">0.06749</span>, <span class="number">0.07507</span>, <span class="number">0.01929</span>, <span class="number">0.00095</span>, <span class="number">0.05987</span>, <span class="number">0.06327</span>, <span class="number">0.09056</span>, <span class="number">0.02758</span>, <span class="number">0.00978</span>, <span class="number">0.02360</span>, <span class="number">0.00150</span>,</span><br><span class="line">         <span class="number">0.01974</span>, <span class="number">0.00074</span>];<span class="comment">#一般统计概率表</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(keylength):</span><br><span class="line">		<span class="comment">#枚举每一组，即每一个密钥对应的组</span></span><br><span class="line">		PresentCiphertext = ciphertext[i::keylength];</span><br><span class="line">		<span class="keyword">print</span> <span class="string">'group'</span>,i,<span class="string">"---------------&gt;"</span></span><br><span class="line">		<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">26</span>):</span><br><span class="line">			<span class="comment">#枚举移位的大小，即key[i]可能的值</span></span><br><span class="line">			niCoincidenceIndex = <span class="number">0.0</span>;</span><br><span class="line">			<span class="comment">#计算拟重合指数</span></span><br><span class="line">			<span class="keyword">for</span> k <span class="keyword">in</span> set(PresentCiphertext):</span><br><span class="line">				count = PresentCiphertext.count(k);</span><br><span class="line">				t = (ord(k)-j+<span class="number">26</span>)%<span class="number">26</span>;<span class="comment">#反推对应明文</span></span><br><span class="line">				niCoincidenceIndex += p[t] * count;</span><br><span class="line">			niCoincidenceIndex/=len(PresentCiphertext);</span><br><span class="line">			<span class="keyword">print</span> j,niCoincidenceIndex;</span><br><span class="line">			<span class="keyword">if</span> niCoincidenceIndex &gt; <span class="number">0.06</span>:</span><br><span class="line">				key.append(chr(j+<span class="number">97</span>));</span><br><span class="line">	<span class="keyword">return</span> key;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 
       
     </div>
@@ -318,13 +325,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/03/28/CRC算法初探/">CRC算法初探</a></p>
+        <p><span>本文标题:</span><a href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
-        <p><span>发布时间:</span>2019-03-28, 19:59:36</p>
-        <p><span>最后更新:</span>2019-03-30, 12:12:13</p>
+        <p><span>发布时间:</span>2019-04-22, 23:53:18</p>
+        <p><span>最后更新:</span>2019-04-24, 11:44:35</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/03/28/CRC算法初探/" title="CRC算法初探">http://yoursite.com/2019/03/28/CRC算法初探/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/03/28/CRC算法初探/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/22/多表置换密码破解/" title="多表置换密码破解">http://yoursite.com/2019/04/22/多表置换密码破解/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/04/22/多表置换密码破解/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -337,11 +344,17 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2019/04/29/starctf-Reverse-wp/">
+                    *CTF Reverse wp
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
                 <a href="/2019/04/06/Base-N/">
                     Base N
                 </a>
             </div>
-        
         
     </nav>
 
@@ -351,7 +364,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CRC32算法"><span class="toc-number">1.</span> <span class="toc-text">CRC32算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#crc校验过程"><span class="toc-number">1.1.</span> <span class="toc-text">crc校验过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成多项式G-x"><span class="toc-number">1.1.1.</span> <span class="toc-text">生成多项式G(x)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算H-x-G-x"><span class="toc-number">1.1.2.</span> <span class="toc-text">计算H(x)%G(x)</span></a></li></ol></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#凯撒密码"><span class="toc-number">1.</span> <span class="toc-text">凯撒密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#维吉尼亚密码"><span class="toc-number">2.</span> <span class="toc-text">维吉尼亚密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#加密方式为："><span class="toc-number">2.1.</span> <span class="toc-text">加密方式为：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解密方式为："><span class="toc-number">2.2.</span> <span class="toc-text">解密方式为：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#破解方式"><span class="toc-number">3.</span> <span class="toc-text">破解方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#破解密钥长度"><span class="toc-number">3.1.</span> <span class="toc-text">破解密钥长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#破解具体的密钥"><span class="toc-number">3.2.</span> <span class="toc-text">破解具体的密钥</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -387,7 +400,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"CRC算法初探　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"多表置换密码破解　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -407,7 +420,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/04/06/Base-N/" title="上一篇: Base N">
+            <a href="/2019/04/29/starctf-Reverse-wp/" title="上一篇: *CTF Reverse wp">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -415,7 +428,9 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2019/04/06/Base-N/" title="下一篇: Base N">
+                <i class="fa fa-angle-right"></i>
+            </a>
         
     </div>
 

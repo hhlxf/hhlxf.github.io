@@ -15,19 +15,19 @@
 
 
 
-<meta name="description" content="Reverse部分题解（陆续更新）fanoGo挺简单的一道题，但是由于编码的问题导致解不出来，挺难受的~go语言编写的程序，虽然反编译很难看，但是通过猜测也能得到一些函数的用法，当然其它的静态分析我感觉搞出来的可能性就比较小了，还是调试比较好 runtime_eqstring比较字符串是否相等runtime_concatstring2拼接字符串 程序的大致逻辑就是将输入fano解码以后等于一串明文">
+<meta name="description" content="Reverse部分题解（陆续更新）fanoGo挺简单的一道题，但是由于编码的问题导致解不出来，挺难受的~go语言编写的程序，虽然反编译很难看，但是通过猜测也能得到一些函数的用法，当然其它的静态分析我感觉搞出来的可能性就比较小了，还是调试比较好">
 <meta name="keywords" content="ctf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="*CTF Reverse wp">
 <meta property="og:url" content="http://yoursite.com/2019/04/29/starctf-Reverse-wp/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="Reverse部分题解（陆续更新）fanoGo挺简单的一道题，但是由于编码的问题导致解不出来，挺难受的~go语言编写的程序，虽然反编译很难看，但是通过猜测也能得到一些函数的用法，当然其它的静态分析我感觉搞出来的可能性就比较小了，还是调试比较好 runtime_eqstring比较字符串是否相等runtime_concatstring2拼接字符串 程序的大致逻辑就是将输入fano解码以后等于一串明文">
+<meta property="og:description" content="Reverse部分题解（陆续更新）fanoGo挺简单的一道题，但是由于编码的问题导致解不出来，挺难受的~go语言编写的程序，虽然反编译很难看，但是通过猜测也能得到一些函数的用法，当然其它的静态分析我感觉搞出来的可能性就比较小了，还是调试比较好">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/Snipaste_2019-04-29_22-59-21.png">
-<meta property="og:updated_time" content="2019-04-30T02:57:59.944Z">
+<meta property="og:updated_time" content="2019-05-05T04:26:47.649Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="*CTF Reverse wp">
-<meta name="twitter:description" content="Reverse部分题解（陆续更新）fanoGo挺简单的一道题，但是由于编码的问题导致解不出来，挺难受的~go语言编写的程序，虽然反编译很难看，但是通过猜测也能得到一些函数的用法，当然其它的静态分析我感觉搞出来的可能性就比较小了，还是调试比较好 runtime_eqstring比较字符串是否相等runtime_concatstring2拼接字符串 程序的大致逻辑就是将输入fano解码以后等于一串明文">
+<meta name="twitter:description" content="Reverse部分题解（陆续更新）fanoGo挺简单的一道题，但是由于编码的问题导致解不出来，挺难受的~go语言编写的程序，虽然反编译很难看，但是通过猜测也能得到一些函数的用法，当然其它的静态分析我感觉搞出来的可能性就比较小了，还是调试比较好">
 <meta name="twitter:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/Snipaste_2019-04-29_22-59-21.png">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -185,7 +185,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li></ul>
                     </div>
                 </section>
                 
@@ -300,8 +300,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Reverse部分题解（陆续更新）"><a href="#Reverse部分题解（陆续更新）" class="headerlink" title="Reverse部分题解（陆续更新）"></a>Reverse部分题解（陆续更新）</h1><h2 id="fanoGo"><a href="#fanoGo" class="headerlink" title="fanoGo"></a>fanoGo</h2><p>挺简单的一道题，但是由于编码的问题导致解不出来，挺难受的~<br>go语言编写的程序，虽然反编译很难看，但是通过猜测也能得到一些函数的用法，当然其它的静态分析我感觉搞出来的可能性就比较小了，还是调试比较好</p>
-<p><code>runtime_eqstring</code>比较字符串是否相等<br><code>runtime_concatstring2</code>拼接字符串</p>
+        <h1 id="Reverse部分题解（陆续更新）"><a href="#Reverse部分题解（陆续更新）" class="headerlink" title="Reverse部分题解（陆续更新）"></a>Reverse部分题解（陆续更新）</h1><h2 id="fanoGo"><a href="#fanoGo" class="headerlink" title="fanoGo"></a>fanoGo</h2><p>挺简单的一道题，但是由于编码的问题导致解不出来，挺难受的~<br>go语言编写的程序，虽然反编译很难看，但是通过猜测也能得到一些函数的用法，当然其它的静态分析我感觉搞出来的可能性就比较小了，还是调试比较好<br><a id="more"></a><br><code>runtime_eqstring</code>比较字符串是否相等<br><code>runtime_concatstring2</code>拼接字符串</p>
 <p>程序的大致逻辑就是将输入fano解码以后等于一串明文，那解密只需要将明文在编码一下就好，程序，网上找了一个fano编码的源码，但是和作者使用的不一样，于是只好在程序里把各个字符的编码抠下来，在45C5D8下断就能看到各个字符的编码，但是很有趣的是，你看到的编码不一定是完全对的，它貌似还有一个有效的长度，例如内存中存放的是101011，结果只取前4位，不知道这是golang的性质还是程序本身的问题，以后还是要花一些时间研究一下golang的逆向。</p>
 <h3 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h3><p>然后——–最坑的地方来了，如果你编码了后，你会发现其中有很多&gt;127的Non-Ascii码字符，这些字符golang虽然可以接收，但是不会正确的转换为对应的二进制形式，而是转换为固定二进制11111101(0xfd)，<strong>这是因为Golang的默认编码方式是utf-8，而utf-8不存在这种字符因此Golang无法正常解析，因此需要将输入转换为utf-8编码的形式</strong><br>utf-8可参考下图<br><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/Snipaste_2019-04-29_22-59-21.png" alt><br>解题脚本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">utf_8_encode</span><span class="params">(a)</span>:</span></span><br><span class="line">	ret = <span class="string">""</span></span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">		tmp = bin( ord(i) )[<span class="number">2</span>:];</span><br><span class="line">		tmp = tmp.rjust(<span class="number">11</span>,<span class="string">'0'</span>);</span><br><span class="line">		<span class="keyword">if</span> ord(i)&gt;<span class="number">0x7f</span>:</span><br><span class="line">			ret+=chr( int(<span class="string">'110'</span>+tmp[<span class="number">0</span>:<span class="number">5</span>],<span class="number">2</span>) );</span><br><span class="line">			ret+=chr( int(<span class="string">'10'</span>+tmp[<span class="number">5</span>:],<span class="number">2</span>) );</span><br><span class="line">		<span class="keyword">else</span> :</span><br><span class="line">			ret+=chr( int(tmp,<span class="number">2</span>) );</span><br><span class="line">	<span class="keyword">return</span> ret.encode(<span class="string">'hex'</span>);</span><br><span class="line"></span><br><span class="line">table=&#123;</span><br><span class="line">	<span class="string">'a'</span>:<span class="string">'0011'</span>,</span><br><span class="line">	<span class="string">'e'</span>:<span class="string">'0101'</span>,</span><br><span class="line">	<span class="string">'h'</span>:<span class="string">'0111'</span>,</span><br><span class="line">	<span class="string">'i'</span>:<span class="string">'1000'</span>,</span><br><span class="line">	<span class="string">'n'</span>:<span class="string">'1010'</span>,</span><br><span class="line">	<span class="string">'s'</span>:<span class="string">'1101'</span>,</span><br><span class="line">	<span class="string">'d'</span>:<span class="string">'01001'</span>,</span><br><span class="line">	<span class="string">'f'</span>:<span class="string">'01100'</span>,</span><br><span class="line">	<span class="string">' '</span>:<span class="string">'0001'</span>,</span><br><span class="line">	<span class="string">'t'</span>:<span class="string">'1110'</span>,</span><br><span class="line">	<span class="string">'g'</span>:<span class="string">'01101'</span>,</span><br><span class="line">	<span class="string">'m'</span>:<span class="string">'10011'</span>,</span><br><span class="line">	<span class="string">'o'</span>:<span class="string">'10110'</span>,</span><br><span class="line">	<span class="string">'p'</span>:<span class="string">'10111'</span>,</span><br><span class="line">	<span class="string">'q'</span>:<span class="string">'11000'</span>,</span><br><span class="line">	<span class="string">'r'</span>:<span class="string">'11001'</span>,</span><br><span class="line">	<span class="string">'\n'</span>:<span class="string">'000001'</span>,</span><br><span class="line">	<span class="string">'b'</span>:<span class="string">'010000'</span>,</span><br><span class="line">	<span class="string">'c'</span>:<span class="string">'010001'</span>,</span><br><span class="line">	<span class="string">'l'</span>:<span class="string">'100101'</span>,</span><br><span class="line">	<span class="string">'u'</span>:<span class="string">'111100'</span>,</span><br><span class="line">	<span class="string">'v'</span>:<span class="string">'111101'</span>,</span><br><span class="line">	<span class="string">','</span>:<span class="string">'0010001'</span>,</span><br><span class="line">	<span class="string">'j'</span>:<span class="string">'1001000'</span>,</span><br><span class="line">	<span class="string">'k'</span>:<span class="string">'1001001'</span>,</span><br><span class="line">	<span class="string">'w'</span>:<span class="string">'1111100'</span>,</span><br><span class="line">	<span class="string">'x'</span>:<span class="string">'1111101'</span>,</span><br><span class="line">	<span class="string">'y'</span>:<span class="string">'1111110'</span>,</span><br><span class="line">	<span class="string">'-'</span>:<span class="string">'00100100'</span>,</span><br><span class="line">	<span class="string">'.'</span>:<span class="string">'00100101'</span>,</span><br><span class="line">	<span class="string">'I'</span>:<span class="string">'00101011'</span>,</span><br><span class="line">	<span class="string">';'</span>:<span class="string">'001001111'</span>,</span><br><span class="line">	<span class="string">'\''</span>:<span class="string">"0010000101"</span>,</span><br><span class="line">	<span class="string">'L'</span>:<span class="string">'00101100001'</span></span><br><span class="line">&#125;</span><br><span class="line">t = <span class="string">"If you cannot read all your books...fondle them---peer into them, let them fall open where they will, read from the first sentence that arrests the eye, set them back on the shelves with your own hands, arrange them on your own plan so that you at least know where they are. Let them be your friends; let them, at any rate, be your acquaintances."</span></span><br><span class="line"></span><br><span class="line">re = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> t:</span><br><span class="line">	re+=table[i];</span><br><span class="line">re+=<span class="string">'0000'</span>;<span class="comment">#补齐为8的倍数</span></span><br><span class="line">ans = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(re),<span class="number">8</span>):</span><br><span class="line">	ans+=<span class="string">'%02x'</span>%( int(re[i:i+<span class="number">8</span>],<span class="number">2</span>) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> utf_8_encode( ans.decode(<span class="string">'hex'</span>) );</span><br><span class="line"><span class="comment">#得到的是input的16进制编码，解码一下就是答案了</span></span><br></pre></td></tr></table></figure>
@@ -316,7 +315,7 @@
         <p><span>本文标题:</span><a href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
         <p><span>发布时间:</span>2019-04-29, 22:33:57</p>
-        <p><span>最后更新:</span>2019-04-30, 10:57:59</p>
+        <p><span>最后更新:</span>2019-05-05, 12:26:47</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/04/29/starctf-Reverse-wp/" title="*CTF Reverse wp">http://yoursite.com/2019/04/29/starctf-Reverse-wp/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/04/29/starctf-Reverse-wp/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -330,6 +329,12 @@
 
 
     <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2019/05/04/lex-yacc-lex入门/">
+                    lex &amp;&amp; yacc lex入门
+                </a>
+            </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
@@ -402,7 +407,9 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2019/05/04/lex-yacc-lex入门/" title="上一篇: lex &amp;&amp; yacc lex入门">
+                <i class="fa fa-angle-left"></i>
+            </a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
@@ -414,7 +421,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/Base-N/">Base N</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/CRC算法初探/">CRC算法初探</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/05/04/lex-yacc-lex入门/">lex && yacc lex入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/Base-N/">Base N</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/CRC算法初探/">CRC算法初探</a></li></ul>
 
 
 

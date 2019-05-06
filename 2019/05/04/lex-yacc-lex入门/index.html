@@ -15,17 +15,18 @@
 
 
 
-<meta name="description" content="逆向工程爱好者">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta name="description" content="lex篇写在前面lex : Lexical Analyzar 词法分析Yacc : Yet Another Compiler Compilerlex是一种生成扫描器的工具，扫描器可以检索一段文本中的特定信息（有点类似正则表达式），lex会将文本与你定义的表达式进行匹配，若匹配成功，则执行一个动作，或者返回一个标记,这两者都将在后面提及。lex并不是将你的代码直接生成一个可执行文件，而是基于你的.l">
+<meta name="keywords" content="编译原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lex &amp;&amp; yacc lex入门">
+<meta property="og:url" content="http://yoursite.com/2019/05/04/lex-yacc-lex入门/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="逆向工程爱好者">
+<meta property="og:description" content="lex篇写在前面lex : Lexical Analyzar 词法分析Yacc : Yet Another Compiler Compilerlex是一种生成扫描器的工具，扫描器可以检索一段文本中的特定信息（有点类似正则表达式），lex会将文本与你定义的表达式进行匹配，若匹配成功，则执行一个动作，或者返回一个标记,这两者都将在后面提及。lex并不是将你的代码直接生成一个可执行文件，而是基于你的.l">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-28T14:30:27.161Z">
+<meta property="og:updated_time" content="2019-05-05T05:33:14.661Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
-<meta name="twitter:description" content="逆向工程爱好者">
+<meta name="twitter:title" content="lex &amp;&amp; yacc lex入门">
+<meta name="twitter:description" content="lex篇写在前面lex : Lexical Analyzar 词法分析Yacc : Yet Another Compiler Compilerlex是一种生成扫描器的工具，扫描器可以检索一段文本中的特定信息（有点类似正则表达式），lex会将文本与你定义的表达式进行匹配，若匹配成功，则执行一个动作，或者返回一个标记,这两者都将在后面提及。lex并不是将你的代码直接生成一个可执行文件，而是基于你的.l">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -57,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>tags | Just a binary noob~~</title>
+<title>lex &amp;&amp; yacc lex入门 | Just a binary noob~~</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -67,7 +68,7 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: false,
+        isPost: true,
         isArchive: false,
         isTag: false,
         isCategory: false,
@@ -257,11 +258,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-lex-yacc-lex入门" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/tags/index.html" class="article-date">
-      <time datetime="2019-03-28T13:01:43.000Z" itemprop="datePublished">2019-03-28</time>
+      <a href="/2019/05/04/lex-yacc-lex入门/" class="article-date">
+      <time datetime="2019-05-04T15:22:03.000Z" itemprop="datePublished">2019-05-04</time>
 </a>
 
 
@@ -276,7 +277,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      tags
+      lex &amp;&amp; yacc lex入门
     </h1>
   
 
@@ -286,6 +287,10 @@
         
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编译原理/">编译原理</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -293,96 +298,129 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <style>
-    .article-meta { display: none; }
-    #container .article .article-title { padding-right: 0; }
-    .article-header {
-        padding: 0;
-        padding-top: 26px;
-        border-left: none;
-        text-align: center;
-    }
-    .article-header:hover { border-left: none; }
-    .article-title { font-size: 1.6em }
-    .article-entry hr { margin: 0;}
-    .article-meta,
-    #container .article-info-post.article-info { display: none;}
-    #container .article .article-title { padding: 0; }
-</style>
+        <h1 id="lex篇"><a href="#lex篇" class="headerlink" title="lex篇"></a>lex篇</h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>lex : Lexical Analyzar 词法分析<br>Yacc : Yet Another Compiler Compiler<br>lex是一种生成扫描器的工具，扫描器可以检索一段文本中的特定信息（有点类似正则表达式），lex会将文本与你定义的表达式进行匹配，若匹配成功，则执行一个<strong>动作</strong>，或者返回一个<strong>标记</strong>,这两者都将在后面提及。lex并不是将你的代码直接生成一个可执行文件，而是基于你的.lex文件生成一个c代码，这个c代码就是生成的词法分析器，需将其编译成可执行文件，从这一点可以看出lex和c是高度耦合的。<br><a id="more"></a></p>
+<h2 id="lex文件格式"><a href="#lex文件格式" class="headerlink" title="lex文件格式"></a>lex文件格式</h2><p>lex文件格式分为三段，以%%进行分割<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">定义段</span><br><span class="line">%%</span><br><span class="line">规则段</span><br><span class="line">%%</span><br><span class="line">c代码段</span><br></pre></td></tr></table></figure></p>
+<p>我们以一个具体的实例来分析一下 test.l<br><code>$ flex test.l\n gcc test.yy.c -o test</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">%&#123;</span><br><span class="line">  <span class="keyword">int</span> count;</span><br><span class="line">  numbers ([<span class="number">0</span><span class="number">-9</span>])+ <span class="comment">/*举个例子，用numbers来代替一个正则表达式*/</span></span><br><span class="line">    </span><br><span class="line">%&#125;</span><br><span class="line">%%</span><br><span class="line">lxf &#123;count++;<span class="built_in">printf</span>(<span class="string">"i get it %d"</span>,count);&#125;</span><br><span class="line"><span class="comment">/*lxf 表示匹配的字符串，也可以用一个正则表达式来匹配*/</span></span><br><span class="line">%%</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">yywrap</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    yylex();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>首先是定义段，在此处你可以定义c的变量，函数等等信息，也可以用一个变量名来代替一个正则表达式，这些信息会在生成扫描器的时候被拷贝到c代码里，%{  /<em>   </em>/  %}是必须的</li>
+<li>其次是规则段，在此处定义带匹配的文本，{}里是匹配成功后执行的动作，也可以返回一个标记，这个我将在yacc和lex结合的部分讲解，需要注意的是当某个文本满足多个匹配时，会优先匹配长度较大的表达式，若长度相同，优先匹配靠前的表达式。</li>
+<li>然后是c代码段，<code>int wrap(void){return 1;}</code>是必须的,该函数在文本解析结束时调用，return 1表示程序正常执行结束了；main函数也是必须的，但不一定定义在lex文件里，总之最后生成的c代码里一定有main函数</li>
+</ul>
+<h3 id="常用的一些函数及变量"><a href="#常用的一些函数及变量" class="headerlink" title="常用的一些函数及变量"></a>常用的一些函数及变量</h3><table>
+<thead>
+<tr>
+<th>变量</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FILE*  yyin</td>
+<td>它指向 lexer 正在解析的当前文件。</td>
+</tr>
+<tr>
+<td>FILE*  yyout</td>
+<td>它指向记录 lexer 输出的位置。 缺省情况下，yyin 和 yyout 都指向标准输入和输出。</td>
+</tr>
+<tr>
+<td>char * yytext</td>
+<td>指向匹配的字符串</td>
+</tr>
+<tr>
+<td>yyleng</td>
+<td>所匹配的字符串长度</td>
+</tr>
+<tr>
+<td>yylval</td>
+<td>与标记相对应的值</td>
+</tr>
+<tr>
+<td>yylineno</td>
+<td>当前的行数 </td>
+</tr>
+<tr>
+<td><strong>函数</strong></td>
+<td><strong>功能</strong></td>
+</tr>
+<tr>
+<td>int yywrap()</td>
+<td>输入文本解析完后调用，返回1表示程序正常结束，否则返回0</td>
+</tr>
+<tr>
+<td>ECHO</td>
+<td>打印所匹配的字符,它的定义为 <code>#define ECHO fwrite(yytext,yyleng,1,yyout)</code></td>
+</tr>
+<tr>
+<td>INITIAL</td>
+<td>初始化开始环境</td>
+</tr>
+<tr>
+<td>BEGIN</td>
+<td>按条件转换开始环境</td>
+</tr>
+</tbody>
+</table>
 
-
-    <!-- Tag Cloud Page -->
-    <hr>
-<br>
-
-
-<p class="count"></p>
-
-<div class="tags">
-    <a href="/tags/ctf/" style="font-size: 16px; color: #808080">ctf</a> <a href="/tags/算法/" style="font-size: 35px; color: #000">算法</a> <a href="/tags/编译原理/" style="font-size: 16px; color: #808080">编译原理</a>
-</div>
-<style>
-    .category-list li{
-        display: inline-block;
-        margin: 0 1em .5em 0;
-        padding: 4px;
-        border: 1px solid lightgray;
-        font-size: 1.2rem;
-    }
-    .category-list a { color: gray; }
-    .category-list-item:hover a {
-        color: gray;
-        text-decoration: none;
-    }
-    .category-list-count {
-        margin-left: 2px;
-        font-size: .9rem;
-    }
-    .article-entry ul li:before{ display: none; }
-    .article-inner { text-align: center; }
-    .tags {
-        max-width: 42em;
-        margin: 2em auto;
-        margin-top: 0em;
-    }
-    .tags a {
-        margin-right: 1em;
-        line-height: 65px;
-        border-bottom: 1px solid gray;
-        white-space: nowrap;
-        transition: border-bottom .5s;
-    }
-    .tags a:hover {
-        border-bottom: 3px dotted gray;
-        text-decoration: none;
-    }
-    #count > span {
-        margin: auto .2em;
-        font-weight: bold;
-    }
-</style>
-
-<!-- Count tags and categories -->
-<p id="count">
-        已有<span><script>document.write($(".category-list-item").length)</script></span>个分类，
-        共计<span><script>document.write($(".tags > a").length)</script></span>个标签
-</p>
-<script>
-    $('#count').appendTo('.count');
-</script>
-
-          
-        
       
     </div>
     
   </div>
   
     
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/05/04/lex-yacc-lex入门/">lex &amp;&amp; yacc lex入门</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
+        <p><span>发布时间:</span>2019-05-04, 23:22:03</p>
+        <p><span>最后更新:</span>2019-05-05, 13:33:14</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/05/04/lex-yacc-lex入门/" title="lex &amp;&amp; yacc lex入门">http://yoursite.com/2019/05/04/lex-yacc-lex入门/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/05/04/lex-yacc-lex入门/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
 
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/04/29/starctf-Reverse-wp/">
+                    *CTF Reverse wp
+                </a>
+            </div>
+        
+    </nav>
 
   
 </article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#lex篇"><span class="toc-number">1.</span> <span class="toc-text">lex篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#写在前面"><span class="toc-number">1.1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lex文件格式"><span class="toc-number">1.2.</span> <span class="toc-text">lex文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用的一些函数及变量"><span class="toc-number">1.2.1.</span> <span class="toc-text">常用的一些函数及变量</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
 
 
 
@@ -400,7 +438,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"tags　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"lex && yacc lex入门　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -415,6 +453,24 @@
 
     
 
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/04/29/starctf-Reverse-wp/" title="下一篇: *CTF Reverse wp">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/05/04/lex-yacc-lex入门/">lex && yacc lex入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/Base-N/">Base N</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/CRC算法初探/">CRC算法初探</a></li></ul>
 
 
 

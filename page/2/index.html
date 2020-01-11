@@ -14,11 +14,14 @@
 <meta name="author" content="lxf">
 
 
+    
+    
+
 
 <meta name="description" content="逆向工程爱好者">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Just a binary noob~~">
-<meta property="og:url" content="http://yoursite.com/archives/2019/04/index.html">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
 <meta property="og:description" content="逆向工程爱好者">
 <meta property="og:locale" content="default">
@@ -52,11 +55,13 @@
 <link rel="stylesheet" href="/css/style.css">
 
 
+    <style> .article { opacity: 0;} </style>
+
 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Archives: 2019/4 | Just a binary noob~~</title>
+<title>Just a binary noob~~</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -65,9 +70,9 @@
     var yiliaConfig = {
         fancybox: true,
         animate: true,
-        isHome: false,
+        isHome: true,
         isPost: false,
-        isArchive: true,
+        isArchive: false,
         isTag: false,
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
@@ -258,120 +263,336 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-lex-yacc-lex入门" class="article article-type-post" itemscope itemprop="blogPost">
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2019/04/29/starctf-Reverse-wp/" class="archive-article-date">
-      <time datetime="2019-04-29T14:33:57.000Z" itemprop="datePublished">04-29</time>
+    <div class="article-meta">
+      <a href="/2019/05/04/lex-yacc-lex入门/" class="article-date">
+      <time datetime="2019-05-04T15:22:03.000Z" itemprop="datePublished">2019-05-04</time>
 </a>
 
 
-        </div>
-         
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a>
+      <a class="article-title" href="/2019/05/04/lex-yacc-lex入门/">lex &amp;&amp; yacc lex入门</a>
     </h1>
   
 
-        <div class="article-info info-on-archive">
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
           
+              <h1 id="lex篇"><a href="#lex篇" class="headerlink" title="lex篇"></a>lex篇</h1><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>lex : Lexical Analyzar 词法分析<br>Yacc : Yet Another Compiler Compiler<br>lex是一种生成扫描器的工具，扫描器可以检索一段文本中的特定信息（有点类似正则表达式），lex会将文本与你定义的表达式进行匹配，若匹配成功，则执行一个<strong>动作</strong>，或者返回一个<strong>标记</strong>,这两者都将在后面提及。lex并不是将你的代码直接生成一个可执行文件，而是基于你的.lex文件生成一个c代码，这个c代码就是生成的词法分析器，需将其编译成可执行文件，从这一点可以看出lex和c是高度耦合的。<br>
+          
+      
+    </p></div>
+    
+    <div class="article-info article-info-index">
+      
+      
 
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编译原理/">编译原理</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2019/05/04/lex-yacc-lex入门/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-starctf-Reverse-wp" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/29/starctf-Reverse-wp/" class="article-date">
+      <time datetime="2019-04-29T14:33:57.000Z" itemprop="datePublished">2019-04-29</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
           
+              <h1 id="Reverse部分题解（陆续更新）"><a href="#Reverse部分题解（陆续更新）" class="headerlink" title="Reverse部分题解（陆续更新）"></a>Reverse部分题解（陆续更新）</h1><h2 id="fanoGo"><a href="#fanoGo" class="headerlink" title="fanoGo"></a>fanoGo</h2><p>挺简单的一道题，但是由于编码的问题导致解不出来，挺难受的~<br>go语言编写的程序，虽然反编译很难看，但是通过猜测也能得到一些函数的用法，当然其它的静态分析我感觉搞出来的可能性就比较小了，还是调试比较好<br>
+          
+      
+    </p></div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
     </div>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+        <p class="article-more-link">
+          <a href="/2019/04/29/starctf-Reverse-wp/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
   </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2019/04/22/多表置换密码破解/" class="archive-article-date">
-      <time datetime="2019-04-22T15:53:18.000Z" itemprop="datePublished">04-22</time>
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-多表置换密码破解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/22/多表置换密码破解/" class="article-date">
+      <time datetime="2019-04-22T15:53:18.000Z" itemprop="datePublished">2019-04-22</time>
 </a>
 
 
-        </div>
-         
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a>
+      <a class="article-title" href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a>
     </h1>
   
 
-        <div class="article-info info-on-archive">
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
           
+              <h2 id="凯撒密码"><a href="#凯撒密码" class="headerlink" title="凯撒密码"></a>凯撒密码</h2><p>在破解多表代换密码之前，让我们先来了解一下什么是简单的单表代换加密，凯撒密码就是一个简单的应用<br>原文: abcd 加密方式为将所有字符向右移动n位，如移动3位<br>密文: cdef<br>由于字母频度分析的出现，使得凯撒密码的破解变得很容易，这个将在后面说明，这也是多表代换加密破解的基础</p>
+<h2 id="维吉尼亚密码"><a href="#维吉尼亚密码" class="headerlink" title="维吉尼亚密码"></a>维吉尼亚密码</h2><p>这是一种改良版的凯撒密码<br>
+          
+      
+    </p></div>
+    
+    <div class="article-info article-info-index">
+      
+      
 
-          
+      
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
     </div>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+        <p class="article-more-link">
+          <a href="/2019/04/22/多表置换密码破解/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
   </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2019/04/06/Base-N/" class="archive-article-date">
-      <time datetime="2019-04-06T02:29:58.000Z" itemprop="datePublished">04-06</time>
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Base-N" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/06/Base-N/" class="article-date">
+      <time datetime="2019-04-06T02:29:58.000Z" itemprop="datePublished">2019-04-06</time>
 </a>
 
 
-        </div>
-         
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/06/Base-N/">Base N</a>
+      <a class="article-title" href="/2019/04/06/Base-N/">Base N</a>
     </h1>
   
 
-        <div class="article-info info-on-archive">
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
           
+              <h1 id="Base-N算法的实现"><a href="#Base-N算法的实现" class="headerlink" title="Base N算法的实现"></a>Base N算法的实现</h1><p>最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法<br>
+          
+      
+    </p></div>
+    
+    <div class="article-info article-info-index">
+      
+      
 
-          
+      
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
     </div>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
+      
+        <p class="article-more-link">
+          <a href="/2019/04/06/Base-N/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
     
+  </div>
+  
+</article>
 
+
+
+
+
+
+
+
+
+  
+    <article id="post-CRC算法初探" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/03/28/CRC算法初探/" class="article-date">
+      <time datetime="2019-03-28T11:59:36.000Z" itemprop="datePublished">2019-03-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/28/CRC算法初探/">CRC算法初探</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h1 id="CRC32算法"><a href="#CRC32算法" class="headerlink" title="CRC32算法"></a>CRC32算法</h1><h2 id="crc校验过程"><a href="#crc校验过程" class="headerlink" title="crc校验过程"></a>crc校验过程</h2><ul>
+<li>生成一个多项式记作G(x).</li>
+<li>设待发送的数据帧为B(x),那么假设G(x)长度为k，则在B(x)后添加k-1个0,即B(x)&lt;&lt;(k-1),生成新串H(x)</li>
+<li>计算H(x)%G(x)记作C,将C放入H(x)的最后k-1位生成N(x)，则N(x)一定整除G(x)，这是因为(H(x)-C)%G(x)==0,而 减去一个数等于加上它的补码，C为正数，因此C的补码==C，所以有(H(x)+C)%G(x)==0，因此N(x)%G(x)==0</li>
+<li>接收端只需要检验N(x)%G(x)==0与否即可知道数据是否出错
+          
+      
+    </li></ul></div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2019/03/28/CRC算法初探/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
+  
 </div>
       <footer id="footer">
     <div class="outer">

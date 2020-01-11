@@ -15,20 +15,18 @@
 
 
 
-<meta name="description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
-<meta name="keywords" content="算法">
+<meta name="description" content="字符串篇我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作123456789package mainimport &amp;quot;fmt&amp;quot;func main() &amp;#123;	var a,b string;	a = &amp;quot;123&amp;quot;;	fmt.Scanf(&amp;quot;%s&amp;quot;,&amp;amp;b);	fmt.Println(a+b);   // fmt.">
+<meta name="keywords" content="CTF">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Base N">
-<meta property="og:url" content="http://yoursite.com/2019/04/06/Base-N/index.html">
+<meta property="og:title" content="Golang Reverse总结">
+<meta property="og:url" content="http://yoursite.com/2019/07/21/Golang-Reverse总结/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
+<meta property="og:description" content="字符串篇我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作123456789package mainimport &amp;quot;fmt&amp;quot;func main() &amp;#123;	var a,b string;	a = &amp;quot;123&amp;quot;;	fmt.Scanf(&amp;quot;%s&amp;quot;,&amp;amp;b);	fmt.Println(a+b);   // fmt.">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190506174854.png">
-<meta property="og:updated_time" content="2019-11-04T09:25:03.869Z">
+<meta property="og:updated_time" content="2019-07-22T05:57:01.543Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Base N">
-<meta name="twitter:description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
-<meta name="twitter:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190506174854.png">
+<meta name="twitter:title" content="Golang Reverse总结">
+<meta name="twitter:description" content="字符串篇我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作123456789package mainimport &amp;quot;fmt&amp;quot;func main() &amp;#123;	var a,b string;	a = &amp;quot;123&amp;quot;;	fmt.Scanf(&amp;quot;%s&amp;quot;,&amp;amp;b);	fmt.Println(a+b);   // fmt.">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -60,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Base N | Just a binary noob~~</title>
+<title>Golang Reverse总结 | Just a binary noob~~</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -260,11 +258,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-Base-N" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Golang-Reverse总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/04/06/Base-N/" class="article-date">
-      <time datetime="2019-04-06T02:29:58.000Z" itemprop="datePublished">2019-04-06</time>
+      <a href="/2019/07/21/Golang-Reverse总结/" class="article-date">
+      <time datetime="2019-07-21T15:39:08.000Z" itemprop="datePublished">2019-07-21</time>
 </a>
 
 
@@ -279,7 +277,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Base N
+      Golang Reverse总结
     </h1>
   
 
@@ -290,7 +288,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CTF/">CTF</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -300,15 +298,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Base-N算法的实现"><a href="#Base-N算法的实现" class="headerlink" title="Base N算法的实现"></a>Base N算法的实现</h1><p>最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法<br><a id="more"></a></p>
-<h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><p>base64将每三个字节编码为4个字符，每6个bit决定一个字符，因此需要将输入的长度补全为3的倍数，下面这张图能很好的解释<br><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190506174854.png" alt></p>
-<h3 id="c-实现"><a href="#c-实现" class="headerlink" title="c++实现"></a>c++实现</h3><p>char* table=”ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/“;</p>
-<h4 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">base64_encode</span><span class="params">(<span class="keyword">char</span>* st,<span class="keyword">char</span>* s1)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="built_in">strlen</span>(st);</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span>* s = (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)<span class="built_in">malloc</span>(len+<span class="number">3</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;i++) s[i]=(<span class="keyword">unsigned</span> <span class="keyword">char</span>) st[i];</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">strlen</span>(st)%<span class="number">3</span>!=<span class="number">0</span> )</span><br><span class="line">	<span class="keyword">for</span> ( <span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>-<span class="built_in">strlen</span>(st)%<span class="number">3</span>;i++ )&#123;</span><br><span class="line">		s[len]='\x00';</span><br><span class="line">		len++;</span><br><span class="line">	&#125;<span class="comment">//补全为3的倍数</span></span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (j!=len)&#123;</span><br><span class="line">		s1[i] = table[ s[j]&gt;&gt;<span class="number">2</span> ];</span><br><span class="line">		s1[i+<span class="number">1</span>] = table[ (s[j]&amp;<span class="number">3</span>)&lt;&lt;<span class="number">4</span> | (s[j+<span class="number">1</span>]&gt;&gt;<span class="number">4</span>) ];</span><br><span class="line">		s1[i+<span class="number">2</span>] = table[ (s[j+<span class="number">1</span>]&amp;<span class="number">0xf</span>)&lt;&lt;<span class="number">2</span> | (s[j+<span class="number">2</span>]&gt;&gt;<span class="number">6</span>) ];</span><br><span class="line">		s1[i+<span class="number">3</span>] = table[ (s[j+<span class="number">2</span>]&amp;<span class="number">0x3f</span>) ];</span><br><span class="line">		i+=<span class="number">4</span>;</span><br><span class="line">		j+=<span class="number">3</span>;<span class="comment">//采用移位与或运算截取每6个bit</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">strlen</span>(st)%<span class="number">3</span>!=<span class="number">0</span> )&#123;</span><br><span class="line">		<span class="keyword">int</span> t = <span class="built_in">strlen</span>(st)%<span class="number">3</span>;</span><br><span class="line">		<span class="keyword">for</span> (j=<span class="number">1</span>;j&lt;=<span class="number">3</span>-t;j++)&#123;</span><br><span class="line">			s1[i-j]=<span class="string">'='</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="comment">//一个显然的规律，补一个0x00则需要再末尾添加1个=，补两个0x00则需要再末尾添加2个=</span></span><br><span class="line">	<span class="comment">//因此当需要补N个=时，直接从后往前覆盖掉N位</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">free</span>(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="解码"><a href="#解码" class="headerlink" title="解码"></a>解码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">index</span><span class="params">(<span class="keyword">char</span> s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (s==<span class="string">'='</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">64</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span> (s==table[i]) <span class="keyword">return</span> i;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">base64_decode</span><span class="params">(<span class="keyword">char</span> *st,<span class="keyword">char</span>* s1 )</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="built_in">strlen</span>(st);</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">if</span> (len%<span class="number">4</span>!=<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"error\n"</span>);<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;len;i+=<span class="number">4</span>)&#123;</span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">int</span> t = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> ( j=<span class="number">0</span>;j&lt;<span class="number">4</span>;j++)</span><br><span class="line">		t=(t&lt;&lt;<span class="number">6</span>) | index(st[i+j]); <span class="comment">//将每6个bit组合成24bit也就是3个字节</span></span><br><span class="line">        <span class="keyword">for</span> ( j=<span class="number">0</span>;j&lt;<span class="number">3</span>;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span> ((t&amp;<span class="number">0xff0000</span>)&gt;&gt;<span class="number">16</span>==<span class="number">0</span>) <span class="keyword">break</span>;<span class="comment">//每次取最高一字节</span></span><br><span class="line">        	s1[i/<span class="number">4</span>*<span class="number">3</span>+j] = (t&amp;<span class="number">0xff0000</span>)&gt;&gt;<span class="number">16</span>;</span><br><span class="line">        	t=t&lt;&lt;<span class="number">8</span>;</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="逆向识别"><a href="#逆向识别" class="headerlink" title="逆向识别"></a>逆向识别</h2><ul>
-<li>识别base家族的关键还是在于table表的识别，其次就是对这个算法的熟悉程度，比如说补齐成指定长度的操作，还有就是长度的收缩(解码)和扩展(编码)</li>
-<li>解码的识别相对要麻烦一些，有很多实现方式，例如在解码过程中可以预先把每个字符在表中的位置存下来，就不需要调用index函数，也可以像编码那样，采用移位与或运算截取其中的片段，而不需要组合成24bit</li>
-</ul>
+        <h1 id="字符串篇"><a href="#字符串篇" class="headerlink" title="字符串篇"></a>字符串篇</h1><p>我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line">func main() &#123;</span><br><span class="line">	var a,b string;</span><br><span class="line">	a = &quot;123&quot;;</span><br><span class="line">	fmt.Scanf(&quot;%s&quot;,&amp;b);</span><br><span class="line">	fmt.Println(a+b);</span><br><span class="line">   // fmt.Println(&quot;Hello, World!&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在IDA中反编译出的Golang的代码可读性非常差，因此我们直接分析其汇编代码<br>首先我们来分析一下fmt.Scanf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.text:000000000049E4EF mov     rcx, cs:os_Stdin</span><br><span class="line">.text:000000000049E4F6 lea     rdx, go_itab__os_File_io_Reader</span><br><span class="line">.text:000000000049E4FD mov     [rsp+80h+var_80], rdx</span><br><span class="line">.text:000000000049E501 mov     [rsp+80h+var_78], rcx</span><br><span class="line">.text:000000000049E506 lea     rcx, unk_4D2A8B  		//&quot;%s&quot;</span><br><span class="line">.text:000000000049E50D mov     [rsp+80h+var_70], rcx</span><br><span class="line">.text:000000000049E512 mov     [rsp+80h+var_68], 2</span><br><span class="line">.text:000000000049E51B lea     rcx, [rsp+80h+var_18] 	</span><br><span class="line">.text:000000000049E520 mov     [rsp+80h+var_60], rcx</span><br><span class="line">.text:000000000049E525 mov     [rsp+80h+var_58], 1</span><br><span class="line">.text:000000000049E52E mov     [rsp+80h+var_50], 1</span><br><span class="line">.text:000000000049E537 call    fmt_Fscanf</span><br><span class="line">.text:000000000049E53C mov     rax, [rsp+80h+var_30]</span><br><span class="line">.text:000000000049E541 mov     rcx, [rax]</span><br><span class="line">.text:000000000049E544 mov     rax, [rax+8]</span><br></pre></td></tr></table></figure></p>
+<p>在识别fmt.Scanf的各个参数时，我们只需要重点关注格式化字符串，它一般的传参形式为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lea rcx , st_addr</span><br><span class="line">mov [rsp+xx],rcx 传入字符串地址</span><br><span class="line">mov [rsp+yy],3 传入字符串的长度（这是因为golang中字符串全部都放在了一块，而没有用\x00来截断，因此需要指定长度）</span><br></pre></td></tr></table></figure></p>
+<p>而传入的参数会保存在栈中，我们只需要观察函数的返回值就能找到（这里需要注意的是Golang里函数的返回值可能不止一个，且不保存在寄存器中，而是用栈来传递）可以注意到，这里函数返回了一个参数，也就是读入的数据类型string<br><code>.text:000000000049E53C mov     rax, [rsp+80h+var_30]</code><br>由于string类型在Golang内存中的表示方法可以近似等价为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">struct string&#123;</span><br><span class="line">	QWORD point_to_str;</span><br><span class="line">	QWORD len;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此程序在此处分别取出了字符串，和它的长度<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.text:000000000049E541 mov     rcx, [rax]</span><br><span class="line">.text:000000000049E544 mov     rax, [rax+8]</span><br></pre></td></tr></table></figure></p>
+<p>字符串进行+运算时，需要调用runtime_concatstring2函数，该函数的参数就是若干个字符串地址，和他们对应的长度<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.text:000000000049E550 lea     rdx, const_st_123</span><br><span class="line">.text:000000000049E557 mov     [rsp+80h+var_78], rdx</span><br><span class="line">.text:000000000049E55C mov     [rsp+80h+var_70], 3</span><br><span class="line">.text:000000000049E565 mov     [rsp+80h+var_68], rcx</span><br><span class="line">.text:000000000049E56A mov     [rsp+80h+var_60], rax</span><br><span class="line">.text:000000000049E56F call    runtime_concatstring2</span><br></pre></td></tr></table></figure></p>
+<p>而函数的返回值有两个，一个是合并后的字符串，一个是长度，并且返回的两个参数并不是一个string的对象，因此需要调用runtime_convTstring用这两个参数来创建一个string的对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.text:000000000049E574 mov     rax, [rsp+80h+var_50]</span><br><span class="line">.text:000000000049E579 mov     rcx, [rsp+80h+var_58]</span><br><span class="line">.text:000000000049E57E mov     [rsp+80h+var_80], rcx</span><br><span class="line">.text:000000000049E582 mov     [rsp+80h+var_78], rax</span><br><span class="line">.text:000000000049E587 call    runtime_convTstring</span><br></pre></td></tr></table></figure></p>
+<p>创建后的string对象就可以用fmt.Println来输出了，这里和fmt.Scanf原理差不多，就不继续解释了</p>
+<p>参考链接：<br><a href="https://draveness.me/golang/basic/golang-function-call.html" target="_blank" rel="noopener">https://draveness.me/golang/basic/golang-function-call.html</a></p>
 
       
     </div>
@@ -317,13 +316,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/04/06/Base-N/">Base N</a></p>
+        <p><span>本文标题:</span><a href="/2019/07/21/Golang-Reverse总结/">Golang Reverse总结</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
-        <p><span>发布时间:</span>2019-04-06, 10:29:58</p>
-        <p><span>最后更新:</span>2019-11-04, 17:25:03</p>
+        <p><span>发布时间:</span>2019-07-21, 23:39:08</p>
+        <p><span>最后更新:</span>2019-07-22, 13:57:01</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/04/06/Base-N/" title="Base N">http://yoursite.com/2019/04/06/Base-N/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/04/06/Base-N/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/07/21/Golang-Reverse总结/" title="Golang Reverse总结">http://yoursite.com/2019/07/21/Golang-Reverse总结/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/07/21/Golang-Reverse总结/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -336,15 +335,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/04/22/多表置换密码破解/">
-                    多表置换密码破解
+                <a href="/2019/08/01/Unicorn初步/">
+                    Unicorn初步
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/03/28/CRC算法初探/">
-                    CRC算法初探
+                <a href="/2019/07/14/windows下vc-异常处理机制/">
+                    windows下vc++异常处理机制
                 </a>
             </div>
         
@@ -356,7 +355,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Base-N算法的实现"><span class="toc-number">1.</span> <span class="toc-text">Base N算法的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Base64"><span class="toc-number">1.1.</span> <span class="toc-text">Base64</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#c-实现"><span class="toc-number">1.1.1.</span> <span class="toc-text">c++实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#编码"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解码"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">解码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逆向识别"><span class="toc-number">1.2.</span> <span class="toc-text">逆向识别</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#字符串篇"><span class="toc-number">1.</span> <span class="toc-text">字符串篇</span></a></li></ol>
         
     </div>
     <style>
@@ -392,7 +391,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"Base N　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"Golang Reverse总结　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -412,7 +411,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/04/22/多表置换密码破解/" title="上一篇: 多表置换密码破解">
+            <a href="/2019/08/01/Unicorn初步/" title="上一篇: Unicorn初步">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -420,7 +419,7 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/03/28/CRC算法初探/" title="下一篇: CRC算法初探">
+            <a href="/2019/07/14/windows下vc-异常处理机制/" title="下一篇: windows下vc++异常处理机制">
                 <i class="fa fa-angle-right"></i>
             </a>
         

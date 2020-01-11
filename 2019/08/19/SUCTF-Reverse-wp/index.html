@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="lxf">
+
+
+
+<meta name="description" content="Sign_In简单RSA，分解n即可1234567891011import gmpy2c = 0xad939ff59f6e70bcbfad406f2494993757eee98b91bc244184a377520d06fc35p = 282164587459512124844245113950593348271q = 366669102002966856876605669837014229419n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SUCTF Re wp">
+<meta property="og:url" content="http://yoursite.com/2019/08/19/SUCTF-Reverse-wp/index.html">
+<meta property="og:site_name" content="Just a binary noob~~">
+<meta property="og:description" content="Sign_In简单RSA，分解n即可1234567891011import gmpy2c = 0xad939ff59f6e70bcbfad406f2494993757eee98b91bc244184a377520d06fc35p = 282164587459512124844245113950593348271q = 366669102002966856876605669837014229419n">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-19T07:54:19.825Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SUCTF Re wp">
+<meta name="twitter:description" content="Sign_In简单RSA，分解n即可1234567891011import gmpy2c = 0xad939ff59f6e70bcbfad406f2494993757eee98b91bc244184a377520d06fc35p = 282164587459512124844245113950593348271q = 366669102002966856876605669837014229419n">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Just a binary noob~~" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>SUCTF Re wp | Just a binary noob~~</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/1.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">lxf</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="/842907395@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF/">CTF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">Just a binary noob~~</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">lxf</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/1.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">lxf</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="/842907395@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-SUCTF-Reverse-wp" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/08/19/SUCTF-Reverse-wp/" class="article-date">
+      <time datetime="2019-08-19T02:40:18.000Z" itemprop="datePublished">2019-08-19</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SUCTF Re wp
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Sign-In"><a href="#Sign-In" class="headerlink" title="Sign_In"></a>Sign_In</h1><p>简单RSA，分解n即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import gmpy2</span><br><span class="line">c = 0xad939ff59f6e70bcbfad406f2494993757eee98b91bc244184a377520d06fc35</span><br><span class="line">p = 282164587459512124844245113950593348271</span><br><span class="line">q = 366669102002966856876605669837014229419</span><br><span class="line">n = p * q;</span><br><span class="line">e = 65537</span><br><span class="line">phin = (p - 1) * (q - 1)</span><br><span class="line">d = gmpy2.invert(e, phin) </span><br><span class="line">m = gmpy2.powmod(c,d,n)</span><br><span class="line">print hex(m);</span><br><span class="line">print hex(m)[2:].decode(&apos;hex&apos;);</span><br></pre></td></tr></table></figure></p>
+<h1 id="hard-Cpp"><a href="#hard-Cpp" class="headerlink" title="hard_Cpp"></a>hard_Cpp</h1><p>被混淆过的程序，调试一下，还是很容易看懂<br>首先检查了读入的时间，超过一秒直接退出<br>对每两个字节加密，然后校验，dfs一下就出来了，一定要记得数字大小超限时要&amp;0xff截断，被这个还坑了挺久</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">s = [ 0 ]*22; </span><br><span class="line">enc = [243L, 46L, 24L, 54L, 225L, 76L, 34L, 209L, 249L, 140L, 64L, 118L, 244L, 14L, 0L, 5L, 163L, 144L, 14L, 165L]</span><br><span class="line"></span><br><span class="line">def func(i,j):</span><br><span class="line"></span><br><span class="line">    v34 = s[i]^j</span><br><span class="line">    v33 = s[j-1+i];</span><br><span class="line">    v11 = v33%7</span><br><span class="line">    v35 = v11+v34;</span><br><span class="line"></span><br><span class="line">    v32  = v35;</span><br><span class="line">    v31 = s[j-1+i];</span><br><span class="line">    v12 = v31^18;</span><br><span class="line">    v30 = v12;</span><br><span class="line">    v13 = v30*3</span><br><span class="line"></span><br><span class="line">    v29 = v13;</span><br><span class="line">    v14 = v29 + 2;</span><br><span class="line">    v15 = v32 ^ v14;</span><br><span class="line"></span><br><span class="line">    return v15&amp;0xff;</span><br><span class="line"></span><br><span class="line">def dfs(i,j):</span><br><span class="line"></span><br><span class="line">    if i==len(enc)+1:</span><br><span class="line">        print &apos;get---&gt;&apos;</span><br><span class="line">        print i,&apos;&apos;.join( [  chr(j) for j in s ] );</span><br><span class="line">        return ;</span><br><span class="line"></span><br><span class="line">    if i == 1:</span><br><span class="line">        for _ in range(32,127):</span><br><span class="line">            for __ in range(32,127):</span><br><span class="line"></span><br><span class="line">                s[i]=_;</span><br><span class="line">                s[j-1+i]=__;</span><br><span class="line">                if func(i,j)==enc[i-1]:</span><br><span class="line">                    dfs(i+1,j);</span><br><span class="line">    else:</span><br><span class="line">        for _ in range(32,127):</span><br><span class="line">            s[i]=_;       </span><br><span class="line">            if func(i,j)==enc[i-1]:        </span><br><span class="line">                dfs(i+1,j);</span><br><span class="line"></span><br><span class="line">dfs(1,0);</span><br></pre></td></tr></table></figure>
+<p>flag{mY-CurR1ed_Fns}</p>
+<h1 id="WinRev"><a href="#WinRev" class="headerlink" title="WinRev"></a>WinRev</h1><p>首先调试发现，“Stop debugging program!”，遂patch掉，与此同时发现程序解密了不少字符串，一部分是和反调试相关<br>然后进入Main，开头的函数CreateEventW初始化了三个事件，然后还有一些不知道在干啥的操作<br>main函数中开启了一个线程<br>该线程的作用</p>
+<ul>
+<li>获取进程名，计算其md5值，用于寻找是否有调试器进程存在，通过后然后解密了一段代码后setEventW</li>
+<li>简单的反调试了一下</li>
+<li>等待多个事件的发生<br>main函数的第一个check很简单，通过后会再一次解密一段代码，然后setEventW<br>第二个check为打开文件WinRev.exe:signature，计算其MD5值并校验，理论上不可逆，遂不管它，同时这个文件名也是非法的，把 ‘:’ 改成正常的字母就好，通过校验后第三次解密一段代码，setEventW<br>三个事件同时满足后，分配一段内存空间，并将解密后的代码(dll)载入，然后开辟一段共享内存空间，并写入一段数据。然后再dll中进行最后一次check，要求输入flag，但奇怪的地方是该dll调用库函数puts时会直接出错，导致我无法调试，因此把该dll dump出来，静态分析一下，发现程序向共享数据块请求了一段数据，然后传入Ak1i3aS3cre7K3\x00y进行AES加密，与flag做比较，遂解之、<br>相关脚本<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">import hashlib;</span><br><span class="line"></span><br><span class="line">def get_key1():</span><br><span class="line">    ret = [0]*18;</span><br><span class="line">    a = [47L, 31L, 32L, 46L, 52L, 4L, 55L, 45L, 16L, 57L, 124L, 34L, 123L, 117L, 10L, 56L, 57L, 33L]</span><br><span class="line">    v5 = [1,5,4,2,3,0];</span><br><span class="line">    for i in range(18):</span><br><span class="line">        ret[  6*(i/6)+v5[i%6] ] = a[i] ^ (6*(i/6)+v5[i%6]) ^0x45;</span><br><span class="line">    return &apos;&apos;.join( [  chr(i) for i in ret ]);</span><br><span class="line">print &apos;key1:&apos;,get_key1();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a = [</span><br><span class="line">0x94,</span><br><span class="line">0xBF,</span><br><span class="line">0x7A,</span><br><span class="line">0xC,</span><br><span class="line">0xA4,</span><br><span class="line">0x35,</span><br><span class="line">0x50,</span><br><span class="line">0xD1,</span><br><span class="line">0xC2,</span><br><span class="line">0x15,</span><br><span class="line">0xEC,</span><br><span class="line">0xEF,</span><br><span class="line">0x9D,</span><br><span class="line">0x9A,</span><br><span class="line">0xAA,</span><br><span class="line">0x56]</span><br><span class="line">from  Crypto.Cipher import AES</span><br><span class="line">def aes_decrypt(cipher,key,iv=None):</span><br><span class="line">    k = AES.new(key,AES.MODE_ECB);</span><br><span class="line">    # k = AES.new(key,AES.MODE_CBC,iv);</span><br><span class="line">    plain = k.decrypt(cipher);</span><br><span class="line">    return plain;</span><br><span class="line">a = &apos;&apos;.join( [ chr(i) for i in a ] );</span><br><span class="line">print aes_decrypt(a,&quot;Ak1i3aS3cre7K3y\x00&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>flag{Ak1rAWin!}</p>
+<h1 id="Babyunic"><a href="#Babyunic" class="headerlink" title="Babyunic"></a>Babyunic</h1><p>程序以MIPS 大端模式载入了一段数据，并用unicorn模拟执行<br>所以分析的重点在于该MIPS代码，由于不知道怎么反编译，所以只能对着汇编看<br>程序逻辑为</p>
+<ul>
+<li>计算输入长度</li>
+<li>对每一位进行了简单的加密 <code>((flag[i]&lt;&lt;3)&amp;0xff) | ((flag[i]&gt;&gt;5)&amp;0xff)</code></li>
+<li>然后就是若干个方程组<br>所以，写个脚本清洗一下这些方程组，但需要注意的是这里是大端模式，所以最后待比较的密文不需要逆序<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">from unicorn import *</span><br><span class="line">from unicorn.mips_const import *</span><br><span class="line">from capstone import *</span><br><span class="line">from z3 import *;</span><br><span class="line">mu = Uc(UC_ARCH_MIPS,UC_MODE_MIPS32|UC_MODE_BIG_ENDIAN);</span><br><span class="line">base = 0x400000;</span><br><span class="line">base_size = 1024*1024;</span><br><span class="line">stack_addr = 0;</span><br><span class="line">stack_size = 1024*1024;</span><br><span class="line">file = open(&apos;func&apos;,&apos;rb+&apos;);</span><br><span class="line">CODE = &quot;&quot;;</span><br><span class="line">flag = &quot;a&quot;*42;</span><br><span class="line"># flag = [ BitVec(&apos;x%d&apos;%i,8)for i in range(16) ]</span><br><span class="line">while  True:</span><br><span class="line">    t=file.read();</span><br><span class="line">    if t==&quot;&quot;:</span><br><span class="line">        break</span><br><span class="line">    CODE+=t;</span><br><span class="line">mu.mem_map(base,0x200000);</span><br><span class="line">mu.mem_map(0x10000000,0x200000);</span><br><span class="line">mu.mem_write(base,CODE);</span><br><span class="line">mu.mem_write(0x101FFB00,flag);</span><br><span class="line">mu.reg_write(UC_MIPS_REG_SP,0x101FFFC0);</span><br><span class="line">mu.reg_write(UC_MIPS_REG_FP,0x101FFFC0);</span><br><span class="line">mu.reg_write(UC_MIPS_REG_A1,0x101FFA00);</span><br><span class="line">mu.reg_write(UC_MIPS_REG_A0,0x101FFB00);</span><br><span class="line">md = Cs(CS_ARCH_MIPS, CS_MODE_MIPS32 + CS_MODE_BIG_ENDIAN)</span><br><span class="line">map = &#123;&#125;;</span><br><span class="line">idx=0;</span><br><span class="line">st = &quot;&quot;</span><br><span class="line">count=0;</span><br><span class="line">def hook_code(mu,addr,size,user_data):</span><br><span class="line">    global idx</span><br><span class="line">    global st;</span><br><span class="line">    global count;</span><br><span class="line">    # ins_count+=1;</span><br><span class="line">    # print &apos;0x%x&apos;%(addr);</span><br><span class="line">    if addr&lt;0x004000CC:</span><br><span class="line">        return;</span><br><span class="line">    for i in md.disasm( str(mu.mem_read(addr,4)) , addr):</span><br><span class="line">        # print &apos;0x%x: %s %-6s %s&apos; % (i.address, str(i.bytes).encode(&apos;hex&apos;), i.mnemonic, i.op_str)</span><br><span class="line">        if addr&lt;0x00400374 and str(i.mnemonic)==&apos;lbu&apos; and  ( &quot;$v1, ($v1)&quot; in str(i.op_str) or &quot;$v0, ($v0)&quot; in str(i.op_str) ):</span><br><span class="line">            </span><br><span class="line">            if &quot;$v0, ($v0)&quot; in str(i.op_str) :</span><br><span class="line">                idx = mu.reg_read(UC_MIPS_REG_V0)-0x101FFB00;</span><br><span class="line">            else:</span><br><span class="line">                idx = mu.reg_read(UC_MIPS_REG_V1)-0x101FFB00;</span><br><span class="line">            # print hex(idx);</span><br><span class="line">            # map[ str(i.mnemonic) ]=1;</span><br><span class="line">            # print &apos;haha&apos;</span><br><span class="line">            # idx = </span><br><span class="line">            for j in md.disasm( str(mu.mem_read(addr+4,4)) , addr+4):</span><br><span class="line">                if j.mnemonic==&apos;addu&apos;:</span><br><span class="line">                    st=st+&quot;,+1&quot;;</span><br><span class="line">                elif j.mnemonic==&apos;move&apos;:</span><br><span class="line">                    # print st;</span><br><span class="line">                    st=&quot;1&quot;;</span><br><span class="line">                elif j.mnemonic==&apos;subu&apos;:</span><br><span class="line">                    st=st+&quot;,-1&quot;;</span><br><span class="line">        elif addr&gt;=0x00400374 and str(i.mnemonic)==&apos;lbu&apos; and   (&quot;$v1, ($v1)&quot; in str(i.op_str) or &quot;$a0, ($a0)&quot; in str(i.op_str)) :</span><br><span class="line">            if &quot;$a0, ($a0)&quot; in str(i.op_str) :</span><br><span class="line">                idx = mu.reg_read(UC_MIPS_REG_A0)-0x101FFB00;</span><br><span class="line">            else:</span><br><span class="line">                idx = mu.reg_read(UC_MIPS_REG_V1)-0x101FFB00;</span><br><span class="line">            for j in md.disasm( str(mu.mem_read(addr+4,4)) , addr+4):</span><br><span class="line">                if j.mnemonic==&apos;addu&apos;:</span><br><span class="line">                    st=st+&quot;,1&quot;;</span><br><span class="line">                elif j.mnemonic==&apos;move&apos;:</span><br><span class="line">                    # st=&quot;&quot;</span><br><span class="line">                    print st+&apos;]&apos;;</span><br><span class="line">                    count+=1;</span><br><span class="line">                    st=&quot;[1&quot;;</span><br><span class="line">                elif j.mnemonic==&apos;subu&apos;:</span><br><span class="line">                    st=st+&quot;,-1&quot;;</span><br><span class="line">mu.hook_add(UC_HOOK_CODE,hook_code);</span><br><span class="line"># print &apos;[+] Start&apos;</span><br><span class="line">mu.emu_start(0x400000,0x40706C);</span><br><span class="line"># print len( str(mu.mem_read(0x101FFA00,200)).encode(&apos;hex&apos;) );</span><br><span class="line">print st+&apos;]&apos;</span><br><span class="line">print str(mu.mem_read(0x101FFA00,200))[164:168]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>得到方程组的参数后矩阵乘一下得到答案</p>
+<p>[154,171,24,161,54,222,172,116,129,18,139,152,127,247,36,124,43,90,97,138,238,95,141,237,26,227,152,154,167,54,141,166,139,66,216,129,94,164,69,188,33,194]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">flag = [154,171,24,161,54,222,172,116,129,18,139,152,127,247,36,124,43,90,97,138,238,95,141,237,26,227,152,154,167,54,141,166,139,66,216,129,94,164,69,188,33,194]</span><br><span class="line">re=&quot;&quot;</span><br><span class="line">for i in range(42):</span><br><span class="line">	flag[i] ^=i;</span><br><span class="line">	flag[i] = ((flag[i]&lt;&lt;5)&amp;0xff) | ((flag[i]&gt;&gt;3)&amp;0xff)</span><br><span class="line">	</span><br><span class="line">	re+=chr(flag[i]);</span><br><span class="line">print re;</span><br></pre></td></tr></table></figure>
+<p>SUCTF{Un1c0rn_Engin3_Is_@_P0wer7ul_TO0ls!}</p>
+<h1 id="Rev"><a href="#Rev" class="headerlink" title="Rev"></a>Rev</h1><p>反编译后的代码极其恶心，可读性几乎没有，大多数分析的结果都是基于调试得到的</p>
+<ul>
+<li>检查输入的符号只能有3个</li>
+<li>第一个符号位于10位置</li>
+<li>第一个符号前的字符要是suctf（与第二条自相矛盾。不知道为什么，因此我直接将第二个check给patch掉了）</li>
+<li>第二个符号到第一个符号中间字符只能是ABCDEFGabcdefg中的4个，且大小顺序每次递增2，且只能是大写字符，那就只能是ACEG</li>
+<li>第二个符号与第三个符号之间的字符只能是0-9，长度&lt;0xa，然后就是一个check<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">if ( v62 )</span><br><span class="line">    &#123;</span><br><span class="line">      do</span><br><span class="line">      &#123;</span><br><span class="line">        v3 = *(char *)v60 + 2 * (5 * v3 - 24);</span><br><span class="line">        v60 = (__int64 *)((char *)v60 + 1);</span><br><span class="line">      &#125;</span><br><span class="line">      while ( (char *)v60 - (char *)v59 != v62 );</span><br><span class="line">    &#125;</span><br><span class="line">    if ( !(v3 &amp; 1)</span><br><span class="line">      &amp;&amp; (((int)(1234 * v3 + 5678) / 4396) ^ 0xABCDDCBA) == 0xABCDB8B9</span><br><span class="line">      &amp;&amp; (((int)(2334 * v3 + 9875) / 7777) ^ 0x12336790) == 0x1233FC70 )</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from z3 import *</span><br><span class="line">ans = Solver();</span><br><span class="line">v3 = BitVec(&apos;x&apos;,32);</span><br><span class="line">ans.add( v3&amp;1==0 );</span><br><span class="line">ans.add( ( ((1234 * v3 + 5678)&amp;0xffffffff) / 4396) ^ 0xABCDDCBA == 0xABCDB8B9 );</span><br><span class="line">ans.add( ( ((2334 * v3 + 9875)&amp;0xffffffff) / 7777) ^ 0x12336790 == 0x1233FC70 );</span><br><span class="line">if ans.check()==sat :</span><br><span class="line">    m = ans.model();</span><br><span class="line">    t = m[v3].as_long().real;</span><br><span class="line">    print &apos;suctf&#123;&apos;+&apos;ACEG&apos;+str(t)+&apos;&#125;&apos;;</span><br><span class="line">else :</span><br><span class="line">    print &quot;error&quot;;</span><br></pre></td></tr></table></figure>
+<p>suctf{ACEG31415926}</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/08/19/SUCTF-Reverse-wp/">SUCTF Re wp</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
+        <p><span>发布时间:</span>2019-08-19, 10:40:18</p>
+        <p><span>最后更新:</span>2019-08-19, 15:54:19</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/08/19/SUCTF-Reverse-wp/" title="SUCTF Re wp">http://yoursite.com/2019/08/19/SUCTF-Reverse-wp/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/08/19/SUCTF-Reverse-wp/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2019/09/01/TokyoWesternsCTF-Reverse-wp/">
+                    TokyoWesternsCTF Reverse wp
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/08/11/32位PWN栈溢出setbuf的利用/">
+                    32位PWN栈溢出setbuf的利用
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Sign-In"><span class="toc-number">1.</span> <span class="toc-text">Sign_In</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hard-Cpp"><span class="toc-number">2.</span> <span class="toc-text">hard_Cpp</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WinRev"><span class="toc-number">3.</span> <span class="toc-text">WinRev</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Babyunic"><span class="toc-number">4.</span> <span class="toc-text">Babyunic</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rev"><span class="toc-number">5.</span> <span class="toc-text">Rev</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"SUCTF Re wp　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2019/09/01/TokyoWesternsCTF-Reverse-wp/" title="上一篇: TokyoWesternsCTF Reverse wp">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/08/11/32位PWN栈溢出setbuf的利用/" title="下一篇: 32位PWN栈溢出setbuf的利用">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/11/24/Windows-本地提权/">Windows 本地提权</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/01/TokyoWesternsCTF-Reverse-wp/">TokyoWesternsCTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/19/SUCTF-Reverse-wp/">SUCTF Re wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/11/32位PWN栈溢出setbuf的利用/">32位PWN栈溢出setbuf的利用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/05/De1taCTF-Reverse-WP/">De1taCTF Reverse WP</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/01/Unicorn初步/">Unicorn初步</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/21/Golang-Reverse总结/">Golang Reverse总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/14/windows下vc-异常处理机制/">windows下vc++异常处理机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/28/QWB2019-babyaeg-详解/">QWB2019 babyaeg 详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/20/RCTF-Reverse-wp/">RCTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/04/lex-yacc-lex入门/">lex && yacc lex入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/Base-N/">Base N</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/CRC算法初探/">CRC算法初探</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 lxf
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit" title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+             title: "a.article-title, .article-more-link a", 
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

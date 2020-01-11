@@ -15,17 +15,17 @@
 
 
 
-<meta name="description" content="逆向工程爱好者">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="模拟一个 x86架构 程序首先引入unicorn的模块，并引入常量12from unicorn import *from unicorn.x86_const import * 初始化unicorn的引擎12mu = Uc(UC_ARCH_X86,UC_MODE_32);# 同时还有 UC_MODE_64 64位模式 初始化程序1234base = 0x400000;指定程序载入基址base_siz">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unicorn初步">
+<meta property="og:url" content="http://yoursite.com/2019/08/01/Unicorn初步/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="逆向工程爱好者">
+<meta property="og:description" content="模拟一个 x86架构 程序首先引入unicorn的模块，并引入常量12from unicorn import *from unicorn.x86_const import * 初始化unicorn的引擎12mu = Uc(UC_ARCH_X86,UC_MODE_32);# 同时还有 UC_MODE_64 64位模式 初始化程序1234base = 0x400000;指定程序载入基址base_siz">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-28T13:05:43.498Z">
+<meta property="og:updated_time" content="2019-08-01T05:30:01.460Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
-<meta name="twitter:description" content="逆向工程爱好者">
+<meta name="twitter:title" content="Unicorn初步">
+<meta name="twitter:description" content="模拟一个 x86架构 程序首先引入unicorn的模块，并引入常量12from unicorn import *from unicorn.x86_const import * 初始化unicorn的引擎12mu = Uc(UC_ARCH_X86,UC_MODE_32);# 同时还有 UC_MODE_64 64位模式 初始化程序1234base = 0x400000;指定程序载入基址base_siz">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -57,7 +57,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>categories | Just a binary noob~~</title>
+<title>Unicorn初步 | Just a binary noob~~</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -67,7 +67,7 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: false,
+        isPost: true,
         isArchive: false,
         isTag: false,
         isCategory: false,
@@ -257,11 +257,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Unicorn初步" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/categories/index.html" class="article-date">
-      <time datetime="2019-03-28T13:05:12.000Z" itemprop="datePublished">2019-03-28</time>
+      <a href="/2019/08/01/Unicorn初步/" class="article-date">
+      <time datetime="2019-08-01T04:19:56.000Z" itemprop="datePublished">2019-08-01</time>
 </a>
 
 
@@ -276,7 +276,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      categories
+      Unicorn初步
     </h1>
   
 
@@ -293,36 +293,83 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <style>
-    .article-meta { display: none; }
-    #container .article .article-title { padding-right: 0; }
-    .article-header {
-        padding: 0;
-        padding-top: 26px;
-        border-left: none;
-        text-align: center;
-    }
-    .article-header:hover { border-left: none; }
-    .article-title { font-size: 1.6em }
-    .article-entry hr { margin: 0;}
-    .article-meta,
-    #container .article-info-post.article-info { display: none;}
-    #container .article .article-title { padding: 0; }
-</style>
+        <h1 id="模拟一个-x86架构-程序"><a href="#模拟一个-x86架构-程序" class="headerlink" title="模拟一个 x86架构 程序"></a>模拟一个 x86架构 程序</h1><p>首先引入unicorn的模块，并引入常量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from unicorn import *</span><br><span class="line">from unicorn.x86_const import *</span><br></pre></td></tr></table></figure></p>
+<p>初始化unicorn的引擎<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mu = Uc(UC_ARCH_X86,UC_MODE_32);</span><br><span class="line"># 同时还有 UC_MODE_64 64位模式</span><br></pre></td></tr></table></figure></p>
+<p>初始化程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">base = 0x400000;指定程序载入基址</span><br><span class="line">base_size = 1024*1024;</span><br><span class="line">stack_addr = 0;</span><br><span class="line">stack_size = 1024*1024;</span><br></pre></td></tr></table></figure></p>
+<p>为代码和栈空间分配一段内存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mu.mem_map(base,base_size);</span><br><span class="line">mu.mem_map(stack_addr,stack_size);</span><br><span class="line">mu.mem_write(base,CODE); #CODE为待载入的二进制程序代码,写入内存</span><br><span class="line">mu.reg_write(UC_X86_REG_RSP,stack_addr+stack_size-1); #分配一段栈空间</span><br><span class="line">mu.reg_write(UC_X86_REG_RBP,UC_X86_REG_RSP);</span><br></pre></td></tr></table></figure></p>
+<p>然后我们就可以开始模拟执行了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mu.emu_start(start_addr,end_addr);</span><br></pre></td></tr></table></figure></p>
+<p>由于unicorn无法模拟syscall，和一系列的库函数，因此我们需要针对性的hook掉这些代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def hook_code(mu,addr,size,user_data):</span><br><span class="line">	global ins_count</span><br><span class="line">	ins_count+=1;</span><br><span class="line">mu.hook_add(UC_HOOK_CODE,hook_code);# 每执行一条指令就调用一次该函数</span><br></pre></td></tr></table></figure></p>
+<p>除了hook每一条指令外，我们还可以hook基本块，和内存操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def hook_block(mu, address, size, user_data):</span><br><span class="line">	global block_count</span><br><span class="line">	block_count+=1;</span><br><span class="line">mu.hook_add(UC_HOOK_BLOCK,hook_block);#每执行一个基本块就调用一次</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def hook_mem_access(mu,access,size,value,user_data):</span><br><span class="line">	if access == UC_MEM_WRITE:</span><br><span class="line">        print(&quot;&gt;&gt;&gt; Memory is being WRITE at 0x%x, data size = %u, data value = 0x%x&quot; \</span><br><span class="line">                %(address, size, value))</span><br><span class="line">    else:   # READ</span><br><span class="line">        print(&quot;&gt;&gt;&gt; Memory is being READ at 0x%x, data size = %u&quot; \</span><br><span class="line">                %(address, size))</span><br><span class="line">mu.hook_add(UC_HOOK_MEM_WRITE,hook_mem_access);</span><br><span class="line">mu.hook_add(UC_HOOK_MEM_READ,hook_mem_access);# hook内存写入及读出</span><br></pre></td></tr></table></figure>
+<p>一些有用的API</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">saved_context = mu.context_save()#保存寄存器的状态</span><br><span class="line">mu.context_restore(saved_context)#恢复</span><br><span class="line">mu.mem_read(addr,size)#从内存中读入</span><br><span class="line">mu.reg_read(UC_X86_REG_RBP);#读取寄存器的内容</span><br></pre></td></tr></table></figure>
 
-
-          
-        
       
     </div>
     
   </div>
   
     
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/08/01/Unicorn初步/">Unicorn初步</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
+        <p><span>发布时间:</span>2019-08-01, 12:19:56</p>
+        <p><span>最后更新:</span>2019-08-01, 13:30:01</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/08/01/Unicorn初步/" title="Unicorn初步">http://yoursite.com/2019/08/01/Unicorn初步/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/08/01/Unicorn初步/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
 
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2019/08/05/De1taCTF-Reverse-WP/">
+                    De1taCTF Reverse WP
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/07/21/Golang-Reverse总结/">
+                    Golang Reverse总结
+                </a>
+            </div>
+        
+    </nav>
 
   
 </article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#模拟一个-x86架构-程序"><span class="toc-number">1.</span> <span class="toc-text">模拟一个 x86架构 程序</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
 
 
 
@@ -340,7 +387,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"categories　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"Unicorn初步　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -355,6 +402,26 @@
 
     
 
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2019/08/05/De1taCTF-Reverse-WP/" title="上一篇: De1taCTF Reverse WP">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/07/21/Golang-Reverse总结/" title="下一篇: Golang Reverse总结">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/11/24/Windows-本地提权/">Windows 本地提权</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/01/TokyoWesternsCTF-Reverse-wp/">TokyoWesternsCTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/19/SUCTF-Reverse-wp/">SUCTF Re wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/11/32位PWN栈溢出setbuf的利用/">32位PWN栈溢出setbuf的利用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/05/De1taCTF-Reverse-WP/">De1taCTF Reverse WP</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/01/Unicorn初步/">Unicorn初步</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/21/Golang-Reverse总结/">Golang Reverse总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/14/windows下vc-异常处理机制/">windows下vc++异常处理机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/28/QWB2019-babyaeg-详解/">QWB2019 babyaeg 详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/20/RCTF-Reverse-wp/">RCTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/04/lex-yacc-lex入门/">lex && yacc lex入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/Base-N/">Base N</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/CRC算法初探/">CRC算法初探</a></li></ul>
 
 
 

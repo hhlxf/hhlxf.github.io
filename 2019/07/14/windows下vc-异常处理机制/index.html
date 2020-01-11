@@ -15,20 +15,26 @@
 
 
 
-<meta name="description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
-<meta name="keywords" content="算法">
+<meta name="description" content="异常处理流程分析 首先当发生用户态异常时，os会接收该异常，并判断调试器是否要处理该异常，若不处理，则会进入KiUserExceptionDispatcher来尝试对该异常进行分发 调用RtlDispatchException来寻找异常处理器，首先搜索VEH链，若无法处理该异常，则通过SEH来处理 SEH处理时，会循环遍历SEH链表，调用RtlExcuteHandlerForException,检">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Base N">
-<meta property="og:url" content="http://yoursite.com/2019/04/06/Base-N/index.html">
+<meta property="og:title" content="windows下vc++异常处理机制">
+<meta property="og:url" content="http://yoursite.com/2019/07/14/windows下vc-异常处理机制/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
+<meta property="og:description" content="异常处理流程分析 首先当发生用户态异常时，os会接收该异常，并判断调试器是否要处理该异常，若不处理，则会进入KiUserExceptionDispatcher来尝试对该异常进行分发 调用RtlDispatchException来寻找异常处理器，首先搜索VEH链，若无法处理该异常，则通过SEH来处理 SEH处理时，会循环遍历SEH链表，调用RtlExcuteHandlerForException,检">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190506174854.png">
-<meta property="og:updated_time" content="2019-11-04T09:25:03.869Z">
+<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/Snipaste_2019-07-14_20-28-35.png">
+<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715095524.png">
+<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715095923.png">
+<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715100202.png">
+<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715101009.png">
+<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715101141.png">
+<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715101407.png">
+<meta property="og:image" content="c:/Users/lxf/AppData/Roaming/Typora/typora-user-images/1563157069651.png">
+<meta property="og:updated_time" content="2019-07-16T02:16:51.184Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Base N">
-<meta name="twitter:description" content="Base N算法的实现最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法">
-<meta name="twitter:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190506174854.png">
+<meta name="twitter:title" content="windows下vc++异常处理机制">
+<meta name="twitter:description" content="异常处理流程分析 首先当发生用户态异常时，os会接收该异常，并判断调试器是否要处理该异常，若不处理，则会进入KiUserExceptionDispatcher来尝试对该异常进行分发 调用RtlDispatchException来寻找异常处理器，首先搜索VEH链，若无法处理该异常，则通过SEH来处理 SEH处理时，会循环遍历SEH链表，调用RtlExcuteHandlerForException,检">
+<meta name="twitter:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/Snipaste_2019-07-14_20-28-35.png">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -60,7 +66,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Base N | Just a binary noob~~</title>
+<title>windows下vc++异常处理机制 | Just a binary noob~~</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -260,11 +266,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-Base-N" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-windows下vc-异常处理机制" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/04/06/Base-N/" class="article-date">
-      <time datetime="2019-04-06T02:29:58.000Z" itemprop="datePublished">2019-04-06</time>
+      <a href="/2019/07/14/windows下vc-异常处理机制/" class="article-date">
+      <time datetime="2019-07-14T00:28:40.000Z" itemprop="datePublished">2019-07-14</time>
 </a>
 
 
@@ -279,7 +285,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Base N
+      windows下vc++异常处理机制
     </h1>
   
 
@@ -289,10 +295,6 @@
         
 
         
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
-    </div>
-
         <div class="clearfix"></div>
       </div>
       
@@ -300,14 +302,44 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Base-N算法的实现"><a href="#Base-N算法的实现" class="headerlink" title="Base N算法的实现"></a>Base N算法的实现</h1><p>最近在题目中遇到了魔改的base家族，但是，原以为已经了解base家族的我竟然都没有认出来是base家族的算法，实在是菜的真实，因此再花一些时间实现一下base家族的算法<br><a id="more"></a></p>
-<h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><p>base64将每三个字节编码为4个字符，每6个bit决定一个字符，因此需要将输入的长度补全为3的倍数，下面这张图能很好的解释<br><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190506174854.png" alt></p>
-<h3 id="c-实现"><a href="#c-实现" class="headerlink" title="c++实现"></a>c++实现</h3><p>char* table=”ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/“;</p>
-<h4 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">base64_encode</span><span class="params">(<span class="keyword">char</span>* st,<span class="keyword">char</span>* s1)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="built_in">strlen</span>(st);</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span>* s = (<span class="keyword">unsigned</span> <span class="keyword">char</span>*)<span class="built_in">malloc</span>(len+<span class="number">3</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;i++) s[i]=(<span class="keyword">unsigned</span> <span class="keyword">char</span>) st[i];</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">strlen</span>(st)%<span class="number">3</span>!=<span class="number">0</span> )</span><br><span class="line">	<span class="keyword">for</span> ( <span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>-<span class="built_in">strlen</span>(st)%<span class="number">3</span>;i++ )&#123;</span><br><span class="line">		s[len]='\x00';</span><br><span class="line">		len++;</span><br><span class="line">	&#125;<span class="comment">//补全为3的倍数</span></span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (j!=len)&#123;</span><br><span class="line">		s1[i] = table[ s[j]&gt;&gt;<span class="number">2</span> ];</span><br><span class="line">		s1[i+<span class="number">1</span>] = table[ (s[j]&amp;<span class="number">3</span>)&lt;&lt;<span class="number">4</span> | (s[j+<span class="number">1</span>]&gt;&gt;<span class="number">4</span>) ];</span><br><span class="line">		s1[i+<span class="number">2</span>] = table[ (s[j+<span class="number">1</span>]&amp;<span class="number">0xf</span>)&lt;&lt;<span class="number">2</span> | (s[j+<span class="number">2</span>]&gt;&gt;<span class="number">6</span>) ];</span><br><span class="line">		s1[i+<span class="number">3</span>] = table[ (s[j+<span class="number">2</span>]&amp;<span class="number">0x3f</span>) ];</span><br><span class="line">		i+=<span class="number">4</span>;</span><br><span class="line">		j+=<span class="number">3</span>;<span class="comment">//采用移位与或运算截取每6个bit</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> ( <span class="built_in">strlen</span>(st)%<span class="number">3</span>!=<span class="number">0</span> )&#123;</span><br><span class="line">		<span class="keyword">int</span> t = <span class="built_in">strlen</span>(st)%<span class="number">3</span>;</span><br><span class="line">		<span class="keyword">for</span> (j=<span class="number">1</span>;j&lt;=<span class="number">3</span>-t;j++)&#123;</span><br><span class="line">			s1[i-j]=<span class="string">'='</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="comment">//一个显然的规律，补一个0x00则需要再末尾添加1个=，补两个0x00则需要再末尾添加2个=</span></span><br><span class="line">	<span class="comment">//因此当需要补N个=时，直接从后往前覆盖掉N位</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">free</span>(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="解码"><a href="#解码" class="headerlink" title="解码"></a>解码</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">index</span><span class="params">(<span class="keyword">char</span> s)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (s==<span class="string">'='</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">64</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span> (s==table[i]) <span class="keyword">return</span> i;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">base64_decode</span><span class="params">(<span class="keyword">char</span> *st,<span class="keyword">char</span>* s1 )</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> len = <span class="built_in">strlen</span>(st);</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">if</span> (len%<span class="number">4</span>!=<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"error\n"</span>);<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;len;i+=<span class="number">4</span>)&#123;</span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">int</span> t = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> ( j=<span class="number">0</span>;j&lt;<span class="number">4</span>;j++)</span><br><span class="line">		t=(t&lt;&lt;<span class="number">6</span>) | index(st[i+j]); <span class="comment">//将每6个bit组合成24bit也就是3个字节</span></span><br><span class="line">        <span class="keyword">for</span> ( j=<span class="number">0</span>;j&lt;<span class="number">3</span>;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span> ((t&amp;<span class="number">0xff0000</span>)&gt;&gt;<span class="number">16</span>==<span class="number">0</span>) <span class="keyword">break</span>;<span class="comment">//每次取最高一字节</span></span><br><span class="line">        	s1[i/<span class="number">4</span>*<span class="number">3</span>+j] = (t&amp;<span class="number">0xff0000</span>)&gt;&gt;<span class="number">16</span>;</span><br><span class="line">        	t=t&lt;&lt;<span class="number">8</span>;</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="逆向识别"><a href="#逆向识别" class="headerlink" title="逆向识别"></a>逆向识别</h2><ul>
-<li>识别base家族的关键还是在于table表的识别，其次就是对这个算法的熟悉程度，比如说补齐成指定长度的操作，还有就是长度的收缩(解码)和扩展(编码)</li>
-<li>解码的识别相对要麻烦一些，有很多实现方式，例如在解码过程中可以预先把每个字符在表中的位置存下来，就不需要调用index函数，也可以像编码那样，采用移位与或运算截取其中的片段，而不需要组合成24bit</li>
+        <h1 id="异常处理流程分析"><a href="#异常处理流程分析" class="headerlink" title="异常处理流程分析"></a>异常处理流程分析</h1><ul>
+<li>首先当发生用户态异常时，os会接收该异常，并判断调试器是否要处理该异常，若不处理，则会进入<code>KiUserExceptionDispatcher</code>来尝试对该异常进行分发</li>
+<li>调用<code>RtlDispatchException</code>来寻找异常处理器，首先搜索VEH链，若无法处理该异常，则通过SEH来处理</li>
+<li>SEH处理时，会循环遍历SEH链表，调用<code>RtlExcuteHandlerForException</code>,检查是否有处理其异常的handler，若返回<code>EXCEPTION_EXECUTE_HANDLER</code>，表示该异常被处理了；若返回<code>EXCEPTION_CONTINUE_SEARCH</code>，表示继续遍历SEH链的下一项。若找不到处理该异常的handler，则调用<code>UnhandledExceptionFilter</code>来进行处理（该handler位于SEH链的倒数第二个），若仍然无法处理，则调用SEH链的最后一个表项，退出遍历</li>
+<li><code>UnhandledExceptionFilter</code>也叫SEH顶层异常处理TopLevelExceptionHandler，在调用<code>UnhandledExceptionFilter</code>处理时，会首先检查是否处于调试状态，若处于调试状态，则会将该异常交给调试器去处理（而调试器几乎不会去处理这个异常，这就导致即使在调试器中开启了忽略异常的选项，当需要调用顶层异常处理的程序在调试器中直接运行时，也无法正常进行异常处理），否则，将会调用用户注册的异常处理函数</li>
+<li>最后检查异常是否被正常处理，若不能处理，则调用<code>ZwRaiseException</code>终止程序，否则调用<code>ZwContinue</code>返回到一个位置继续执行，返回位置会通过ebx传入栈中</li>
+</ul>
+<p>VEH异常处理函数返回值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXCEPTION_CONTINUE_SEARCH</span><br></pre></td></tr></table></figure>
+<p>SEH异常处理函数返回值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">EXCEPTION_EXECUTE_HANDLER		1 </span><br><span class="line">该异常被处理了</span><br><span class="line">EXCEPTION_CONTINUE_SEARCH		0 </span><br><span class="line">无法处理该异常，继续搜索SEH链的下一项</span><br><span class="line">EXCEPTION_CONTINUE_EXECUTION	-1</span><br><span class="line">程序试图重新执行引发异常的代码,但是并不推荐这样做.</span><br></pre></td></tr></table></figure>
+<p>顶层SEH异常处理函数的返回值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#define EXCEPTION_EXECUTE_HANDLER      1</span><br><span class="line">表示该异常被处理了，直接杀死该进程</span><br><span class="line">#define EXCEPTION_CONTINUE_SEARCH      0</span><br><span class="line">会查找系统的注册表，尝试去找到一个实时的调试器来处理</span><br><span class="line">#define EXCEPTION_CONTINUE_EXECUTION 	-1</span><br><span class="line">程序试图重新执行引发异常的代码,但是并不推荐这样做.</span><br></pre></td></tr></table></figure>
+<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>首先<code>bp KiUserExceptionDispatcher</code>下断<br><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/Snipaste_2019-07-14_20-28-35.png" alt></p>
+<p>跟入<code>RtlDispatchException</code>，单步直到找到<code>RtlpCallVetoredHandler</code>调用VEH链的位置，根据其返回值判断是否成功处理异常<br><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715095524.png" alt></p>
+<p>单步，找到<code>RtlpExecuteHandlerForException</code>，在此处遍历SEH链的每一个handler来尝试处理该异常，可以根据返回值来判断处理的结果</p>
+<p><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715095923.png" alt></p>
+<p>跟入这个函数，可以找到调用handler的call</p>
+<p><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715100202.png" alt></p>
+<p>现在我们定位到SEH链的倒数第二个，也就是找到<code>UnhandledExceptionFilter</code>,我们继续跟入<code>RtlpExecuteHandlerForException</code></p>
+<p>找到<code>_except_handler4_common</code>，</p>
+<p>找到<code>_EH4_CallFilterFunc</code></p>
+<p>找到<code>call esi</code></p>
+<p><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715101009.png" alt></p>
+<p>跟入<code>UnhandledExceptionFilter</code>，可以发现在该函数内部，检查了是否处于调试状态，我们可以手动将返回值置0，使得程序能正常执行SEH顶层异常处理</p>
+<p><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715101141.png" alt></p>
+<p>过掉检查之后，就开始调用TopLevelExceptionHandler，也就是顶层的异常处理函数</p>
+<p><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715101407.png" alt></p>
+<p>异常处理成功，调用ZwContinue返回</p>
+<p><img src="C:\Users\lxf\AppData\Roaming\Typora\typora-user-images\1563157069651.png" alt></p>
+<p>参考链接</p>
+<ul>
+<li><p><a href="https://xz.aliyun.com/t/5588#toc-6" target="_blank" rel="noopener">https://xz.aliyun.com/t/5588#toc-6</a></p>
+</li>
+<li><p><a href="https://blog.csdn.net/a893574301/article/details/80507978#comments?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">https://blog.csdn.net/a893574301/article/details/80507978#comments?tdsourcetag=s_pctim_aiomsg</a></p>
+</li>
+<li><p><a href="http://www.youngroe.com/2015/09/05/Windows/windows-exception-handling-mechanism/" target="_blank" rel="noopener">http://www.youngroe.com/2015/09/05/Windows/windows-exception-handling-mechanism/</a></p>
+</li>
 </ul>
 
       
@@ -317,13 +349,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/04/06/Base-N/">Base N</a></p>
+        <p><span>本文标题:</span><a href="/2019/07/14/windows下vc-异常处理机制/">windows下vc++异常处理机制</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
-        <p><span>发布时间:</span>2019-04-06, 10:29:58</p>
-        <p><span>最后更新:</span>2019-11-04, 17:25:03</p>
+        <p><span>发布时间:</span>2019-07-14, 08:28:40</p>
+        <p><span>最后更新:</span>2019-07-16, 10:16:51</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/04/06/Base-N/" title="Base N">http://yoursite.com/2019/04/06/Base-N/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/04/06/Base-N/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/07/14/windows下vc-异常处理机制/" title="windows下vc++异常处理机制">http://yoursite.com/2019/07/14/windows下vc-异常处理机制/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/07/14/windows下vc-异常处理机制/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -336,15 +368,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/04/22/多表置换密码破解/">
-                    多表置换密码破解
+                <a href="/2019/07/21/Golang-Reverse总结/">
+                    Golang Reverse总结
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/03/28/CRC算法初探/">
-                    CRC算法初探
+                <a href="/2019/05/28/QWB2019-babyaeg-详解/">
+                    QWB2019 babyaeg 详解
                 </a>
             </div>
         
@@ -356,7 +388,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Base-N算法的实现"><span class="toc-number">1.</span> <span class="toc-text">Base N算法的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Base64"><span class="toc-number">1.1.</span> <span class="toc-text">Base64</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#c-实现"><span class="toc-number">1.1.1.</span> <span class="toc-text">c++实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#编码"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解码"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">解码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逆向识别"><span class="toc-number">1.2.</span> <span class="toc-text">逆向识别</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#异常处理流程分析"><span class="toc-number">1.</span> <span class="toc-text">异常处理流程分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#调试"><span class="toc-number">2.</span> <span class="toc-text">调试</span></a></li></ol>
         
     </div>
     <style>
@@ -392,7 +424,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"Base N　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"windows下vc++异常处理机制　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -412,7 +444,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/04/22/多表置换密码破解/" title="上一篇: 多表置换密码破解">
+            <a href="/2019/07/21/Golang-Reverse总结/" title="上一篇: Golang Reverse总结">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -420,7 +452,7 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/03/28/CRC算法初探/" title="下一篇: CRC算法初探">
+            <a href="/2019/05/28/QWB2019-babyaeg-详解/" title="下一篇: QWB2019 babyaeg 详解">
                 <i class="fa fa-angle-right"></i>
             </a>
         

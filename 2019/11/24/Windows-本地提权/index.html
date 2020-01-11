@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="lxf">
+
+
+
+<meta name="description" content="基于Windows本地提权的攻击方法引言Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权 Windows的访问权限检查机制在操作系统中，当我们提到安全的时候，意味着有一些资源需要被保护">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 本地提权">
+<meta property="og:url" content="http://yoursite.com/2019/11/24/Windows-本地提权/index.html">
+<meta property="og:site_name" content="Just a binary noob~~">
+<meta property="og:description" content="基于Windows本地提权的攻击方法引言Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权 Windows的访问权限检查机制在操作系统中，当我们提到安全的时候，意味着有一些资源需要被保护">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20191126003846.png">
+<meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20191126004253.png">
+<meta property="og:updated_time" content="2019-11-27T13:02:02.428Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows 本地提权">
+<meta name="twitter:description" content="基于Windows本地提权的攻击方法引言Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权 Windows的访问权限检查机制在操作系统中，当我们提到安全的时候，意味着有一些资源需要被保护">
+<meta name="twitter:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20191126003846.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Just a binary noob~~" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Windows 本地提权 | Just a binary noob~~</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/1.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">lxf</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="/842907395@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTF/">CTF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">Just a binary noob~~</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">lxf</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/1.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">lxf</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="/842907395@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
+</nav>
+      <div class="body-wrap"><article id="post-Windows-本地提权" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/11/24/Windows-本地提权/" class="article-date">
+      <time datetime="2019-11-24T14:15:14.000Z" itemprop="datePublished">2019-11-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Windows 本地提权
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="基于Windows本地提权的攻击方法"><a href="#基于Windows本地提权的攻击方法" class="headerlink" title="基于Windows本地提权的攻击方法"></a>基于Windows本地提权的攻击方法</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权</p>
+<h2 id="Windows的访问权限检查机制"><a href="#Windows的访问权限检查机制" class="headerlink" title="Windows的访问权限检查机制"></a>Windows的访问权限检查机制</h2><p>在操作系统中，当我们提到安全的时候，意味着有一些资源需要被保护，在Windows操作系统中，这些被保护的资源大多以对象（Object）的形式存在，对象是对资源的一种抽象。每个对象都可以拥有自己的安全描述符（Security Descriptor），用来描述它能够被谁、以何种方式而访问。这些对象是客体，那么访问这些对象的主体是什么呢？这些主体就是操作系统中的各个进程，更准确地说是这些进程中的每个线程。每个进程都有一个基本令牌 (Primary Token)，可以被进程中的每个线程所共享，而有些线程比较特殊，它们正在模拟（Impersonating）某个客户端的身份，因此拥有一个模拟令牌（Impersonation Token），对于这些线程来说，有效令牌就是模拟令牌，而其他线程的有效令牌则是其所属进程的基本令牌。当主体尝试去访问客体时，操作系统会执行访问权限检查（Access Check），具体来说，是用主体的有效令牌与客体的安全描述符进行比对，从而确定该次访问是否合法。为了提高效率，访问权限检查（Access Check）提供了一种缓存机制，即只有当一个对象被一个进程创建或者打开时，才会进行访问权限检查，访问权限检查的结果会被缓存到进程的句柄表（Handle Table）中，该进程对该对象的后续操作只需要查询句柄表中内容即可确定访问的合法性，而不必每次都执行开销更大的访问权限检查（Access Check）。因为对象和进程都有各自的继承层次，所以对象的安全描述符和进程的令牌从逻辑上讲也是可以继承的，比如文件系统中的文件可以继承其所在目录的安全描述符，子进程可以继承父进程的令牌，这种继承机制使让对象和进程拥有了缺省的安全属性，因此，在一个系统中的安全描述符和令牌的实例数目非常有限，大多数情况下是从父辈们继承过来的缺省值。</p>
+<h3 id="访问权限检查"><a href="#访问权限检查" class="headerlink" title="访问权限检查"></a>访问权限检查</h3><ul>
+<li>DACL检查</li>
+</ul>
+<p>DACL（自主访问控制表，Discretionary Access Control List）检查是最基本的访问权限检查。<br><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20191126003846.png" alt><br>在安全描述符中存在着一个DACL表（见安全描述符图解），里面描述了拥有何种身份的主体申请的何种访问权限会被允许或者拒绝。DACL表中的每个表项拥有如下的结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">We&apos;ll define the structure of the predefined ACE types.  Pictorally</span><br><span class="line">the structure of the predefined ACE&apos;s is as follows:</span><br><span class="line"></span><br><span class="line">     3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1</span><br><span class="line">     1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0</span><br><span class="line">    +---------------+-------+-------+---------------+---------------+</span><br><span class="line">    |    AceFlags   | Resd  |Inherit|    AceSize    |     AceType   |</span><br><span class="line">    +---------------+-------+-------+---------------+---------------+</span><br><span class="line">    |                              Mask                             |</span><br><span class="line">    +---------------------------------------------------------------+</span><br><span class="line">    |                                                               |</span><br><span class="line">    +                                                               +</span><br><span class="line">    |                                                               |</span><br><span class="line">    +                              Sid                              +</span><br><span class="line">    |                                                               |</span><br><span class="line">    +                                                               +</span><br><span class="line">    |                                                               |</span><br><span class="line">    +---------------------------------------------------------------+</span><br><span class="line"></span><br><span class="line">Mask is the access mask associated with the ACE.  This is either the</span><br><span class="line">access allowed, access denied, audit, or alarm mask.</span><br><span class="line"></span><br><span class="line">Sid is the Sid associated with the ACE.</span><br></pre></td></tr></table></figure></p>
+<p>其中，对于DACL来说，AceType可以有<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!cpp</span><br><span class="line">#define ACCESS_ALLOWED_ACE_TYPE                 (0x0)</span><br><span class="line">#define ACCESS_DENIED_ACE_TYPE                  (0x1)</span><br></pre></td></tr></table></figure></p>
+<p>两种可能；Mask是一个代表相关权限集合的位图；主体的身份使用Sid（Security Identifier）来表示，这是一个变长的数据结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!cpp</span><br><span class="line">kd&gt; dt nt!_SID</span><br><span class="line">   +0x000 Revision         : UChar</span><br><span class="line">   +0x001 SubAuthorityCount : UChar</span><br><span class="line">   +0x002 IdentifierAuthority : _SID_IDENTIFIER_AUTHORITY</span><br><span class="line">   +0x008 SubAuthority     : [1] Uint4B</span><br></pre></td></tr></table></figure></p>
+<p>Sid是Windows安全系统中一个基本类型，可以用来唯一标识多种不同种类的实体，比如标识用户身份与组身份，标识完整性级别、可信赖级别，AppContainer中的Capability等等。</p>
+<p>DACL检查过程是这样的，如果对象的安全描述符为空，代表着这个对象不受任何保护，即可以被任何令牌代表的主体访问；如果对象拥有一个非空的安全描述符，但是安全描述符中的Dacl成员为空，代表该对象没有显式地赋予任何主体任何访问权限，即不允许被访问；如果Dacl成员非空，就按照表中的顺序逐一与当前主体的身份Sid进行比对，直到该主体所请求的权限被全部显式允许，或者某一请求的权限被显式地拒绝，检查结束；如果直到Dacl表检查结束，主体申请的权限仍未被全部显式允许，那么仍然代表拒绝。</p>
+<p>根据以上规则可知，DACL中各个表项的顺序对访问权限检查的结果至关重要，比如说有一条有关某主体的显式拒绝的表项位于表的最后，如果位于其之前的表项已经显式允许了这一主体申请的权限，那么这条显式拒绝的表项将起不到任何作用。基于此种原因，如果通过Windows右键安全选项菜单添加的DACL表项，显式拒绝的表项永远被置于显式允许表项前面，以保证其有效性。直接通过API添加则不受此种限制。</p>
+<h3 id="UAC与关联令牌"><a href="#UAC与关联令牌" class="headerlink" title="UAC与关联令牌"></a>UAC与关联令牌</h3><p>UAC是Vista版本引入的比较重要的安全机制，很多用户抱怨它带来的不便性，然而它就像Linux操作系统中的sudo一样，是保护系统安全的一道重要屏障。当用户登录Windows时，操作系统会为用户生成一对初始令牌，分别是代表着用户所拥有的全部权限的完整版本令牌（即管理员权限令牌），以及被限制管理员权限后的普通令牌，二者互为关联令牌；此后，代表用户的进程所使用的令牌都是由普通令牌继承而来，用来进行常规的、非敏感的操作；当用户需要进行一些需要管理员权限的操作时，比如安装软件、修改重要的系统设置时，都会通过弹出提权对话框的形式提示用户面临的风险，征求用户的同意，一旦用户同意，将会切换到当前普通令牌关联的管理员权限令牌，来进行敏感操作。通过这种与用户交互的方式，避免一些恶意程序在后台稍稍执行敏感操作。关联令牌是通过Logon Session来实现的，下图展示了其大致原理：</p>
+<p><img src="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20191126004253.png" alt></p>
+<h3 id="安全描述符"><a href="#安全描述符" class="headerlink" title="安全描述符"></a>安全描述符</h3><p>安全描述符保存着作为访问权限检查客体的对象的主要信息。它包含着4个关键成员，根据这4个成员是嵌入在结构体的尾部，还是引用自外部缓存位置的差异，可以分为两种不同的结构形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#!cpp</span><br><span class="line">kd&gt; dt _SECURITY_DESCRIPTOR</span><br><span class="line">ntdll!_SECURITY_DESCRIPTOR</span><br><span class="line">   +0x000 Revision         : UChar</span><br><span class="line">   +0x001 Sbz1             : UChar</span><br><span class="line">   +0x002 Control          : Uint2B</span><br><span class="line">   +0x008 Owner            : Ptr64 Void</span><br><span class="line">   +0x010 Group            : Ptr64 Void</span><br><span class="line">   +0x018 Sacl             : Ptr64 _ACL</span><br><span class="line">   +0x020 Dacl             : Ptr64 _ACL</span><br><span class="line">kd&gt; dt _SECURITY_DESCRIPTOR_RELATIVE</span><br><span class="line">nt!_SECURITY_DESCRIPTOR_RELATIVE</span><br><span class="line">   +0x000 Revision         : UChar</span><br><span class="line">   +0x001 Sbz1             : UChar</span><br><span class="line">   +0x002 Control          : Uint2B</span><br><span class="line">   +0x004 Owner            : Uint4B</span><br><span class="line">   +0x008 Group            : Uint4B</span><br><span class="line">   +0x00c Sacl             : Uint4B</span><br><span class="line">   +0x010 Dacl             : Uint4B</span><br></pre></td></tr></table></figure></p>
+<p>Owner和Group代表了该安全描述符的属主Sid，Sacl是系统访问控制表（System Access Control List）的简称，里面可以包含当前对象的审计（Audit）、完整性级别（Integrity Level）以及可信赖级别（Trust Level）等信息，与前面提到的Dacl共用同一结构体。</p>
+<h3 id="完整性级别检查"><a href="#完整性级别检查" class="headerlink" title="完整性级别检查"></a>完整性级别检查</h3><p>完整性级别（IL）检查是沙盒的最简单实现方式，通过完整性级别在对象和进程层次之间的继承关系，就如同在操作系统中建立起了“世袭制度”。通过严格控制完整性级别的继承规则，以及设置严格的完整性级别检查制度，可以保证“出身低微”的主体无法访问到“出身高贵”的客体资源。</p>
+<p>完整性拥有以下几个级别：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!bash</span><br><span class="line">SeUntrustedMandatorySid</span><br><span class="line">SeLowMandatorySid</span><br><span class="line">SeMediumMandatorySid</span><br><span class="line">SeHighMandatorySid</span><br><span class="line">SeSystemMandatorySid</span><br></pre></td></tr></table></figure></p>
+<p>主体的缺省完整性级别是SeUntrustedMandatorySid，而客体的缺省完整性级别是SeMediumMandatorySid，这种差异也进一步地强化了这种“世袭制度”。</p>
+<h3 id="保护进程"><a href="#保护进程" class="headerlink" title="保护进程"></a>保护进程</h3><p>保护进程（Protected Process）是Windows操作系统为了保护某些关键进程，防止其被普通进程调试、注入、甚至是读取内存信息而建立起来的一种安全机制。</p>
+<p>保护进程与其他普通进程的区别在于，保护进程的Protection成员不为0。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!cpp</span><br><span class="line">kd&gt; dt nt!_EPROCESS Protection</span><br><span class="line">   +0x6b2 Protection : _PS_PROTECTION</span><br><span class="line">kd&gt; dt nt!_PS_PROTECTION</span><br><span class="line">   +0x000 Level            : UChar</span><br><span class="line">   +0x000 Type             : Pos 0, 3 Bits</span><br><span class="line">   +0x000 Audit            : Pos 3, 1 Bit</span><br><span class="line">   +0x000 Signer           : Pos 4, 4 Bits</span><br></pre></td></tr></table></figure></p>
+<p>保护进程的Type成员可以代表两种保护类型：Protected Process（PP），Protected Process Lite（PPL），两者的区别在于PP保护进程拥有更高的权限。保护进程的Signer成员代表该进程的签名发布者的类别。对于Signer为PsProtectedSignerWindows（5）和PsProtectedSignerTcb（6）的保护进程，其Type和Signer信息会被抽取出来，组装成一个Sid，代表着该进程的可信赖级别，保存到基本令牌中的TrustLevelSid成员中。当一个令牌中的TrustLevelSid被使用时，需要保证与当前进程的Protection信息保持同步，这主要是为了应对令牌在不同进程间传递时（比如子进程继承父进程的令牌）导致的TrustLevelSid成员过时的情形。当调试或者创建一个进程时，会调用内核函数PspCheckForInvalidAccessByProtection进行权限检查，该函数根据当前进程以及目标进程的Protection来判定当前操作是否需要遵守保护进程规定的权限限制，具体判定规则如下：如果操作来自于内核态代码，不需要遵守限制；如果目标进程的Protection成员为空，表示目标进程不是保护进程，不需要遵守限制；如果当前进程是PP类型保护进程，该类型保护进程拥有最高权限，不需要遵守限制；如果当前进程与目标进程都是PPL类型保护进程，需要根据RtlProtectedAccess表来判断当前进程的Signer是否优先于（dominate）目标进程的Signer，如果是，不需要遵守限制；其他情况，需要遵守限制。</p>
+<h2 id="利用技巧"><a href="#利用技巧" class="headerlink" title="利用技巧"></a>利用技巧</h2><p>何为逻辑漏洞？例如如果一个system进程尝试去操作A文件，而A文件如果是一个指向B的符号链接，那么实际上System进程将会去操作B文件，这将导致错误的产生，一种通常的缓解措施为：通过函数<code>RpcImpersonateClient</code>或者<code>ImpersonateLoggedOnUser</code> 去模拟当前请求操作的用户，这样当前system进程的所有操作都将以user的权限来进行,与之对应的取消模拟的函数为<code>RevertToSelf</code></p>
+<p>因此，此类逻辑漏洞的利用关键在于重定向当前的操作文件，NTFS文件系统支持如下类型的文件链接</p>
+<ul>
+<li>建立<code>HardLink</code>，将A硬链接到B，对于<code>HardLink</code>而言，不同的函数在处理<code>HardLink</code>时的行为不完全相同，（微软声称在最新版中<code>HardLink</code>已经被修复了，普通用户将不再有权限将A文件链接到其不可控的B文件）</li>
+<li>建立目录链接<code>Junction</code>，将A目录链接到B目录</li>
+<li>建立对象符号链接，这也是一种最常见的利用方式，它指的是将当前A文件所在目录<code>Junction</code>到Windows的对象管理器，然后在对象管理器下创建到B文件的符号链接</li>
+<li>建立磁盘的符号链接，将当前用户的磁盘盘符映射到另外一个盘符，例如将C:\  映射到 D:\ ，直到注意的是，这一更改仅仅只针对当前用户生效，例如当system进程以其本身的身份访问C盘时，它访问的仍然是C盘，而如果它impersonate了当前的用户，那么它访问的将是D盘，针对这一特性可以用来绕过一些安全检查</li>
+</ul>
+<h2 id="漏洞模式"><a href="#漏洞模式" class="headerlink" title="漏洞模式"></a>漏洞模式</h2><ul>
+<li>任意文件写入</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HANDLE file = CreateFile(Path,dwDesiredAccess,3,0,OPEN_ALWAYS,0x80);</span><br><span class="line">WriteFile(file,buffer,NumberOfBytesToWrite,lpNumberOfBytesWritten,lpOverlapped);</span><br></pre></td></tr></table></figure>
+<p>如果以上代码以system权限运行，而path所有对应的文件可控，那么我们只需要将path所对应的文件符号链接到当前用户不可控的文件，buffer的内容就将会写入我们的目标，如果buffer可控，那么我们就能将代码写入system的DLL，从而实现任意代码执行</p>
+<ul>
+<li><p>任意文件删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DeleteFile(path);</span><br></pre></td></tr></table></figure>
+<p>同样也是通过符号链接来达到任意文件删除的目的</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HANDLE file = CreateFile(Path,dwDesiredAccess,3,0,OPEN_ALWAYS,FILE_FLAG_DELETE_ON_CLOSE,0);</span><br></pre></td></tr></table></figure>
+<p>我们关注一下这个参数<code>FILE_FLAG_DELETE_ON_CLOSE</code>,它指的是，当关闭当前打开的文件的句柄时，删除该文件，就算打开该文件时<code>dwDesiredAccess</code>没有指定删除，该flag也会自动添加该属性上去，因此如果path可控，我们只需要通过符号链接让他打开当前用户不可控的文件，就能实现任意文件删除.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HANDLE file = CreateFile(Path,dwDesiredAccess,3,0,OPEN_ALWAYS,0x80);</span><br><span class="line">SetFileInformationByHandle(file,FileDispositionInfo,lpFileInformation,dwBufferSize);</span><br></pre></td></tr></table></figure>
+<p>通过设置<code>FileDispositionInfo</code>参数也能删除文件。详细信息<a href="https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfileinformationbyhandle" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfileinformationbyhandle</a></p>
+<ul>
+<li><p>CopyFile(A,B)及MoveFile(A,B)的利用<br>这两个函数都是将A文件写入B文件，不同的地方，在于<code>MoveFile</code>将会删除源文件，并且移动后的文件将保留其原来的ACL，利用方法也很明显：<br>—–&gt;  A 符号链接到 Source（包含我们的恶意代码的DLL）<br>—–&gt;  B 符号链接到 Target  (我们期望写入的位置)<br>从而实现任意代码执行</p>
+</li>
+<li><p>SetNamedSecurityInfo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ConvertStringSecurityDescriptorToSecurityDescriptor(StringDescriptor,1,SecurityDescriptor,0)	</span><br><span class="line">SetNamedSecurityInfoW(path,ObjectType,SecurityInfo,NULL,NULL,NULL,NULL);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如果<code>StringDescriptor</code>描述的安全属性的是普通用户可控，那么我们也能通过符号链接来设置任意文件的ACL,使得普通用户拥有该文件的控制权</p>
+<ul>
+<li>DuplicateHandle 及 DuplicateToken<br><code>DuplicateHandle</code>：常见的模式为system进程打开了了一个普通用户不可控的文件的句柄，然后把它复制给了当前的user，那么当前user就有了对该文件的控制权<br><code>DuplicateToken</code>：把system进程的Token复制给user，这种还没没见过。。</li>
+</ul>
+<h2 id="常见的漏洞缓解措施，及其绕过方式"><a href="#常见的漏洞缓解措施，及其绕过方式" class="headerlink" title="常见的漏洞缓解措施，及其绕过方式"></a>常见的漏洞缓解措施，及其绕过方式</h2><ul>
+<li><p>检查HardLink</p>
+<p>通过<code>GetFileInformationByHandle</code>，检查指向当前文件的Link的个数，这个可以通过符号链接来绕过</p>
+</li>
+<li><p>检查Junction和符号链接</p>
+<p>GetFinalPathNameByHandleW`在进行敏感操作前，检查通过当前操作的句柄获取的路径和最开始输入的路径是否相同，来检查是否存在了重定向，值得一提的是这一检查对HardLink无效，如果是HardLink，前后获取的路径是一致的</p>
+</li>
+<li><p>Case1</p>
+<p>考虑如下伪代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ImpersonateClient(handle);</span><br><span class="line">if ( file=CreateFile(path)!=-1 )&#123;</span><br><span class="line">	RevertToSelf();</span><br><span class="line">	closeHandle(file);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	return;</span><br><span class="line">&#125;</span><br><span class="line">DeleteFile(path);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>问题很明显，我们可以通过改变磁盘盘符的映射来绕过此类检查，当然还有别的绕过方式</p>
+<ul>
+<li><p>Case2</p>
+<p>检查文件内容是否正确</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file = CreateFile(path);</span><br><span class="line">if ( !CheckFileContent(file) ) return 0;</span><br><span class="line">DeleteFile(path);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对于这种情况，我们需要利用机会锁来竞争，具体方式为在进程<code>createfile</code>时，锁住当前操作的文件，来bypass检查，然后修改文件路径到我们的目标。例如假设打开的是 <code>A\B\C.txt</code> ，我们建立符号链接 <code>B\C.txt -&gt; C\C.txt</code> <code>C.txt</code>的内容能满足这个检查，然后锁住<code>C\C.txt</code>，当进程打开这个文件时，该进程将会被阻塞，然后我们修改B\C.txt的符号链接到target，然后释放机会锁，<code>CheckFileContent</code>将会检查<code>C\C.txt</code>，而<code>DeleteFile</code>被执行时path将会重定向到Target .</p>
+<p>Case1同样也能用机会锁来绕过</p>
+<ul>
+<li><p>Case3</p>
+<p>QueryDirectory<code>查询文件夹下的文件，如果找到了，就会执行操作
+代码形式为</code>FindNextFile`，伪代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FindNextFile(&quot;A\B\&quot;,&quot;1.txt&quot;);</span><br><span class="line">if (success)&#123;</span><br><span class="line">	DeleteFile(&quot;A\B\1.txt&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>之前的直接建立符号链接的套路在此时是行不通的，如果把B\1.txt 符号链接到 Target，那么这个过程实际上是先把<code>B\</code>  Juntion 到 Windows的对象管理器，然后在windows的对象管理器下创建符号链接。 <code>QueryDirectory</code>将会去query windows的对象管理器，这个是肯定query不到文件的，因此我们需要绕过一下</p>
+<p>我们可以先 把  <code>B\</code> junction 到 <code>C\</code>，然后再<code>C\</code>下放置，<code>1.txt</code>，然后创建机会锁，锁住<code>1.txt</code>,机会锁触发后 修改<code>B\1.txt</code> 符号链接到 target。这样就绕过了这一限制，这其实也不算漏洞缓解措施，只是需要特殊处理一下</p>
+<p>参考链接：<br><a href="https://offsec.almond.consulting/intro-to-file-operation-abuse-on-Windows.html" target="_blank" rel="noopener">https://offsec.almond.consulting/intro-to-file-operation-abuse-on-Windows.html</a></p>
+<p><a href="https://docs.microsoft.com/en-us/windows/win32/secauthz/dacls-and-aces" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/windows/win32/secauthz/dacls-and-aces</a></p>
+<p><a href="https://offsec.almond.consulting/osquery-windows-acl-misconfiguration-eop.html" target="_blank" rel="noopener">https://offsec.almond.consulting/osquery-windows-acl-misconfiguration-eop.html</a></p>
+<p><a href="https://xz.aliyun.com/t/3125" target="_blank" rel="noopener">https://xz.aliyun.com/t/3125</a></p>
+<p><a href="https://www.fortinet.com/blog/threat-research/another-local-privilege-escalation-lpe-vulnerability.html" target="_blank" rel="noopener">https://www.fortinet.com/blog/threat-research/another-local-privilege-escalation-lpe-vulnerability.html</a></p>
+<p><a href="https://juejin.im/post/5aa118b46fb9a028c71e07d7" target="_blank" rel="noopener">https://juejin.im/post/5aa118b46fb9a028c71e07d7</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/11/24/Windows-本地提权/">Windows 本地提权</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
+        <p><span>发布时间:</span>2019-11-24, 22:15:14</p>
+        <p><span>最后更新:</span>2019-11-27, 21:02:02</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/11/24/Windows-本地提权/" title="Windows 本地提权">http://yoursite.com/2019/11/24/Windows-本地提权/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/11/24/Windows-本地提权/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/09/01/TokyoWesternsCTF-Reverse-wp/">
+                    TokyoWesternsCTF Reverse wp
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基于Windows本地提权的攻击方法"><span class="toc-number">1.</span> <span class="toc-text">基于Windows本地提权的攻击方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">1.1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows的访问权限检查机制"><span class="toc-number">1.2.</span> <span class="toc-text">Windows的访问权限检查机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#访问权限检查"><span class="toc-number">1.2.1.</span> <span class="toc-text">访问权限检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UAC与关联令牌"><span class="toc-number">1.2.2.</span> <span class="toc-text">UAC与关联令牌</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安全描述符"><span class="toc-number">1.2.3.</span> <span class="toc-text">安全描述符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#完整性级别检查"><span class="toc-number">1.2.4.</span> <span class="toc-text">完整性级别检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#保护进程"><span class="toc-number">1.2.5.</span> <span class="toc-text">保护进程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用技巧"><span class="toc-number">1.3.</span> <span class="toc-text">利用技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#漏洞模式"><span class="toc-number">1.4.</span> <span class="toc-text">漏洞模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的漏洞缓解措施，及其绕过方式"><span class="toc-number">1.5.</span> <span class="toc-text">常见的漏洞缓解措施，及其绕过方式</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Windows 本地提权　| Just a binary noob~~　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/09/01/TokyoWesternsCTF-Reverse-wp/" title="下一篇: TokyoWesternsCTF Reverse wp">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/11/24/Windows-本地提权/">Windows 本地提权</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/01/TokyoWesternsCTF-Reverse-wp/">TokyoWesternsCTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/19/SUCTF-Reverse-wp/">SUCTF Re wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/11/32位PWN栈溢出setbuf的利用/">32位PWN栈溢出setbuf的利用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/05/De1taCTF-Reverse-WP/">De1taCTF Reverse WP</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/01/Unicorn初步/">Unicorn初步</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/21/Golang-Reverse总结/">Golang Reverse总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/14/windows下vc-异常处理机制/">windows下vc++异常处理机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/28/QWB2019-babyaeg-详解/">QWB2019 babyaeg 详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/20/RCTF-Reverse-wp/">RCTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/04/lex-yacc-lex入门/">lex && yacc lex入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/29/starctf-Reverse-wp/">*CTF Reverse wp</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/22/多表置换密码破解/">多表置换密码破解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/Base-N/">Base N</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/CRC算法初探/">CRC算法初探</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 lxf
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit" title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+             title: "a.article-title, .article-more-link a", 
+            
+             tags: ".article-tag a", 
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

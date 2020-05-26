@@ -15,17 +15,17 @@
 
 
 
-<meta name="description" content="Re_Sign 首先将输入打包成了如下结构struct ST{  DWORD unknown  DWORD st_len;  char  st[st_len];} 然后进行base64编码，但是码表发生了改变，于是在base64编码的过程中下断，获取更改后的码表0123456789QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm+/= 然后每">
+<meta name="description" content="Re_Sign">
 <meta property="og:type" content="article">
 <meta property="og:title" content="De1taCTF Reverse WP">
 <meta property="og:url" content="http://yoursite.com/2019/08/05/De1taCTF-Reverse-WP/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="Re_Sign 首先将输入打包成了如下结构struct ST{  DWORD unknown  DWORD st_len;  char  st[st_len];} 然后进行base64编码，但是码表发生了改变，于是在base64编码的过程中下断，获取更改后的码表0123456789QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm+/= 然后每">
+<meta property="og:description" content="Re_Sign">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-05T08:18:03.251Z">
+<meta property="og:updated_time" content="2020-05-26T14:48:58.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="De1taCTF Reverse WP">
-<meta name="twitter:description" content="Re_Sign 首先将输入打包成了如下结构struct ST{  DWORD unknown  DWORD st_len;  char  st[st_len];} 然后进行base64编码，但是码表发生了改变，于是在base64编码的过程中下断，获取更改后的码表0123456789QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm+/= 然后每">
+<meta name="twitter:description" content="Re_Sign">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -193,6 +193,8 @@
                     
                       <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
                     
+                      <a class="main-nav-link switch-friends-link" href="https://yyp0.github.io">yyp0</a>
+                    
                       <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
                     
                       <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
@@ -293,7 +295,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Re-Sign"><a href="#Re-Sign" class="headerlink" title="Re_Sign"></a>Re_Sign</h1><ul>
+        <h1 id="Re-Sign"><a href="#Re-Sign" class="headerlink" title="Re_Sign"></a>Re_Sign</h1><a id="more"></a>
+<ul>
 <li>首先将输入打包成了如下结构<br>struct ST{<br>  DWORD unknown<br>  DWORD st_len;<br>  char  st[st_len];<br>}</li>
 <li>然后进行base64编码，但是码表发生了改变，于是在base64编码的过程中下断，获取更改后的码表0123456789QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm+/=</li>
 <li>然后每次取input的一个字符，再根据一个常量从ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=中取出字符做出对比，关键比较代码的位置：0x004020F5<br>写出解题脚本:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import base64;</span><br><span class="line">def b64_de(x):</span><br><span class="line">	a = &quot;0123456789QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm+/=&quot;;</span><br><span class="line">	b = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=&quot;;</span><br><span class="line">	ret = &apos;&apos;.join( [ b[a.index(i)] for i in x] );</span><br><span class="line">	return base64.b64decode(ret);</span><br><span class="line"></span><br><span class="line"># print t,len(t);</span><br><span class="line"></span><br><span class="line">b = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=&quot;;</span><br><span class="line">a = &quot;000000080000003B00000001000000200000000700000034000000090000001F000000180000002400000013000000030000001000000038000000090000001B0000000800000034000000130000000200000008000000220000001200000003000000050000000600000012000000030000000F00000022000000120000001700000008000000010000002900000022000000060000002400000032000000240000000F0000001F0000002B0000002400000003000000150000004100000041&quot;</span><br><span class="line">r = &quot;&quot;</span><br><span class="line">num=0;</span><br><span class="line">for i in range(0,len(a),8):</span><br><span class="line">	num+=1;</span><br><span class="line">	if num &gt; 48:</span><br><span class="line">		break;</span><br><span class="line">	t = int(a[i:i+8],16);</span><br><span class="line">	r+=b[t-1];</span><br><span class="line">print r,len(r);</span><br><span class="line">print b64_de(&quot;H6AfGzIeXjSCP3IaHzSBHhRCEFRCOhRWHAohFjxjOeqjCU==&quot;);</span><br></pre></td></tr></table></figure>
@@ -331,7 +334,7 @@
         <p><span>本文标题:</span><a href="/2019/08/05/De1taCTF-Reverse-WP/">De1taCTF Reverse WP</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
         <p><span>发布时间:</span>2019-08-05, 15:24:41</p>
-        <p><span>最后更新:</span>2019-08-05, 16:18:03</p>
+        <p><span>最后更新:</span>2020-05-26, 22:48:58</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/08/05/De1taCTF-Reverse-WP/" title="De1taCTF Reverse WP">http://yoursite.com/2019/08/05/De1taCTF-Reverse-WP/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/08/05/De1taCTF-Reverse-WP/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

@@ -15,17 +15,17 @@
 
 
 
-<meta name="description" content="模拟一个 x86架构 程序首先引入unicorn的模块，并引入常量12from unicorn import *from unicorn.x86_const import * 初始化unicorn的引擎12mu = Uc(UC_ARCH_X86,UC_MODE_32);# 同时还有 UC_MODE_64 64位模式 初始化程序1234base = 0x400000;指定程序载入基址base_siz">
+<meta name="description" content="模拟一个 x86架构 程序首先引入unicorn的模块，并引入常量">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unicorn初步">
 <meta property="og:url" content="http://yoursite.com/2019/08/01/Unicorn初步/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="模拟一个 x86架构 程序首先引入unicorn的模块，并引入常量12from unicorn import *from unicorn.x86_const import * 初始化unicorn的引擎12mu = Uc(UC_ARCH_X86,UC_MODE_32);# 同时还有 UC_MODE_64 64位模式 初始化程序1234base = 0x400000;指定程序载入基址base_siz">
+<meta property="og:description" content="模拟一个 x86架构 程序首先引入unicorn的模块，并引入常量">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-01T05:30:01.460Z">
+<meta property="og:updated_time" content="2020-05-26T14:51:00.656Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Unicorn初步">
-<meta name="twitter:description" content="模拟一个 x86架构 程序首先引入unicorn的模块，并引入常量12from unicorn import *from unicorn.x86_const import * 初始化unicorn的引擎12mu = Uc(UC_ARCH_X86,UC_MODE_32);# 同时还有 UC_MODE_64 64位模式 初始化程序1234base = 0x400000;指定程序载入基址base_siz">
+<meta name="twitter:description" content="模拟一个 x86架构 程序首先引入unicorn的模块，并引入常量">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -193,6 +193,8 @@
                     
                       <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
                     
+                      <a class="main-nav-link switch-friends-link" href="https://yyp0.github.io">yyp0</a>
+                    
                       <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
                     
                       <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
@@ -293,7 +295,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="模拟一个-x86架构-程序"><a href="#模拟一个-x86架构-程序" class="headerlink" title="模拟一个 x86架构 程序"></a>模拟一个 x86架构 程序</h1><p>首先引入unicorn的模块，并引入常量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from unicorn import *</span><br><span class="line">from unicorn.x86_const import *</span><br></pre></td></tr></table></figure></p>
+        <h1 id="模拟一个-x86架构-程序"><a href="#模拟一个-x86架构-程序" class="headerlink" title="模拟一个 x86架构 程序"></a>模拟一个 x86架构 程序</h1><p>首先引入unicorn的模块，并引入常量</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from unicorn import *</span><br><span class="line">from unicorn.x86_const import *</span><br></pre></td></tr></table></figure>
 <p>初始化unicorn的引擎<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mu = Uc(UC_ARCH_X86,UC_MODE_32);</span><br><span class="line"># 同时还有 UC_MODE_64 64位模式</span><br></pre></td></tr></table></figure></p>
 <p>初始化程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">base = 0x400000;指定程序载入基址</span><br><span class="line">base_size = 1024*1024;</span><br><span class="line">stack_addr = 0;</span><br><span class="line">stack_size = 1024*1024;</span><br></pre></td></tr></table></figure></p>
 <p>为代码和栈空间分配一段内存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mu.mem_map(base,base_size);</span><br><span class="line">mu.mem_map(stack_addr,stack_size);</span><br><span class="line">mu.mem_write(base,CODE); #CODE为待载入的二进制程序代码,写入内存</span><br><span class="line">mu.reg_write(UC_X86_REG_RSP,stack_addr+stack_size-1); #分配一段栈空间</span><br><span class="line">mu.reg_write(UC_X86_REG_RBP,UC_X86_REG_RSP);</span><br></pre></td></tr></table></figure></p>
@@ -315,7 +319,7 @@
         <p><span>本文标题:</span><a href="/2019/08/01/Unicorn初步/">Unicorn初步</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
         <p><span>发布时间:</span>2019-08-01, 12:19:56</p>
-        <p><span>最后更新:</span>2019-08-01, 13:30:01</p>
+        <p><span>最后更新:</span>2020-05-26, 22:51:00</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/08/01/Unicorn初步/" title="Unicorn初步">http://yoursite.com/2019/08/01/Unicorn初步/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/08/01/Unicorn初步/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

@@ -15,18 +15,18 @@
 
 
 
-<meta name="description" content="字符串篇我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作123456789package mainimport &amp;quot;fmt&amp;quot;func main() &amp;#123;	var a,b string;	a = &amp;quot;123&amp;quot;;	fmt.Scanf(&amp;quot;%s&amp;quot;,&amp;amp;b);	fmt.Println(a+b);   // fmt.">
+<meta name="description" content="字符串篇我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作">
 <meta name="keywords" content="CTF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Golang Reverse总结">
 <meta property="og:url" content="http://yoursite.com/2019/07/21/Golang-Reverse总结/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="字符串篇我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作123456789package mainimport &amp;quot;fmt&amp;quot;func main() &amp;#123;	var a,b string;	a = &amp;quot;123&amp;quot;;	fmt.Scanf(&amp;quot;%s&amp;quot;,&amp;amp;b);	fmt.Println(a+b);   // fmt.">
+<meta property="og:description" content="字符串篇我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-22T05:57:01.543Z">
+<meta property="og:updated_time" content="2020-05-26T14:50:51.219Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Golang Reverse总结">
-<meta name="twitter:description" content="字符串篇我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作123456789package mainimport &amp;quot;fmt&amp;quot;func main() &amp;#123;	var a,b string;	a = &amp;quot;123&amp;quot;;	fmt.Scanf(&amp;quot;%s&amp;quot;,&amp;amp;b);	fmt.Println(a+b);   // fmt.">
+<meta name="twitter:description" content="字符串篇我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -194,6 +194,8 @@
                     
                       <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
                     
+                      <a class="main-nav-link switch-friends-link" href="https://yyp0.github.io">yyp0</a>
+                    
                       <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
                     
                       <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
@@ -298,7 +300,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="字符串篇"><a href="#字符串篇" class="headerlink" title="字符串篇"></a>字符串篇</h1><p>我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line">func main() &#123;</span><br><span class="line">	var a,b string;</span><br><span class="line">	a = &quot;123&quot;;</span><br><span class="line">	fmt.Scanf(&quot;%s&quot;,&amp;b);</span><br><span class="line">	fmt.Println(a+b);</span><br><span class="line">   // fmt.Println(&quot;Hello, World!&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <h1 id="字符串篇"><a href="#字符串篇" class="headerlink" title="字符串篇"></a>字符串篇</h1><p>我们再ida中反编译一段简单的代码来初步识别Golang的底层字符串操作</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line">func main() &#123;</span><br><span class="line">	var a,b string;</span><br><span class="line">	a = &quot;123&quot;;</span><br><span class="line">	fmt.Scanf(&quot;%s&quot;,&amp;b);</span><br><span class="line">	fmt.Println(a+b);</span><br><span class="line">   // fmt.Println(&quot;Hello, World!&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在IDA中反编译出的Golang的代码可读性非常差，因此我们直接分析其汇编代码<br>首先我们来分析一下fmt.Scanf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.text:000000000049E4EF mov     rcx, cs:os_Stdin</span><br><span class="line">.text:000000000049E4F6 lea     rdx, go_itab__os_File_io_Reader</span><br><span class="line">.text:000000000049E4FD mov     [rsp+80h+var_80], rdx</span><br><span class="line">.text:000000000049E501 mov     [rsp+80h+var_78], rcx</span><br><span class="line">.text:000000000049E506 lea     rcx, unk_4D2A8B  		//&quot;%s&quot;</span><br><span class="line">.text:000000000049E50D mov     [rsp+80h+var_70], rcx</span><br><span class="line">.text:000000000049E512 mov     [rsp+80h+var_68], 2</span><br><span class="line">.text:000000000049E51B lea     rcx, [rsp+80h+var_18] 	</span><br><span class="line">.text:000000000049E520 mov     [rsp+80h+var_60], rcx</span><br><span class="line">.text:000000000049E525 mov     [rsp+80h+var_58], 1</span><br><span class="line">.text:000000000049E52E mov     [rsp+80h+var_50], 1</span><br><span class="line">.text:000000000049E537 call    fmt_Fscanf</span><br><span class="line">.text:000000000049E53C mov     rax, [rsp+80h+var_30]</span><br><span class="line">.text:000000000049E541 mov     rcx, [rax]</span><br><span class="line">.text:000000000049E544 mov     rax, [rax+8]</span><br></pre></td></tr></table></figure></p>
 <p>在识别fmt.Scanf的各个参数时，我们只需要重点关注格式化字符串，它一般的传参形式为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lea rcx , st_addr</span><br><span class="line">mov [rsp+xx],rcx 传入字符串地址</span><br><span class="line">mov [rsp+yy],3 传入字符串的长度（这是因为golang中字符串全部都放在了一块，而没有用\x00来截断，因此需要指定长度）</span><br></pre></td></tr></table></figure></p>
 <p>而传入的参数会保存在栈中，我们只需要观察函数的返回值就能找到（这里需要注意的是Golang里函数的返回值可能不止一个，且不保存在寄存器中，而是用栈来传递）可以注意到，这里函数返回了一个参数，也就是读入的数据类型string<br><code>.text:000000000049E53C mov     rax, [rsp+80h+var_30]</code><br>由于string类型在Golang内存中的表示方法可以近似等价为</p>
@@ -319,7 +323,7 @@
         <p><span>本文标题:</span><a href="/2019/07/21/Golang-Reverse总结/">Golang Reverse总结</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
         <p><span>发布时间:</span>2019-07-21, 23:39:08</p>
-        <p><span>最后更新:</span>2019-07-22, 13:57:01</p>
+        <p><span>最后更新:</span>2020-05-26, 22:50:51</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/07/21/Golang-Reverse总结/" title="Golang Reverse总结">http://yoursite.com/2019/07/21/Golang-Reverse总结/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/07/21/Golang-Reverse总结/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

@@ -15,12 +15,12 @@
 
 
 
-<meta name="description" content="异常处理流程分析 首先当发生用户态异常时，os会接收该异常，并判断调试器是否要处理该异常，若不处理，则会进入KiUserExceptionDispatcher来尝试对该异常进行分发 调用RtlDispatchException来寻找异常处理器，首先搜索VEH链，若无法处理该异常，则通过SEH来处理 SEH处理时，会循环遍历SEH链表，调用RtlExcuteHandlerForException,检">
+<meta name="description" content="异常处理流程分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="windows下vc++异常处理机制">
 <meta property="og:url" content="http://yoursite.com/2019/07/14/windows下vc-异常处理机制/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="异常处理流程分析 首先当发生用户态异常时，os会接收该异常，并判断调试器是否要处理该异常，若不处理，则会进入KiUserExceptionDispatcher来尝试对该异常进行分发 调用RtlDispatchException来寻找异常处理器，首先搜索VEH链，若无法处理该异常，则通过SEH来处理 SEH处理时，会循环遍历SEH链表，调用RtlExcuteHandlerForException,检">
+<meta property="og:description" content="异常处理流程分析">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/Snipaste_2019-07-14_20-28-35.png">
 <meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715095524.png">
@@ -30,10 +30,10 @@
 <meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715101141.png">
 <meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20190715101407.png">
 <meta property="og:image" content="c:/Users/lxf/AppData/Roaming/Typora/typora-user-images/1563157069651.png">
-<meta property="og:updated_time" content="2019-07-16T02:16:51.184Z">
+<meta property="og:updated_time" content="2020-05-26T14:49:36.902Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="windows下vc++异常处理机制">
-<meta name="twitter:description" content="异常处理流程分析 首先当发生用户态异常时，os会接收该异常，并判断调试器是否要处理该异常，若不处理，则会进入KiUserExceptionDispatcher来尝试对该异常进行分发 调用RtlDispatchException来寻找异常处理器，首先搜索VEH链，若无法处理该异常，则通过SEH来处理 SEH处理时，会循环遍历SEH链表，调用RtlExcuteHandlerForException,检">
+<meta name="twitter:description" content="异常处理流程分析">
 <meta name="twitter:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/Snipaste_2019-07-14_20-28-35.png">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -202,6 +202,8 @@
                     
                       <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
                     
+                      <a class="main-nav-link switch-friends-link" href="https://yyp0.github.io">yyp0</a>
+                    
                       <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
                     
                       <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
@@ -302,7 +304,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="异常处理流程分析"><a href="#异常处理流程分析" class="headerlink" title="异常处理流程分析"></a>异常处理流程分析</h1><ul>
+        <h1 id="异常处理流程分析"><a href="#异常处理流程分析" class="headerlink" title="异常处理流程分析"></a>异常处理流程分析</h1><a id="more"></a>
+<ul>
 <li>首先当发生用户态异常时，os会接收该异常，并判断调试器是否要处理该异常，若不处理，则会进入<code>KiUserExceptionDispatcher</code>来尝试对该异常进行分发</li>
 <li>调用<code>RtlDispatchException</code>来寻找异常处理器，首先搜索VEH链，若无法处理该异常，则通过SEH来处理</li>
 <li>SEH处理时，会循环遍历SEH链表，调用<code>RtlExcuteHandlerForException</code>,检查是否有处理其异常的handler，若返回<code>EXCEPTION_EXECUTE_HANDLER</code>，表示该异常被处理了；若返回<code>EXCEPTION_CONTINUE_SEARCH</code>，表示继续遍历SEH链的下一项。若找不到处理该异常的handler，则调用<code>UnhandledExceptionFilter</code>来进行处理（该handler位于SEH链的倒数第二个），若仍然无法处理，则调用SEH链的最后一个表项，退出遍历</li>
@@ -352,7 +355,7 @@
         <p><span>本文标题:</span><a href="/2019/07/14/windows下vc-异常处理机制/">windows下vc++异常处理机制</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
         <p><span>发布时间:</span>2019-07-14, 08:28:40</p>
-        <p><span>最后更新:</span>2019-07-16, 10:16:51</p>
+        <p><span>最后更新:</span>2020-05-26, 22:49:36</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/07/14/windows下vc-异常处理机制/" title="windows下vc++异常处理机制">http://yoursite.com/2019/07/14/windows下vc-异常处理机制/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/07/14/windows下vc-异常处理机制/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

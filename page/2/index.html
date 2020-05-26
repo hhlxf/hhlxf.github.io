@@ -197,6 +197,8 @@
                     
                       <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
                     
+                      <a class="main-nav-link switch-friends-link" href="https://yyp0.github.io">yyp0</a>
+                    
                       <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
                     
                       <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
@@ -421,10 +423,9 @@
       
           
               <h2 id="凯撒密码"><a href="#凯撒密码" class="headerlink" title="凯撒密码"></a>凯撒密码</h2><p>在破解多表代换密码之前，让我们先来了解一下什么是简单的单表代换加密，凯撒密码就是一个简单的应用<br>原文: abcd 加密方式为将所有字符向右移动n位，如移动3位<br>密文: cdef<br>由于字母频度分析的出现，使得凯撒密码的破解变得很容易，这个将在后面说明，这也是多表代换加密破解的基础</p>
-<h2 id="维吉尼亚密码"><a href="#维吉尼亚密码" class="headerlink" title="维吉尼亚密码"></a>维吉尼亚密码</h2><p>这是一种改良版的凯撒密码<br>
           
       
-    </p></div>
+    </div>
     
     <div class="article-info article-info-index">
       
@@ -549,14 +550,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h1 id="CRC32算法"><a href="#CRC32算法" class="headerlink" title="CRC32算法"></a>CRC32算法</h1><h2 id="crc校验过程"><a href="#crc校验过程" class="headerlink" title="crc校验过程"></a>crc校验过程</h2><ul>
-<li>生成一个多项式记作G(x).</li>
-<li>设待发送的数据帧为B(x),那么假设G(x)长度为k，则在B(x)后添加k-1个0,即B(x)&lt;&lt;(k-1),生成新串H(x)</li>
-<li>计算H(x)%G(x)记作C,将C放入H(x)的最后k-1位生成N(x)，则N(x)一定整除G(x)，这是因为(H(x)-C)%G(x)==0,而 减去一个数等于加上它的补码，C为正数，因此C的补码==C，所以有(H(x)+C)%G(x)==0，因此N(x)%G(x)==0</li>
-<li>接收端只需要检验N(x)%G(x)==0与否即可知道数据是否出错
+              <h1 id="CRC32算法"><a href="#CRC32算法" class="headerlink" title="CRC32算法"></a>CRC32算法</h1><h2 id="crc校验过程"><a href="#crc校验过程" class="headerlink" title="crc校验过程"></a>crc校验过程</h2>
           
       
-    </li></ul></div>
+    </div>
     
     <div class="article-info article-info-index">
       

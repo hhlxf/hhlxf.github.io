@@ -15,19 +15,19 @@
 
 
 
-<meta name="description" content="基于Windows本地提权的攻击方法引言Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权 Windows的访问权限检查机制在操作系统中，当我们提到安全的时候，意味着有一些资源需要被保护">
+<meta name="description" content="基于Windows本地提权的攻击方法引言Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Windows 本地提权">
 <meta property="og:url" content="http://yoursite.com/2019/11/24/Windows-本地提权/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="基于Windows本地提权的攻击方法引言Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权 Windows的访问权限检查机制在操作系统中，当我们提到安全的时候，意味着有一些资源需要被保护">
+<meta property="og:description" content="基于Windows本地提权的攻击方法引言Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20191126003846.png">
 <meta property="og:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20191126004253.png">
-<meta property="og:updated_time" content="2019-11-27T13:02:02.428Z">
+<meta property="og:updated_time" content="2020-05-26T14:37:54.083Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows 本地提权">
-<meta name="twitter:description" content="基于Windows本地提权的攻击方法引言Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权 Windows的访问权限检查机制在操作系统中，当我们提到安全的时候，意味着有一些资源需要被保护">
+<meta name="twitter:description" content="基于Windows本地提权的攻击方法引言Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权">
 <meta name="twitter:image" content="https://lxf-img.oss-cn-hongkong.aliyuncs.com/img/20191126003846.png">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -297,6 +297,7 @@
       
           
         <h1 id="基于Windows本地提权的攻击方法"><a href="#基于Windows本地提权的攻击方法" class="headerlink" title="基于Windows本地提权的攻击方法"></a>基于Windows本地提权的攻击方法</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Windows本地提权指的是普通用户可以利用系统的漏洞，非法的将自身的权限提升到System，之前关于这方面的漏洞往往是基于内存破坏来实现的，通过内存破坏来实现任意代码执行，从而导致权限提升。而这篇文章，将会介绍通过利用Windows系统中的逻辑漏洞来实现本地提权</p>
+<a id="more"></a>
 <h2 id="Windows的访问权限检查机制"><a href="#Windows的访问权限检查机制" class="headerlink" title="Windows的访问权限检查机制"></a>Windows的访问权限检查机制</h2><p>在操作系统中，当我们提到安全的时候，意味着有一些资源需要被保护，在Windows操作系统中，这些被保护的资源大多以对象（Object）的形式存在，对象是对资源的一种抽象。每个对象都可以拥有自己的安全描述符（Security Descriptor），用来描述它能够被谁、以何种方式而访问。这些对象是客体，那么访问这些对象的主体是什么呢？这些主体就是操作系统中的各个进程，更准确地说是这些进程中的每个线程。每个进程都有一个基本令牌 (Primary Token)，可以被进程中的每个线程所共享，而有些线程比较特殊，它们正在模拟（Impersonating）某个客户端的身份，因此拥有一个模拟令牌（Impersonation Token），对于这些线程来说，有效令牌就是模拟令牌，而其他线程的有效令牌则是其所属进程的基本令牌。当主体尝试去访问客体时，操作系统会执行访问权限检查（Access Check），具体来说，是用主体的有效令牌与客体的安全描述符进行比对，从而确定该次访问是否合法。为了提高效率，访问权限检查（Access Check）提供了一种缓存机制，即只有当一个对象被一个进程创建或者打开时，才会进行访问权限检查，访问权限检查的结果会被缓存到进程的句柄表（Handle Table）中，该进程对该对象的后续操作只需要查询句柄表中内容即可确定访问的合法性，而不必每次都执行开销更大的访问权限检查（Access Check）。因为对象和进程都有各自的继承层次，所以对象的安全描述符和进程的令牌从逻辑上讲也是可以继承的，比如文件系统中的文件可以继承其所在目录的安全描述符，子进程可以继承父进程的令牌，这种继承机制使让对象和进程拥有了缺省的安全属性，因此，在一个系统中的安全描述符和令牌的实例数目非常有限，大多数情况下是从父辈们继承过来的缺省值。</p>
 <h3 id="访问权限检查"><a href="#访问权限检查" class="headerlink" title="访问权限检查"></a>访问权限检查</h3><ul>
 <li>DACL检查</li>
@@ -374,8 +375,7 @@
 <p>Case1同样也能用机会锁来绕过</p>
 <ul>
 <li><p>Case3</p>
-<p>QueryDirectory<code>查询文件夹下的文件，如果找到了，就会执行操作
-代码形式为</code>FindNextFile`，伪代码如下</p>
+<p><code>QueryDirectory</code> 查询文件夹下的文件，如果找到了，就会执行操作<br>代码形式为<code>FindNextFile</code>，伪代码如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FindNextFile(&quot;A\B\&quot;,&quot;1.txt&quot;);</span><br><span class="line">if (success)&#123;</span><br><span class="line">	DeleteFile(&quot;A\B\1.txt&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -398,7 +398,7 @@
         <p><span>本文标题:</span><a href="/2019/11/24/Windows-本地提权/">Windows 本地提权</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
         <p><span>发布时间:</span>2019-11-24, 22:15:14</p>
-        <p><span>最后更新:</span>2019-11-27, 21:02:02</p>
+        <p><span>最后更新:</span>2020-05-26, 22:37:54</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/11/24/Windows-本地提权/" title="Windows 本地提权">http://yoursite.com/2019/11/24/Windows-本地提权/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/11/24/Windows-本地提权/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

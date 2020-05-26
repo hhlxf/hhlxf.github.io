@@ -15,17 +15,17 @@
 
 
 
-<meta name="description" content="32位PWN setbuf的利用记录一下关于sefbuf函数的利用方式sefbuf一般用来设置文件流的缓冲区，例如setbuf(stdin, 0);会将stdin的缓冲区设置为空，但如果setbuf(stdin,buf)那么stdin的缓冲区将会设置为buf，因此从stdin中读入的数据将从buf中读入。同样，如果setbuf(stdout,buf)，那么向stdout写入的数据也将写到buf中，">
+<meta name="description" content="32位PWN setbuf的利用记录一下关于sefbuf函数的利用方式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="32位PWN栈溢出setbuf的利用">
 <meta property="og:url" content="http://yoursite.com/2019/08/11/32位PWN栈溢出setbuf的利用/index.html">
 <meta property="og:site_name" content="Just a binary noob~~">
-<meta property="og:description" content="32位PWN setbuf的利用记录一下关于sefbuf函数的利用方式sefbuf一般用来设置文件流的缓冲区，例如setbuf(stdin, 0);会将stdin的缓冲区设置为空，但如果setbuf(stdin,buf)那么stdin的缓冲区将会设置为buf，因此从stdin中读入的数据将从buf中读入。同样，如果setbuf(stdout,buf)，那么向stdout写入的数据也将写到buf中，">
+<meta property="og:description" content="32位PWN setbuf的利用记录一下关于sefbuf函数的利用方式">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-11T06:46:16.928Z">
+<meta property="og:updated_time" content="2020-05-26T14:37:19.746Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="32位PWN栈溢出setbuf的利用">
-<meta name="twitter:description" content="32位PWN setbuf的利用记录一下关于sefbuf函数的利用方式sefbuf一般用来设置文件流的缓冲区，例如setbuf(stdin, 0);会将stdin的缓冲区设置为空，但如果setbuf(stdin,buf)那么stdin的缓冲区将会设置为buf，因此从stdin中读入的数据将从buf中读入。同样，如果setbuf(stdout,buf)，那么向stdout写入的数据也将写到buf中，">
+<meta name="twitter:description" content="32位PWN setbuf的利用记录一下关于sefbuf函数的利用方式">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -293,7 +293,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="32位PWN-setbuf的利用"><a href="#32位PWN-setbuf的利用" class="headerlink" title="32位PWN setbuf的利用"></a>32位PWN setbuf的利用</h1><p>记录一下关于sefbuf函数的利用方式<br>sefbuf一般用来设置文件流的缓冲区，例如<code>setbuf(stdin, 0);</code>会将stdin的缓冲区设置为空，但如果<code>setbuf(stdin,buf)</code>那么stdin的缓冲区将会设置为buf，因此从stdin中读入的数据将从buf中读入。同样，如果<code>setbuf(stdout,buf)</code>，那么向stdout写入的数据也将写到buf中，</p>
+        <h1 id="32位PWN-setbuf的利用"><a href="#32位PWN-setbuf的利用" class="headerlink" title="32位PWN setbuf的利用"></a>32位PWN setbuf的利用</h1><p>记录一下关于sefbuf函数的利用方式</p>
+<a id="more"></a>
+<p>sefbuf一般用来设置文件流的缓冲区，例如<code>setbuf(stdin, 0);</code>会将stdin的缓冲区设置为空，但如果<code>setbuf(stdin,buf)</code>那么stdin的缓冲区将会设置为buf，因此从stdin中读入的数据将从buf中读入。同样，如果<code>setbuf(stdout,buf)</code>，那么向stdout写入的数据也将写到buf中，</p>
 <p>参考大佬的博客：<a href="https://nobb.site/2017/11/11/0x3D/" target="_blank" rel="noopener">https://nobb.site/2017/11/11/0x3D/</a></p>
 <p>该题的漏洞点在于：读入数据到v3时没有检查v3是否是负数，导致可以任意调用plt表中的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">puts(&quot;\nWhich letter do you want to post?&quot;);</span><br><span class="line">  printf(&quot;ID (0-%d): &quot;, 4);</span><br><span class="line">  v4 = read_st_to_int();</span><br><span class="line">  if ( v4 &lt; 0 || v4 &gt; 4 || !*(_DWORD *)(0x108 * v4 + a1) )</span><br><span class="line">    return puts(&quot;Invalid ID.&quot;);</span><br><span class="line">  puts(&quot;\nWhich filter do you want to apply?&quot;);</span><br><span class="line">  sub_80488F8();</span><br><span class="line">  v3 = read_st_to_int();</span><br><span class="line">  if ( v3 &gt; 2 )</span><br><span class="line">    return puts(&quot;Invalid filter.&quot;);</span><br><span class="line">  funcs_8048BB5[v3](s, (void *)(0x108 * v4 + a1 + 8), *(_DWORD *)(0x108 * v4 + a1 + 4));</span><br><span class="line">  return puts(&quot;\nDone!&quot;);</span><br></pre></td></tr></table></figure></p>
 <p>并且，它将post的letters全部写入了文件dev/null</p>
@@ -318,7 +320,7 @@
         <p><span>本文标题:</span><a href="/2019/08/11/32位PWN栈溢出setbuf的利用/">32位PWN栈溢出setbuf的利用</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">lxf</a></p>
         <p><span>发布时间:</span>2019-08-11, 13:25:45</p>
-        <p><span>最后更新:</span>2019-08-11, 14:46:16</p>
+        <p><span>最后更新:</span>2020-05-26, 22:37:19</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/08/11/32位PWN栈溢出setbuf的利用/" title="32位PWN栈溢出setbuf的利用">http://yoursite.com/2019/08/11/32位PWN栈溢出setbuf的利用/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/08/11/32位PWN栈溢出setbuf的利用/　　作者: lxf" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
